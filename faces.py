@@ -123,7 +123,7 @@ while(True):
         end_cord_y = y + h
         cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
         # sound
-        print(x)
+        #print(x)
         if x < 350:
             if lrcounter % 10 == 0:
                 playsound('moveright.mp3',False)
