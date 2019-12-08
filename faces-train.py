@@ -7,7 +7,11 @@ import pickle
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 image_dir = os.path.join(BASE_DIR, "images")
 
+<<<<<<< HEAD
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml')
+=======
+face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
+>>>>>>> 3fb30c904ad4dcda241248889ff324c3f880a933
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 current_id = 0
@@ -17,7 +21,11 @@ x_train = []
 
 for root, dirs, files in os.walk(image_dir):
 	for file in files:
+<<<<<<< HEAD
 		if file.endswith("png") or file.endswith("jpg") or file.endswith("jpeg"):
+=======
+		if file.endswith("png") or file.endswith("jpg"):
+>>>>>>> 3fb30c904ad4dcda241248889ff324c3f880a933
 			path = os.path.join(root, file)
 			label = os.path.basename(root).replace(" ", "-").lower()
 			#print(label, path)
@@ -29,7 +37,11 @@ for root, dirs, files in os.walk(image_dir):
 			#y_labels.append(label) # some number
 			#x_train.append(path) # verify this image, turn into a NUMPY arrray, GRAY
 			pil_image = Image.open(path).convert("L") # grayscale
+<<<<<<< HEAD
 			size = (625, 580)
+=======
+			size = (550, 600)
+>>>>>>> 3fb30c904ad4dcda241248889ff324c3f880a933
 			final_image = pil_image.resize(size, Image.ANTIALIAS)
 			image_array = np.array(final_image, "uint8")
 			#print(image_array)
