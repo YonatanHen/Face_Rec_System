@@ -6,12 +6,16 @@ from gtts import gTTS
 import os
 from playsound import playsound
 
+#Users databse columns order:
+#first_name,last_name,username,password,entrance,total,role,isInside
+
+countTries=0
 usersDB=sqlite3.connect('users.db')
 cursor=usersDB.cursor() #cursor enable traversal over the records in database
 while True:
     username=input("Enter user-name:")
     password=input("Enter password:")
-    cursor=usersDB.cursor() #cursor enable traversal over the records in database
+    cursor=usersDB.cursor()
     cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
     results=cursor.fetchall()
     if results:
@@ -31,6 +35,11 @@ while True:
                 usersDB.commit()
         break
     else:
-        print("user-name and password not recognized,please enter again")
+        countTries+=1
+        if(countTries==5):
+            print("You tried to enter 5 times unssuccessfully!")
+            os._exit(0)
+        else:
+            print("user-name and password not recognized,please enter again")
 
 
