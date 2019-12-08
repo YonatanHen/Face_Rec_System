@@ -12,9 +12,7 @@ pygame.mixer.music.load('background_audio.mp3')
 pygame.mixer.music.play(999)
 if keyboard.is_pressed('s'):
     pygame.mixer.music.pause()
-
-
-
+    
 print(datetime.datetime.now())
 
 print("Welcome,Please use the face-recognition system or enter password&username to log in")
@@ -23,10 +21,8 @@ print("If you want to enter with password&username enter 2,if you regret and wan
 x = True
 
 #opening face recognition system when running
-
 os.system('faces.py')
-
-#os.system('C:\\Users\\יונתן\\Documents\\Python_Projects\\Face_Rec_System\\opencvtube\\src\\faces.py')
+#os.system('C:\Users\user\Desktop\הנדסת תוכנה\SoftWare\פרויקט\faces.py')
 
 while x:
     if keyboard.is_pressed('1'):
@@ -37,3 +33,5 @@ while x:
         x = False
     if keyboard.is_pressed('s'):
         pygame.mixer.music.pause()
+    if keyboard.is_pressed('q'):
+        break
