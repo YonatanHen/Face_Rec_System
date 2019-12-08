@@ -13,10 +13,17 @@ while True:
     if results:
         for i in results:
             print("Welcome "+i[0]+" "+i[1])
-            enter_time=datetime.datetime.now()
-            print("Entrance time:{0}".format(enter_time))
-            cursor.execute("UPDATE users SET entrance=? Where username=?",[(enter_time),(username)])
-            usersDB.commit()
+            enter_time=datetime.datetime.now().hour
+            print(enter_time)
+            if(i[7] =='no'):
+                cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
+                usersDB.commit()
+            elif(i[7]=='yes'):
+                now=datetime.datetime.now().hour
+                total=now-enter_time
+                total=int(i[5])+total
+                cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
+                usersDB.commit()
         break
     else:
         print("user-name and password not recognized,please enter again")
