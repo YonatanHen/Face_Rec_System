@@ -4,12 +4,14 @@ import keyboard
 import os
 import pygame
 import sys
-
+import datetime
 
 #playing sound in background helping with accessability for visually impaired users
 pygame.mixer.init()
 pygame.mixer.music.load('background_audio.mp3')
 pygame.mixer.music.play(999)
+
+print(datetime.datetime.now())
 
 print("Welcome,Please use the face-recognition system or enter password&username to log in")
 print("Face recognition will open automatically\nEnter 'q' to exit")
