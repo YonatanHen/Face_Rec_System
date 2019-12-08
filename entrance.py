@@ -16,16 +16,16 @@ while True:
     results=cursor.fetchall()
     if results:
         for i in results:
-            print("Welcome "+i[0]+" "+i[1])
-            playsound('welcome.mp3',False)
-            enter_time=datetime.datetime.now().hour
-            print(enter_time)
+            #print(enter_time)
             if(i[7] =='no'):
+                print("Welcome "+i[0]+" "+i[1])
+                playsound('welcome.mp3',False)
+                enter_time=datetime.datetime.now().hour
                 cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
                 usersDB.commit()
             elif(i[7]=='yes'):
-                now=datetime.datetime.now().hour
-                total=now-enter_time
+                print("goodbye "+i[0]+" "+i[1])
+                total=datetime.datetime.now().hour-int(i[4])
                 total=int(i[5])+total
                 cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
                 usersDB.commit()
