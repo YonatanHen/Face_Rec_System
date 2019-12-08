@@ -1,9 +1,5 @@
 import cv2
-<<<<<<< HEAD
 #from tkinter import *
-=======
-from tkinter import *
->>>>>>> 3fb30c904ad4dcda241248889ff324c3f880a933
 import keyboard
 import os
 import pygame
