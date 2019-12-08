@@ -13,7 +13,6 @@ def make_4k():
 
 if os.path.isfile("match.mp3"):
     os.remove("match.mp3")
-    print("removed")
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml')
 eye_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_eye.xml')
 smile_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_smile.xml')
@@ -37,7 +36,10 @@ tempname = "None"
 color = (0,0,255)
 beepflag = 1
 tempmatch = 'None'
+trysCounter=0
 #beepuls = 0
+font = cv2.FONT_HERSHEY_SIMPLEX
+stroke = 2 #font thickness
 
 while(True):
     '''
@@ -67,9 +69,8 @@ while(True):
         if conf>=54.5 and conf <= 60:
             #print(conf)
             #print(5: #id_)
-            print(labels[id_], name, counter1,counter2)
+            #print(labels[id_], name, counter1,counter2)
 
-            font = cv2.FONT_HERSHEY_SIMPLEX
             if labels[id_] == name or name == "None":
                 counter1+=1
                 counter2 = 0
@@ -77,13 +78,12 @@ while(True):
                     tempname = name
             if tempname != name:
                 counter2 += 1
-            if counter2 >= 8:
+            if counter2 % 8==0:
                 counter1 = 0
+
                 
             name = labels[id_]
-            
-            stroke = 2 #font thickness
-            ''' #match sound
+            #match sound
             if counter1 > 20 and counter2 == 0:
                 match = "Match found: " + tempname
                 if counter1%2 == 0:
@@ -102,21 +102,23 @@ while(True):
                         os.remove("match.mp3")
                         print("end")
                     tempmatch = match
-                    
 
-            el'''
-            if counter1 > 10:
+            elif counter1 > 10:
                 color = (0, 255, 0) #green
                 cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                 
             else:
                 color = (0, 0, 255) #red
                 cv2.putText(frame, "analyzing...", (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                
+                            
         else:
+            trysCounter+=1
             counter2+=1
         
-        cv2.imshow('frame',frame)
+        if trysCounter==25:
+            cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
+            for _ in range(100):
+                cv2.imshow('frame',frame)
 
         stroke = 2
         end_cord_x = x + w
@@ -147,7 +149,12 @@ while(True):
         #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
     cv2.imshow('frame',frame)
-
+    if trysCounter>25:
+        color = (0, 0, 255)
+        playsound("Five_failed_attempts.mp3")
+        img_item =  "unknown\\unknown" + str(i) +".png"
+        cv2.imwrite(img_item, roi_color)
+        break
     if cv2.waitKey(20) & 0xFF == ord('q'):
         break
 

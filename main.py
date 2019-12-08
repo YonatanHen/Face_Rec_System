@@ -10,6 +10,10 @@ import datetime
 pygame.mixer.init()
 pygame.mixer.music.load('background_audio.mp3')
 pygame.mixer.music.play(999)
+if keyboard.is_pressed('s'):
+    pygame.mixer.music.pause()
+
+
 
 print(datetime.datetime.now())
 x = True
@@ -32,3 +36,5 @@ while x:
     if keyboard.is_pressed('2'):
         os.system('entrance.py')
         x = False
+    if keyboard.is_pressed('s'):
+        pygame.mixer.music.pause()
