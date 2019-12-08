@@ -1,6 +1,10 @@
 #This page open the possibilty to enter the system with password&userName
 import sqlite3
 import datetime
+import pygame
+from gtts import gTTS
+import os
+from playsound import playsound
 
 usersDB=sqlite3.connect('users.db')
 cursor=usersDB.cursor() #cursor enable traversal over the records in database
@@ -13,6 +17,7 @@ while True:
     if results:
         for i in results:
             print("Welcome "+i[0]+" "+i[1])
+            playsound('welcome.mp3',False)
             enter_time=datetime.datetime.now().hour
             print(enter_time)
             if(i[7] =='no'):
