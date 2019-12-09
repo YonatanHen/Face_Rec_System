@@ -1,11 +1,13 @@
 import numpy as np
 import cv2
 import pickle
-from playsound import playsound
 import camera
 import datetime
 from gtts import gTTS
-import os
+import os 
+from playsound import playsound
+
+playsound('Take_Down.mp3',False)
 
 def make_4k():
     cap.set(3, 3840)
@@ -60,7 +62,7 @@ while(True):
     faces = face_cascade.detectMultiScale(gray, scaleFactor=12, minNeighbors=5)
 
     for (x, y, w, h) in faces:
-        #print(x,y,w,h)
+        print(x,y,w,h)
         roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
         roi_color = frame[y:y+h, x:x+w]
 
@@ -161,3 +163,4 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+
