@@ -5,8 +5,6 @@ import pygame
 from gtts import gTTS
 import os
 from playsound import playsound
-<<<<<<< HEAD
-=======
 from getpass import getpass
 
 
@@ -17,9 +15,8 @@ def recognize(username,password):
     cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
     return cursor.fetchall()
 
-"""
+
 def adminMenu():
-    """"""function open the admin's menu option""""""
     exit=False
     print("Please choose one of the option below:")
     while(exit==False):
@@ -30,14 +27,23 @@ def adminMenu():
             cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
             cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?")
         elif(option=='2'):
+            print("PLEASE enter numbers between 0 to 100)
+            vol=input()
+            vol=vol/100
+            pygame.mixer.music.set_volume(vol)
         elif(option=='3'):
+            print("Enter the username you want to DELETE ")
+            usernameDel=input()
+            cursor.execute("DELETE from users WHERE username= :user",{'user':usernameDel})
+            
         elif(option=='4'):
+            select * from users
         elif(option=='5'):
             exit=True
             print("Exiting admin's menu...")
         else:
             print("Wrong input,Enter again.")
-"""
+
 
 
 
@@ -45,7 +51,6 @@ def adminMenu():
 #0.first_name,1.last_name,2.username,3.password,4.entrance,5.total,6.role,7.isInside
 print("======================================================")
 countTries=0
->>>>>>> 7688492914f8b777f7060db58aa554e1f124ec5a
 usersDB=sqlite3.connect('users.db')
 cursor=usersDB.cursor() #cursor enable traversal over the records in database
 while True:
@@ -59,14 +64,14 @@ while True:
             if(i[7] =='no'):
                 print("Welcome "+i[0]+" "+i[1])
                 #Admin's menu
-                """if(i[6]=='Admin'):
+                if(i[6]=='Admin'):
                     option=input("Hey admin! Do you want to reach the menu? y/n")
                     if(option=='y' or option=='Y'):
                         adminMenu()
                     elif(option=='n' or option=='N'):
                         print("OK,Have a nice day!")
                     else:
-                        print("I see that as 'no',Have a nice day!")"""
+                        print("I see that as 'no',Have a nice day!")
                 playsound('welcome.mp3',False)
                 enter_time=datetime.datetime.now().hour
                 cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
@@ -85,6 +90,5 @@ while True:
             os._exit(0)
         else:
             print("user-name and password not recognized,please enter again")
-        
 
         
