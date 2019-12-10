@@ -5,7 +5,6 @@ import pygame
 from gtts import gTTS
 import os
 from playsound import playsound
-
 usersDB=sqlite3.connect('users.db')
 cursor=usersDB.cursor() #cursor enable traversal over the records in database
 while True:
