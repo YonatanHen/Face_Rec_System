@@ -5,6 +5,8 @@ import pygame
 from gtts import gTTS
 import os
 from playsound import playsound
+from getpass import getpass
+
 
 def recognize(username,password):
     "function check if username and password match one of the users in users.db,and return the relevant data"
@@ -45,7 +47,8 @@ usersDB=sqlite3.connect('users.db')
 cursor=usersDB.cursor() #cursor enable traversal over the records in database
 while True:
     username=input("Enter user-name:")
-    password=input("Enter password:")
+    password=getpass("Enter password:")
+    
     results=recognize(username,password)
     if results: #if results!=NULL, in other words, if user found in the DB
         for i in results:
@@ -79,3 +82,6 @@ while True:
             os._exit(0)
         else:
             print("user-name and password not recognized,please enter again")
+        
+
+        

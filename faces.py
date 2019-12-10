@@ -151,7 +151,7 @@ while(True):
         #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
     cv2.imshow('frame',frame)
-    if trysCounter>25:
+    if trysCounter>100:
         color = (0, 0, 255)
         playsound("Five_failed_attempts.mp3")
         img_item =  "unknown\\unknown" + str(i) +".png"
