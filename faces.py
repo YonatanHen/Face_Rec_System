@@ -77,7 +77,7 @@ while(True):
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=20 and conf <= 80:
+        if conf>=54.5 and conf <= 60:
             #print(conf)
             #print(5:id_)
             print(labels[id_], name, isRecCounter,counter2)
@@ -85,17 +85,17 @@ while(True):
             if labels[id_] == name or name == "None":
                 isRecCounter=isRecCounter+1
                 counter2 = 0
-                if isRecCounter == 10:
+                if isRecCounter == 5:
                     tempname = name
             if tempname != name:
                 counter2 += 1
             #if counter2 % 8==0:
-              #  isRecCounter = 0
+            #    isRecCounter = 0
 
                 
             name = labels[id_]
             #match sound
-            if isRecCounter > 5 and counter2 == 0:
+            if isRecCounter > 5:
                 match = "Match found: " + tempname
                 if isRecCounter:
                     color = (0, 255, 0)
@@ -112,31 +112,30 @@ while(True):
                         cursor=usersDB.cursor() #cursor enable traversal over the records in database
                         results=face_recognize(tempname)
                         if results: #if results!=NULL, in other words, if user found in the DB
-                            if results: #if results!=NULL, in other words, if user found in the DB
-                                for i in results:
-                                    print("Time is:{0}".format(datetime.datetime.now()))
-                                    if(i[7] =='no'):
-                                        print("Welcome "+i[0]+" "+i[1])
-                                        #Admin's menu
-                                        """if(i[6]=='Admin'):
-                                            option=input("Hey admin! Do you want to reach the menu? y/n")
-                                            if(option=='y' or option=='Y'):
-                                                adminMenu()
-                                            elif(option=='n' or option=='N'):
-                                                print("OK,Have a nice day!")
-                                            else:
-                                                print("I see that as 'no',Have a nice day!")"""
-                                        playsound('welcome.mp3',False)
-                                        enter_time=datetime.datetime.now().hour
-                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
-                                        usersDB.commit()
-                                    elif(i[7]=='yes'):
-                                        print("goodbye "+i[0]+" "+i[1])
-                                        total=datetime.datetime.now().hour-int(i[4])
-                                        total=int(i[5])+total
-                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
-                                        usersDB.commit()
-                                break
+                            for i in results:
+                                print("Time is:{0}".format(datetime.datetime.now()))
+                                if(i[7] =='no'):
+                                    print("Welcome "+i[0]+" "+i[1])
+                                    #Admin's menu
+                                    """if(i[6]=='Admin'):
+                                        option=input("Hey admin! Do you want to reach the menu? y/n")
+                                        if(option=='y' or option=='Y'):
+                                            adminMenu()
+                                        elif(option=='n' or option=='N'):
+                                            print("OK,Have a nice day!")
+                                        else:
+                                            print("I see that as 'no',Have a nice day!")"""
+                                    playsound('welcome.mp3',False)
+                                    enter_time=datetime.datetime.now().hour
+                                    cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
+                                    usersDB.commit()
+                                elif(i[7]=='yes'):
+                                    print("goodbye "+i[0]+" "+i[1])
+                                    total=datetime.datetime.now().hour-int(i[4])
+                                    total=int(i[5])+total
+                                    cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
+                                    usersDB.commit()
+                            break
 
                     if os.path.isfile("match.mp3") and tempmatch!='None' and tempmatch!=match:
                         os.remove("match.mp3")
@@ -152,12 +151,11 @@ while(True):
                             
         else:
             trysCounter+=1
-            counter2+=1
-        
-        if trysCounter==100:
-            cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
-            for _ in range(100):
-                cv2.imshow('frame',frame)
+            #counter2+=1
+            if trysCounter==5:
+                cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
+                for _ in range(100):
+                    cv2.imshow('frame',frame)
 
         stroke = 2
         end_cord_x = x + w
