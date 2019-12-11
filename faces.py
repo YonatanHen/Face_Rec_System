@@ -13,7 +13,7 @@ def face_recognize(username):
     "function check if username and password match one of the users in users.db,and return the relevant data"
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
-    cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
+    cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
     return cursor.fetchall()
 
 def make_4k():
