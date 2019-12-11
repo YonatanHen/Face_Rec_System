@@ -52,11 +52,12 @@ def adminMenu():
         print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.Exit menu")
         option=input("Enter an option:")
         if(option=='1'):
-            uname=input("Enter the username")
+            uname=input("Enter the username:")
             cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
-            field=input("Enter a field that you want to change")
-            newVal=input("Enter the new value of {0} {1}:".format(uname,field))
-            cursor.execute(("UPDATE users SET {0}=? WHERE username=?".format(field)),[(newVal),(uname)])
+            field=input("Enter a field that you want to change:")
+            newVal=input("Enter the new value of {} {}:".format(uname,field))
+            query="UPDATE users SET {}=? WHERE username=?".format(field)
+            cursor.execute(query,[(newVal),(uname)])
         elif(option=='2'):
             print("Please enter numbers between 0 to 100")
             vol=input()
@@ -96,7 +97,7 @@ while True:
                 print("Welcome "+i[0]+" "+i[1])
                 #Admin's menu
                 if(i[6]=='admin'):
-                    option=input("Hey admin! Do you want to reach the menu? y/n")
+                    option=input("Hey admin! Do you want to reach the menu? y/n:")
                     if(option=='y' or option=='Y'):
                         adminMenu()
                     elif(option=='n' or option=='N'):
