@@ -38,3 +38,5 @@ while x:
         x = False
     if keyboard.is_pressed('s'):
         pygame.mixer.music.pause()
+    if keyboard.is_pressed('q'):
+        break

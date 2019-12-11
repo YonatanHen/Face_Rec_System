@@ -1,11 +1,20 @@
 import numpy as np
 import cv2
 import pickle
-from playsound import playsound
 import camera
 import datetime
 from gtts import gTTS
-import os
+import os 
+from playsound import playsound
+import sqlite3
+
+
+def face_recognize(username):
+    "function check if username and password match one of the users in users.db,and return the relevant data"
+    usersDB=sqlite3.connect('users.db')
+    cursor=usersDB.cursor()
+    cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
+    return cursor.fetchall()
 
 def make_4k():
     cap.set(3, 3840)
@@ -40,6 +49,8 @@ trysCounter=0
 #beepuls = 0
 font = cv2.FONT_HERSHEY_SIMPLEX
 stroke = 2 #font thickness
+
+playsound('Take_Down.mp3',False)
 
 while(True):
     '''
@@ -97,10 +108,38 @@ while(True):
                 if(tempmatch != match):
                     if os.path.isfile("match.mp3"):
                         playsound("match.mp3",False)
+                        usersDB=sqlite3.connect('users.db')
+                        cursor=usersDB.cursor() #cursor enable traversal over the records in database
+                        results=face_recognize(tempname)
+                        if results: #if results!=NULL, in other words, if user found in the DB
+                            if results: #if results!=NULL, in other words, if user found in the DB
+                                for i in results:
+                                    print("Time is:{0}".format(datetime.datetime.now()))
+                                    if(i[7] =='no'):
+                                        print("Welcome "+i[0]+" "+i[1])
+                                        #Admin's menu
+                                        """if(i[6]=='Admin'):
+                                            option=input("Hey admin! Do you want to reach the menu? y/n")
+                                            if(option=='y' or option=='Y'):
+                                                adminMenu()
+                                            elif(option=='n' or option=='N'):
+                                                print("OK,Have a nice day!")
+                                            else:
+                                                print("I see that as 'no',Have a nice day!")"""
+                                        playsound('welcome.mp3',False)
+                                        enter_time=datetime.datetime.now().hour
+                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
+                                        usersDB.commit()
+                                    elif(i[7]=='yes'):
+                                        print("goodbye "+i[0]+" "+i[1])
+                                        total=datetime.datetime.now().hour-int(i[4])
+                                        total=int(i[5])+total
+                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
+                                        usersDB.commit()
+                                break
+
                     if os.path.isfile("match.mp3") and tempmatch!='None' and tempmatch!=match:
-                        print("start")
                         os.remove("match.mp3")
-                        print("end")
                     tempmatch = match
 
             elif counter1 > 10:
@@ -115,7 +154,7 @@ while(True):
             trysCounter+=1
             counter2+=1
         
-        if trysCounter==25:
+        if trysCounter==100:
             cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
             for _ in range(100):
                 cv2.imshow('frame',frame)
@@ -149,7 +188,7 @@ while(True):
         #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
     cv2.imshow('frame',frame)
-    if trysCounter>25:
+    if trysCounter>100:
         color = (0, 0, 255)
         playsound("Five_failed_attempts.mp3")
         img_item =  "unknown\\unknown" + str(i) +".png"
@@ -161,3 +200,4 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+
