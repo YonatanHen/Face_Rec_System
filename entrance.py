@@ -74,7 +74,8 @@ def adminMenu():
                 print("Username wasn't found in the database.")   
         elif(option=='4'):
             cursor.execute("select * from users")
-            print(cursor)
+            for row in cursor:
+                print(row)
         elif(option=='5'):
             exit=True
             print("Exiting admin's menu...")
