@@ -23,21 +23,19 @@ def adminMenu():
         print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.Exit menu")
         option=input("Enter an option:")
         if(option=='1'):
-            uname=input("Enter the username")
-            cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
-            cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?")
+            continue
         elif(option=='2'):
-            print("PLEASE enter numbers between 0 to 100)
+            print("Please enter numbers between 0 to 100")
             vol=input()
             vol=vol/100
             pygame.mixer.music.set_volume(vol)
         elif(option=='3'):
             print("Enter the username you want to DELETE ")
             usernameDel=input()
-            cursor.execute("DELETE from users WHERE username= :user",{'user':usernameDel})
-            
+            cursor.execute("DELETE from users WHERE username= :user",{'user':usernameDel})  
         elif(option=='4'):
-            select * from users
+            cursor.execute("SELECT * FROM users")
+            print(cursor.fetchall())
         elif(option=='5'):
             exit=True
             print("Exiting admin's menu...")
@@ -64,7 +62,7 @@ while True:
             if(i[7] =='no'):
                 print("Welcome "+i[0]+" "+i[1])
                 #Admin's menu
-                if(i[6]=='Admin'):
+                if(i[6]=='admin'):
                     option=input("Hey admin! Do you want to reach the menu? y/n")
                     if(option=='y' or option=='Y'):
                         adminMenu()
