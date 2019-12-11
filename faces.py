@@ -10,10 +10,10 @@ import sqlite3
 
 
 def face_recognize(username):
-    "function check if username and password match one of the users in users.db,and return the relevant data"
+    """function check if username and password match one of the users in users.db,and return the relevant data"""
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
-    cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
+    cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
     return cursor.fetchall()
 
 def make_4k():
@@ -37,7 +37,7 @@ with open("pickles/face-labels.pickle", 'rb') as f:
 cap = cv2.VideoCapture(0)
 make_4k()
 i=0
-counter1 = 0
+isRecCounter = 0
 counter2 = 0
 lrcounter = 8
 name = "None"
@@ -77,27 +77,27 @@ while(True):
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=54.5 and conf <= 60:
+        if conf>=20 and conf <= 80:
             #print(conf)
-            #print(5: #id_)
-            #print(labels[id_], name, counter1,counter2)
+            #print(5:id_)
+            print(labels[id_], name, isRecCounter,counter2)
 
             if labels[id_] == name or name == "None":
-                counter1+=1
+                isRecCounter=isRecCounter+1
                 counter2 = 0
-                if counter1 == 10:
+                if isRecCounter == 10:
                     tempname = name
             if tempname != name:
                 counter2 += 1
-            if counter2 % 8==0:
-                counter1 = 0
+            #if counter2 % 8==0:
+              #  isRecCounter = 0
 
                 
             name = labels[id_]
             #match sound
-            if counter1 > 20 and counter2 == 0:
+            if isRecCounter > 5 and counter2 == 0:
                 match = "Match found: " + tempname
-                if counter1%2 == 0:
+                if isRecCounter:
                     color = (0, 255, 0)
                 else:
                     color = (255, 255, 255)
@@ -128,13 +128,13 @@ while(True):
                                                 print("I see that as 'no',Have a nice day!")"""
                                         playsound('welcome.mp3',False)
                                         enter_time=datetime.datetime.now().hour
-                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
+                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
                                         usersDB.commit()
                                     elif(i[7]=='yes'):
                                         print("goodbye "+i[0]+" "+i[1])
                                         total=datetime.datetime.now().hour-int(i[4])
                                         total=int(i[5])+total
-                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
+                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
                                         usersDB.commit()
                                 break
 
@@ -142,7 +142,7 @@ while(True):
                         os.remove("match.mp3")
                     tempmatch = match
 
-            elif counter1 > 10:
+            elif isRecCounter > 10:
                 color = (0, 255, 0) #green
                 cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                 
@@ -177,13 +177,13 @@ while(True):
 
         if cv2.waitKey(20) & 0xFF == ord('p'):
             i+=1
-            if counter1>10 and counter2 == 0:
+            if isRecCounter>10 and counter2 == 0:
                 img_item =  "images\\" + tempname + "\\" + tempname + str(i) +".png"
             else:
                 img_item =  "unknown\\unknown" + str(i) +".png" 
             cv2.imwrite(img_item, roi_color)
-            #now = (datetime.datetime.now()).strftime("%Y-%m-%d %H_%M_%S")
-        #subitems = smile_cascade.detectMultiScale(roi_gray)
+            now = (datetime.datetime.now()).strftime("%Y-%m-%d %H_%M_%S")
+        subitems = smile_cascade.detectMultiScale(roi_gray)
         #for (ex,ey,ew,eh) in subitems:
         #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
