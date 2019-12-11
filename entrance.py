@@ -64,12 +64,18 @@ def adminMenu():
             vol=vol/100
             pygame.mixer.music.set_volume(vol)
         elif(option=='3'):
-            print("Enter the username you want to delete ")
-            usernameDel=input()
-            cursor.execute("DELETE from users WHERE username= :user",{'user':usernameDel})   
+            usernameDel=input("Enter the username that you want to delete:")
+            flag=cursor.execute("SELECT username FROM users WHERE username=?",[(usernameDel)])
+            if(flag):
+                cursor.execute("DELETE from users WHERE username=?",[(usernameDel)])
+                usersDB.commit()
+                print("User deleted successfully!")
+            else:
+                print("Username wasn't found in the database.")   
         elif(option=='4'):
             cursor.execute("select * from users")
-            print(cursor)
+            for row in cursor:
+                print(row)
         elif(option=='5'):
             exit=True
             print("Exiting admin's menu...")
