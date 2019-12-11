@@ -15,6 +15,35 @@ def recognize(username,password):
     cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
     return cursor.fetchall()
 
+
+def Time_Fixer(time_string):
+    # Separator - hours/minutes
+    i=0
+    hours=''
+    while(time_string[i]!='.'):
+        hours=hours+time_string[i]
+        i=i+1
+    i=i+1
+    if time_string[i+1]:
+        minutes = time_string[i] + time_string[i+1]
+    else:
+        minutes = time_string[i]
+
+    # minutes check
+    if(int(minutes)>=60):
+        temp_time=str("%.2f" % (float(minutes)/60))
+        print(temp_time)
+        temp_h=''
+        i=0
+        while(temp_time[i]!='.'):
+            temp_h=temp_h+temp_time[i]
+            i=i+1
+        i=i+1
+        
+        hours=int(hours)+int(temp_h)
+        minutes = int(minutes)- 60
+    return str(hours)+'.'+str(minutes)
+
 """
 def adminMenu():
     """"""function open the admin's menu option""""""
@@ -65,13 +94,16 @@ while True:
                     else:
                         print("I see that as 'no',Have a nice day!")"""
                 playsound('welcome.mp3',False)
-                enter_time=datetime.datetime.now().hour
+                enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                 cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
                 usersDB.commit()
             elif(i[7]=='yes'):
-                print("goodbye "+i[0]+" "+i[1])
-                total=datetime.datetime.now().hour-int(i[4])
-                total=int(i[5])+total
+                print("Goodbye "+i[0]+" "+i[1])
+                total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
+                total="%.2f" %(float(i[5])+float(total))
+                total = Time_Fixer(total)
+
+                
                 cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
                 usersDB.commit()
         break
@@ -84,4 +116,3 @@ while True:
             print("user-name and password not recognized,please enter again")
         
 
-        
