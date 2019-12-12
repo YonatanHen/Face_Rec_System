@@ -37,7 +37,7 @@ def Time_Fixer(time_string):
     if time_string[i+1]:
         minutes = time_string[i] + time_string[i+1]
     else:
-        minutes = time_string[i]
+        minutes = time_string[i] + '0'
 
     # minutes check
     if(int(minutes)>=60):
@@ -52,6 +52,7 @@ def Time_Fixer(time_string):
         
         hours=int(hours)+int(temp_h)
         minutes = int(minutes)- 60
+        
     return str(hours)+'.'+str(minutes)
 
 
