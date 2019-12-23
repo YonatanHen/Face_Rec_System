@@ -72,7 +72,7 @@ while(True):
         if conf>=54.5 and conf <= 60:
             #print(conf)
             #print(5:id_)
-            print(labels[id_], name, isRecCounter,counter2)
+            #print(labels[id_], name, isRecCounter,counter2)
 
             if labels[id_] == name or name == "None":
                 isRecCounter=isRecCounter+1

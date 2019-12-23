@@ -1,5 +1,5 @@
 import cv2
-#from tkinter import *
+from tkinter import *
 import keyboard
 import os
 import pygame
@@ -39,4 +39,6 @@ while x:
     if keyboard.is_pressed('s'):
         pygame.mixer.music.pause()
     if keyboard.is_pressed('q'):
-        break
+        cap.release()
+        cv2.destroyAllWindows()
+        x=False
