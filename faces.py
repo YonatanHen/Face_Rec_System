@@ -129,7 +129,7 @@ while(True):
                                 usersDB.commit()
                             break 
 
-                    if os.path.isfile("match.mp3") and tempmatch!='None' and tempmatch!=match:
+                    if os.path.isfile("match.mp3") :
                         os.remove("match.mp3")
                     tempmatch = match
 
