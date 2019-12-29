@@ -6,6 +6,7 @@ from gtts import gTTS
 import os
 from playsound import playsound
 from getpass import getpass
+<<<<<<< HEAD
 
 
 def recognize(username,password):
@@ -67,6 +68,9 @@ def adminMenu():
 """
 
 
+=======
+from Functions import *
+>>>>>>> f70540116d7c856fcfa931c0ce6187d655ed0f59
 
 #Users databse columns order:
 #0.first_name,1.last_name,2.username,3.password,4.entrance,5.total,6.role,7.isInside
@@ -85,14 +89,14 @@ while True:
             if(i[7] =='no'):
                 print("Welcome "+i[0]+" "+i[1])
                 #Admin's menu
-                """if(i[6]=='Admin'):
-                    option=input("Hey admin! Do you want to reach the menu? y/n")
+                if(i[6]=='admin'):
+                    option=input("Hey admin! Do you want to reach the menu? y/n:")
                     if(option=='y' or option=='Y'):
                         adminMenu()
                     elif(option=='n' or option=='N'):
                         print("OK,Have a nice day!")
                     else:
-                        print("I see that as 'no',Have a nice day!")"""
+                        print("I see that as 'no',Have a nice day!")
                 playsound('welcome.mp3',False)
                 enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                 cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
@@ -102,8 +106,11 @@ while True:
                 total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
                 total="%.2f" %(float(i[5])+float(total))
                 total = Time_Fixer(total)
+<<<<<<< HEAD
 
                 
+=======
+>>>>>>> f70540116d7c856fcfa931c0ce6187d655ed0f59
                 cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
                 usersDB.commit()
         break
@@ -114,5 +121,4 @@ while True:
             os._exit(0)
         else:
             print("user-name and password not recognized,please enter again")
-        
 
