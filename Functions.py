@@ -57,17 +57,23 @@ def Time_Fixer(time_string):
 
 def adminMenu():
     exit=False
+    usersDB=sqlite3.connect('users.db')
+    cursor=usersDB.cursor()
     print("Please choose one of the option below:")
     while(exit==False):
-        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.Exit menu")
+        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Exit menu")
         option=input("Enter an option:")
         if(option=='1'):
             uname=input("Enter the username:")
             cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
-            field=input("Enter a field that you want to change:")
-            newVal=input("Enter the new value of {} {}:".format(uname,field))
-            query="UPDATE users SET {}=? WHERE username=?".format(field)
-            cursor.execute(query,[(newVal),(uname)])
+            flag=cursor.fetchall()
+            if flag:
+                field=input("Enter a field that you want to change:")
+                newVal=input("Enter the new value of {} {}:".format(uname,field))
+                cursor.execute("UPDATE users SET {}=? WHERE username=?".format(field),[(str(newVal)),(uname)])
+                usersDB.commit()
+            else:
+                print("Username not found...")
         elif(option=='2'):
             print("Please enter numbers between 0 to 100")
             vol=input()
@@ -87,6 +93,50 @@ def adminMenu():
             for row in cursor:
                 print(row)
         elif(option=='5'):
+            uname=input("Enter the username: ")
+            flag=cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
+            flag=cursor.fetchall()
+            if flag:
+                print("user name already exist...")
+            else:
+                fName=input("Enter first name: ")
+                lName=input("Enter last name: ")
+                password=input("Enter password: ")
+                role=input("Enter role (admin or worker): ")
+                total=entrance=0
+                isInside='no'
+                #add the entred data to the database
+                cursor.execute("""INSERT INTO users (first_name, last_name, username, password, entrance, total, role, isInside)
+                    VALUES (?,?,?,?,?,?,?,?)""",[(fName),(lName),(uname),(password),(entrance),(total),(role),(isInside)])
+                usersDB.commit() 
+                print("Data added succesfully")
+                print("Now, take few pictures of the new worker...")
+                from time import sleep
+                key = cv2. waitKey(1)
+                webcam = cv2.VideoCapture(0)
+                sleep(2)
+                while True:
+                    check, frame = webcam.read()
+                    cv2.imshow("Capturing", frame)
+                    i=0
+                    if cv2.waitKey(20) & 0xFF == ord('p'):
+                        cv2.imwrite(filename='saved_img.jpg', img=frame)
+                        webcam.release()
+                        print("Processing image...")
+                        img_ = cv2.imread('saved_img.jpg', cv2.IMREAD_ANYCOLOR)
+                        print("Converting RGB image to grayscale...")
+                        gray = cv2.cvtColor(img_, cv2.COLOR_BGR2GRAY)
+                        print("Converted RGB image to grayscale...")
+                        print("Resizing image to 28x28 scale...")
+                        img_ = cv2.resize(gray,(28,28))
+                        print("Resized...")
+                        cv2.imwrite(filename="images\\" + str(uname) + "\\" + str(uname) + str(i) +".png", img=img_)
+                        print("Image saved!")
+                    elif cv2.waitKey(20) & 0xFF == ord('q'):
+                        webcam.release()
+                        cv2.destroyAllWindows()
+                        break
+        elif (option=='6'):
             exit=True
             print("Exiting admin's menu...")
         else:
