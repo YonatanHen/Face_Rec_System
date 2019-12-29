@@ -7,7 +7,15 @@ from gtts import gTTS
 import os 
 from playsound import playsound
 import sqlite3
-from Functions import *
+
+
+def face_recognize(username):
+    "function check if username and password match one of the users in users.db,and return the relevant data"
+    usersDB=sqlite3.connect('users.db')
+    cursor=usersDB.cursor()
+    cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
+    return cursor.fetchall()
+
 def make_4k():
     cap.set(3, 3840)
     cap.set(4, 2160)
@@ -29,7 +37,7 @@ with open("pickles/face-labels.pickle", 'rb') as f:
 cap = cv2.VideoCapture(0)
 make_4k()
 i=0
-isRecCounter = 0
+counter1 = 0
 counter2 = 0
 lrcounter = 8
 name = "None"
@@ -71,25 +79,25 @@ while(True):
         id_, conf = recognizer.predict(roi_gray)
         if conf>=54.5 and conf <= 60:
             #print(conf)
-            #print(5:id_)
-            #print(labels[id_], name, isRecCounter,counter2)
+            #print(5: #id_)
+            #print(labels[id_], name, counter1,counter2)
 
             if labels[id_] == name or name == "None":
-                isRecCounter=isRecCounter+1
+                counter1+=1
                 counter2 = 0
-                if isRecCounter == 5:
+                if counter1 == 10:
                     tempname = name
             if tempname != name:
                 counter2 += 1
-            #if counter2 % 8==0:
-            #    isRecCounter = 0
+            if counter2 % 8==0:
+                counter1 = 0
 
                 
             name = labels[id_]
             #match sound
-            if isRecCounter > 5:
+            if counter1 > 20 and counter2 == 0:
                 match = "Match found: " + tempname
-                if isRecCounter:
+                if counter1%2 == 0:
                     color = (0, 255, 0)
                 else:
                     color = (255, 255, 255)
@@ -103,37 +111,38 @@ while(True):
                         usersDB=sqlite3.connect('users.db')
                         cursor=usersDB.cursor() #cursor enable traversal over the records in database
                         results=face_recognize(tempname)
-                        for i in results:
-                            print("Time is:{0}".format(datetime.datetime.now()))
-                            if(i[7] =='no'):
-                                print("Welcome "+i[0]+" "+i[1])
-                                #Admin's menu
-                                if(i[6]=='admin'):
-                                    option=input("Hey admin! Do you want to reach the menu? y/n:")
-                                    if(option=='y' or option=='Y'):
-                                        adminMenu()
-                                    elif(option=='n' or option=='N'):
-                                        print("OK,Have a nice day!")
-                                    else:
-                                        print("I see that as 'no',Have a nice day!")
-                                playsound('welcome.mp3',False)
-                                enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
-                                cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
-                                usersDB.commit()
-                            elif(i[7]=='yes'):
-                                print("Goodbye "+i[0]+" "+i[1])
-                                total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
-                                total="%.2f" %(float(i[5])+float(total))
-                                total = Time_Fixer(total)
-                                cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
-                                usersDB.commit()
-                            break 
+                        if results: #if results!=NULL, in other words, if user found in the DB
+                            if results: #if results!=NULL, in other words, if user found in the DB
+                                for i in results:
+                                    print("Time is:{0}".format(datetime.datetime.now()))
+                                    if(i[7] =='no'):
+                                        print("Welcome "+i[0]+" "+i[1])
+                                        #Admin's menu
+                                        """if(i[6]=='Admin'):
+                                            option=input("Hey admin! Do you want to reach the menu? y/n")
+                                            if(option=='y' or option=='Y'):
+                                                adminMenu()
+                                            elif(option=='n' or option=='N'):
+                                                print("OK,Have a nice day!")
+                                            else:
+                                                print("I see that as 'no',Have a nice day!")"""
+                                        playsound('welcome.mp3',False)
+                                        enter_time=datetime.datetime.now().hour
+                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
+                                        usersDB.commit()
+                                    elif(i[7]=='yes'):
+                                        print("goodbye "+i[0]+" "+i[1])
+                                        total=datetime.datetime.now().hour-int(i[4])
+                                        total=int(i[5])+total
+                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
+                                        usersDB.commit()
+                                break
 
-                    if os.path.isfile("match.mp3") :
+                    if os.path.isfile("match.mp3") and tempmatch!='None' and tempmatch!=match:
                         os.remove("match.mp3")
                     tempmatch = match
 
-            elif isRecCounter > 10:
+            elif counter1 > 10:
                 color = (0, 255, 0) #green
                 cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                 
@@ -143,11 +152,12 @@ while(True):
                             
         else:
             trysCounter+=1
-            #counter2+=1
-            if trysCounter==5:
-                cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                for _ in range(100):
-                    cv2.imshow('frame',frame)
+            counter2+=1
+        
+        if trysCounter==100:
+            cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
+            for _ in range(100):
+                cv2.imshow('frame',frame)
 
         stroke = 2
         end_cord_x = x + w
@@ -167,13 +177,13 @@ while(True):
 
         if cv2.waitKey(20) & 0xFF == ord('p'):
             i+=1
-            if isRecCounter>10 and counter2 == 0:
+            if counter1>10 and counter2 == 0:
                 img_item =  "images\\" + tempname + "\\" + tempname + str(i) +".png"
             else:
                 img_item =  "unknown\\unknown" + str(i) +".png" 
             cv2.imwrite(img_item, roi_color)
-            now = (datetime.datetime.now()).strftime("%Y-%m-%d %H_%M_%S")
-        subitems = smile_cascade.detectMultiScale(roi_gray)
+            #now = (datetime.datetime.now()).strftime("%Y-%m-%d %H_%M_%S")
+        #subitems = smile_cascade.detectMultiScale(roi_gray)
         #for (ex,ey,ew,eh) in subitems:
         #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
