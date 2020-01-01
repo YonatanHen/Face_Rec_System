@@ -60,6 +60,18 @@ def Time_Fixer(time_string):
         
     return str(hours)+'.'+str(minutes)
 
+def printUserDetails(username):
+    usersDB=sqlite3.connect('users.db')
+    cursor=usersDB.cursor()
+    result=cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
+    days=0
+    for row in result:
+        print("total hours:"+ row[5])
+        if(float(row[5])%24!=0):
+            days+=1
+        if (float(row[5])>=24):
+            days=float(row[5])//24
+        print("total days:"+ str(days))
 
 def adminMenu():
     exit=False
@@ -191,5 +203,5 @@ def adminMenu():
             
         else:
             print("Wrong input,Enter again.")
-        
-        
+
+ 

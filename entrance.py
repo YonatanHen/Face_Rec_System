@@ -6,7 +6,7 @@ from gtts import gTTS
 import os
 from playsound import playsound
 from getpass import getpass
-
+from Functions import *
 
 def recognize(username,password):
     "function check if username and password match one of the users in users.db,and return the relevant data"
@@ -44,30 +44,6 @@ def Time_Fixer(time_string):
         minutes = int(minutes)- 60
     return str(hours)+'.'+str(minutes)
 
-"""
-def adminMenu():
-    """"""function open the admin's menu option""""""
-    exit=False
-    print("Please choose one of the option below:")
-    while(exit==False):
-        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.Exit menu")
-        option=input("Enter an option:")
-        if(option=='1'):
-            uname=input("Enter the username")
-            cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
-            cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?")
-        elif(option=='2'):
-        elif(option=='3'):
-        elif(option=='4'):
-        elif(option=='5'):
-            exit=True
-            print("Exiting admin's menu...")
-        else:
-            print("Wrong input,Enter again.")
-"""
-
-
-
 #Users databse columns order:
 #0.first_name,1.last_name,2.username,3.password,4.entrance,5.total,6.role,7.isInside
 print("======================================================")
@@ -84,15 +60,22 @@ while True:
             print("Time is:{0}".format(datetime.datetime.now()))
             if(i[7] =='no'):
                 print("Welcome "+i[0]+" "+i[1])
+                showDetails=input("Do you want to watch your data? y/n:")
+                if(showDetails=='y' or showDetails=='Y'):
+                    printUserDetails(i[2])
+                elif(showDetails=='n' or showDetails=='N'):
+                    print("OK,Have a nice day!")
+                else:
+                    print("I see that as 'no',Have a nice day!")
                 #Admin's menu
-                """if(i[6]=='Admin'):
+                if(i[6]=='Admin'):
                     option=input("Hey admin! Do you want to reach the menu? y/n")
                     if(option=='y' or option=='Y'):
                         adminMenu()
                     elif(option=='n' or option=='N'):
-                        print("OK,Have a nice day!")
+                        print("OK")
                     else:
-                        print("I see that as 'no',Have a nice day!")"""
+                        print("I see that as 'no',Have a nice day!")
                 playsound('welcome.mp3',False)
                 enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                 cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
