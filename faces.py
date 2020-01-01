@@ -107,6 +107,13 @@ while(True):
                             print("Time is:{0}".format(datetime.datetime.now()))
                             if(i[7] =='no'):
                                 print("Welcome "+i[0]+" "+i[1])
+                                showDetails=input("Do you want to watch your data? y/n:")
+                                if(showDetails=='y' or showDetails=='Y'):
+                                    printUserDetails(i[2])
+                                elif(showDetails=='n' or showDetails=='N'):
+                                    print("OK,Have a nice day!")
+                                else:
+                                    print("I see that as 'no',Have a nice day!")
                                 #Admin's menu
                                 if(i[6]=='admin'):
                                     option=input("Hey admin! Do you want to reach the menu? y/n:")
@@ -190,4 +197,3 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-

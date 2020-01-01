@@ -10,6 +10,9 @@ import datetime
 pygame.mixer.init()
 pygame.mixer.music.load('background_audio.mp3')
 pygame.mixer.music.play(999)
+#set volume of background music
+pygame.mixer.music.set_volume(0.4) 
+
 if keyboard.is_pressed('s'):
     pygame.mixer.music.pause()
 
