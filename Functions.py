@@ -55,6 +55,11 @@ def Time_Fixer(time_string):
         
     return str(hours)+'.'+str(minutes)
 
+def printUserDetails(username):
+    usersDB=sqlite3.connect('users.db')
+    cursor=usersDB.cursor()
+    cursor.execute("select ? from users",[(username)])
+    print(cursor)
 
 def adminMenu():
     exit=False
@@ -145,3 +150,4 @@ def adminMenu():
         else:
             print("Wrong input,Enter again.")
 
+ 

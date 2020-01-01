@@ -24,15 +24,22 @@ while True:
             print("Time is:{0}".format(datetime.datetime.now()))
             if(i[7] =='no'):
                 print("Welcome "+i[0]+" "+i[1])
+                showDetails=input("Do you want to watch your data? y/n")
+                if(option=='y' or option=='Y'):
+                        printUserDetails(i[2])
+                elif(option=='n' or option=='N'):
+                    print("OK,Have a nice day!")
+                else:
+                    print("I see that as 'no',Have a nice day!")
                 #Admin's menu
                 if(i[6]=='admin'):
                     option=input("Hey admin! Do you want to reach the menu? y/n:")
                     if(option=='y' or option=='Y'):
                         adminMenu()
                     elif(option=='n' or option=='N'):
-                        print("OK,Have a nice day!")
+                        print("OK")
                     else:
-                        print("I see that as 'no',Have a nice day!")
+                        print("I see that as 'no'")
                 playsound('welcome.mp3',False)
                 enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                 cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
