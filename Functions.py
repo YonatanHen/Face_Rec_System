@@ -72,6 +72,8 @@ def printUserDetails(username):
         if (float(row[5])>=24):
             days=float(row[5])//24
         print("total days:"+ str(days))
+    salaryPerHour=input("Enter your hourly wage")
+    print("Total gross profits are"+str(float(salaryPerHour)*float(row[5])))
 
 def adminMenu():
     exit=False
