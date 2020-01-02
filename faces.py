@@ -100,6 +100,9 @@ while(True):
                 if(tempmatch != match):
                     if os.path.isfile("match.mp3"):
                         playsound("match.mp3",False)
+                        #delete camera window if match found.
+                        cap.release()
+                        cv2.destroyAllWindows() 
                         usersDB=sqlite3.connect('users.db')
                         cursor=usersDB.cursor() #cursor enable traversal over the records in database
                         results=face_recognize(tempname)
@@ -134,7 +137,7 @@ while(True):
                                 total = Time_Fixer(total)
                                 cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
                                 usersDB.commit()
-                            break 
+                            break
 
                     if os.path.isfile("match.mp3") :
                         os.remove("match.mp3")
