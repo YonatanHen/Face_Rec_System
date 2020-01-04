@@ -142,7 +142,7 @@ while(True):
                     if os.path.isfile("match.mp3") :
                         os.remove("match.mp3")
                     tempmatch = match
-
+                os.system("main.py")
             elif isRecCounter > 10:
                 color = (0, 255, 0) #green
                 cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
