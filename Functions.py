@@ -72,14 +72,15 @@ def printUserDetails(username):
         if (float(row[5])>=24):
             days=float(row[5])//24
         print("total days:"+ str(days))
-    salaryPerHour=input("Enter your hourly wage")
-    print("Total gross profits are"+str(float(salaryPerHour)*float(row[5])))
+    #Ask non-blind users if they want to watch therit total profits
+        salaryPerHour=input("Enter your hourly wage")
+        print("Total gross profits are"+str(float(salaryPerHour)*float(row[5])))
 
 def adminMenu():
     exit=False
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
-    print("Please choose one of the option below:")
+    print("Please choose one of the options below:")
     while(exit==False):
         print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Add new photo to an exist user\n7.Exit menu")
         option=input("Enter an option: ")
