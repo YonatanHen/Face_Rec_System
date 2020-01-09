@@ -81,17 +81,15 @@ class User_login(tk.Frame):
         lable_1 = Label(self,text="User Name:")
         lable_2 = Label(self,text="Password:")
         
-        username=StringVar()
-        password=StringVar()
+        self.username=StringVar()
+        self.password=StringVar()
 
         lable_1.grid(row=0,sticky=E)
         lable_2.grid(row=1)
-        entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
-        entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
-
-        coutnt_try=0
+        entry_1=Entry(self,textvariable=self.username).grid(row=0,column=1)
+        entry_2=Entry(self,textvariable=self.password).grid(row=1,column=1)
         back_but1 = Button(self,text = "Go back",bg="white",fg="black",command=lambda:controller.show_frame(StartPage))
-        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:entrance.entrance(username.get(),password.get()))
+        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:entrance.entrance(self.username.get(),self.password.get()))
         quit_but3 = Button(self,text = "Quit",bg="white",fg="black",command=quit)
 
         c=Checkbutton(self,text="Keep me logged in !")
@@ -220,5 +218,3 @@ class camera_frame(tk.Frame):
             cap.release()
             cv2.destroyAllWindows()
 
-app = SeaofBTCapp()
-app.mainloop()
