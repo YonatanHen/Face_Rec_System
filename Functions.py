@@ -1,4 +1,3 @@
-
 #This page include all the functions that program py files need
 
 import numpy as np
@@ -60,6 +59,8 @@ def Time_Fixer(time_string):
         
     return str(hours)+'.'+str(minutes)
 
+
+
 def printUserDetails(username):
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
@@ -76,13 +77,16 @@ def printUserDetails(username):
         salaryPerHour=input("Enter your hourly wage")
         print("Total gross profits are"+str(float(salaryPerHour)*float(row[5])))
 
+def changefont(s):
+    window.f=s
+
 def adminMenu():
     exit=False
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
     print("Please choose one of the options below:")
     while(exit==False):
-        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Add new photo to an exist user\n7.Exit menu")
+        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Add new photo to an exist user\n7.change font size\n8.change color\n9.Exit")
         option=input("Enter an option: ")
         if(option=='1'):
             uname=input("Enter the username:")
@@ -201,8 +205,15 @@ def adminMenu():
                     
 
         elif (option=='7'):
+            print("Enter font size\n0-30")
+            size=input()
+
+        elif(option=='8'):
+            print("enter a color for backgound")
+            color=input()
+
+        elif(option=='9'):
             exit=True
             print("Exiting admin's menu...")
-            
         else:
             print("Wrong input,Enter again.")
