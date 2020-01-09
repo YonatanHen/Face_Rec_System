@@ -9,24 +9,27 @@ import datetime
 import time
 
 
-
+i=0
+def changecolor():
+    global i
+    color1=["#C7C7C7","#A8A8A8","#919191","#848484","#7C7C7C","#727272","#737373","#727272","#717171"]
+    color2=["#545454","#4B4B4B","#4A4A4A","#434343","#3C3C3C","#323232","#2C2C2C","#242424","#010101"]
+    window["bg"]=color1[i]
+    label_1["bg"]=color1[i]
+    label_1["fg"]=color2[i]
+    i+=1
+    if(i==9):
+        i=0
+            
+f=25
 window=Tk()
-label_1=Label(window,text="Welcome,Please use the face-recognition system \nor enter password&username to log in\nFace recognition will open automatically\nEnter 'q' to exit \nIf you regret and want to enter with face recognition,enter 1\nIf you want to enter with password&username enter 2\nStop music with 's' button",fg="#696969",font="verdana 20 bold italic")
-#label_2=Label(window,text="or enter password&username to log in",fg="#696969",font="verdana 20 bold italic")
-#label_3=Label(window,text="Face recognition will open automatically\nEnter 'q' to exit",fg="#696969",font="verdana 20 bold italic")
-#label_4=Label(window,text="If you regret and want to enter with face recognition,enter 1.",fg="#696969",font="verdana 20 bold italic")
-#label_5=Label(window,text="If you want to enter with password&username enter 2",fg="#696969",font="verdana 20 bold italic")
-#label_6=Label(window,text="Stop music with 's' button",fg="#696969",font="verdana 20 bold italic")
+window.title('Face_Rec_System')
+label_1=Label(window,text="Welcome,Please use the face-recognition system \nor enter password&username to log in\nFace recognition will open automatically\nEnter 'q' to exit \nIf you regret and want to enter with face recognition,enter 1\nIf you want to enter with password&username enter 2\nStop music with 's' button",fg="#696969",font = ('Arial' , f))
 label_1.pack()
-#label_2.pack()
-#label_3.pack()
-#label_4.pack()
-#label_5.pack()
-#label_6.pack()
-Button(window, text="Quit", command=window.destroy).pack()
-window.after(10000, window.destroy) 
+Button(window, text="Quit", command=window.destroy,font="verdana 10 bold italic").pack()
+Button(window, text="Change color", command=changecolor,font="verdana 10 bold italic").pack()
+window.after(1000000, window.destroy)
 window.mainloop()
-
 
 
 
