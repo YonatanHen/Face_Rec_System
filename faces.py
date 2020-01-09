@@ -1,5 +1,3 @@
-import numpy as np
-import cv2
 import pickle
 import camera
 import datetime
@@ -153,7 +151,7 @@ def faces():
                 trysCounter+=1
                 #counter2+=1
                 if trysCounter==5:
-                    cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
+                    cv2.putText(frame,"Failed attempt !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
                     for _ in range(100):
                         cv2.imshow('frame',frame)
             stroke = 2
@@ -194,6 +192,3 @@ def faces():
             break
         if cv2.waitKey(20) & 0xFF == ord('q'):
             break
-    # When everything done, release the capture
-    cap.release()
-    cv2.destroyAllWindows()
