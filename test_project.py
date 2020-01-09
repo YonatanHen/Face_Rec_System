@@ -28,7 +28,13 @@ class Testusers(unittest.TestCase):
         result=entrance.recognize("tzahi","164")
         for i in result:
             self.assertGreaterEqual(i[0][0],'A')
-            
+
+    def test_is_role_legal(self):
+        result=entrance.recognize("yonatan","123")
+        flag=False
+        if (result[6]=="admin"):
+            flag=True
+        self.assertEqual(flag,True)    
  
 if __name__ == '__main__':
     unittest.main()
