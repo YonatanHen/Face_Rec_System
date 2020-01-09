@@ -1,6 +1,7 @@
 import pickle
 import camera
 import datetime
+import time
 from gtts import gTTS
 import os 
 from playsound import playsound
@@ -94,6 +95,7 @@ def faces():
                     tts = gTTS(text=match, lang = 'en')
                     tts.save("match.mp3")
                     if(tempmatch != match):
+                        time.sleep(2)
                         if os.path.isfile("match.mp3"):
                             playsound("match.mp3",False)
                             #delete camera window if match found.
@@ -103,39 +105,54 @@ def faces():
                             cursor=usersDB.cursor() #cursor enable traversal over the records in database
                             results=face_recognize(tempname)
                             for i in results:
-                                print("Time is:{0}".format(datetime.datetime.now()))
-                                if(i[7] =='no'):
-                                    print("Welcome "+i[0]+" "+i[1])
-                                    showDetails=input("Do you want to watch your data? y/n:")
-                                    if(showDetails=='y' or showDetails=='Y'):
-                                        printUserDetails(i[2])
-                                    elif(showDetails=='n' or showDetails=='N'):
-                                        print("OK,Have a nice day!")
-                                        playsound("godbye.mp3",False)
-                                    else:
-                                        print("I see that as 'no',Have a nice day!")
-                                    #Admin's menu
-                                    if(i[6]=='admin'):
-                                        option=input("Hey admin! Do you want to reach the menu? y/n:")
-                                        if(option=='y' or option=='Y'):
-                                            adminMenu()
-                                        elif(option=='n' or option=='N'):
+                                if(i[6] != "blind worker"):
+                                    print("Time is:{0}".format(datetime.datetime.now()))
+                                    if(i[7] =='no'):
+                                        playsound("welcome.mp3",False)
+                                        print("Welcome "+i[0]+" "+i[1])
+                                        showDetails=input("Do you want to watch your data? y/n:")
+                                        if(showDetails=='y' or showDetails=='Y'):
+                                            printUserDetails(i[2])
+                                        elif(showDetails=='n' or showDetails=='N'):
                                             print("OK,Have a nice day!")
-                                            playsound("godbye.mp3",False)
                                         else:
                                             print("I see that as 'no',Have a nice day!")
-                                    playsound('welcome.mp3',False)
-                                    enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
-                                    cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
-                                    usersDB.commit()
-                                elif(i[7]=='yes'):
-                                    print("Goodbye "+i[0]+" "+i[1])
-                                    total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
-                                    total="%.2f" %(float(i[5])+float(total))
-                                    total = Time_Fixer(total)
-                                    cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
-                                    usersDB.commit()
-                                break
+                                        #Admin's menu
+                                        if(i[6]=='admin'):
+                                            option=input("I see that you are an admin! Do you want to reach the menu? y/n:")
+                                            if(option=='y' or option=='Y'):
+                                                adminMenu()
+                                            elif(option=='n' or option=='N'):
+                                                print("OK,Have a nice day!")
+                                            else:
+                                                print("I see that as 'no',Have a nice day!")
+                                        enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
+                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
+                                        usersDB.commit()
+                                    elif(i[7]=='yes'):
+                                        print("Goodbye "+i[0]+" "+i[1])
+                                        total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
+                                        total="%.2f" %(float(i[5])+float(total))
+                                        total = Time_Fixer(total)
+                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
+                                        usersDB.commit()
+                                        playsound("godbye.mp3",False)
+                                    break
+                                else:
+                                    if(i[7] =='no'):
+                                        print("Welcome "+i[0]+" "+i[1])
+                                        playsound("welcome.mp3",False)
+                                        enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
+                                        cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
+                                        usersDB.commit()
+                                    else:
+                                        print("Goodbye "+i[0]+" "+i[1])
+                                        total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
+                                        total="%.2f" %(float(i[5])+float(total))
+                                        total = Time_Fixer(total)
+                                        cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
+                                        usersDB.commit()
+                                        playsound("godbye.mp3",False) 
                         if os.path.isfile("match.mp3") :
                             os.remove("match.mp3")
                         tempmatch = match
@@ -190,6 +207,8 @@ def faces():
             img_item =  "unknown\\unknown" + str(i) +".png"
             cv2.imwrite(img_item, roi_color)
             pygame.mixer.music.pause()
+            cap.release()
+            cv2.destroyAllWindows()
             os.system("main.py")
             break
         if cv2.waitKey(20) & 0xFF == ord('q'):
