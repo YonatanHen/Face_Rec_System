@@ -111,6 +111,7 @@ def faces():
                                         printUserDetails(i[2])
                                     elif(showDetails=='n' or showDetails=='N'):
                                         print("OK,Have a nice day!")
+                                        playsound("godbye.mp3",False)
                                     else:
                                         print("I see that as 'no',Have a nice day!")
                                     #Admin's menu
@@ -120,6 +121,7 @@ def faces():
                                             adminMenu()
                                         elif(option=='n' or option=='N'):
                                             print("OK,Have a nice day!")
+                                            playsound("godbye.mp3",False)
                                         else:
                                             print("I see that as 'no',Have a nice day!")
                                     playsound('welcome.mp3',False)
