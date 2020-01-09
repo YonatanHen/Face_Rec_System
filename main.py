@@ -45,7 +45,7 @@ while x:
     if keyboard.is_pressed('s'):
         pygame.mixer.music.pause()
     if keyboard.is_pressed('q'):
-        cap.release()
-        cvs2.destroyAllWindows()
-        pygame.mixer.music.unpause()
-        x=False
+		cap.release()
+		cvs2.destroyAllWindows()
+		pygame.mixer.music.unpause()
+		x=False
