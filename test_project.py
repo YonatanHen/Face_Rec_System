@@ -32,8 +32,9 @@ class Testusers(unittest.TestCase):
     def test_is_role_legal(self):
         result=entrance.recognize("yonatan","123")
         flag=False
-        if (result[6]=="admin"):
-            flag=True
+        for i in result:
+            if (i[6]=="admin"):
+                flag=True
         self.assertEqual(flag,True)    
  
 if __name__ == '__main__':
