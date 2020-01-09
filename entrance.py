@@ -114,7 +114,6 @@ class SeaofBTCapp(tk.Tk):
         tk.Tk.__init__(self,*args,**kwargs)
         self.title('Hours registration system')
         container = tk.Frame(self)
-
         container.pack(side="top",fill="both",expand=True)
         container.grid_rowconfigure(0,weight=1)
         container.grid_columnconfigure(0,weight=1)
@@ -162,8 +161,8 @@ class StartPage(tk.Frame):
         #top = Scale( m2, orient = HORIZONTAL) #meuzan
         #m2.add(top) 
 
-        w = Scale(m1, from_=0, to=42) #meunah
-        w.pack(side=LEFT) 
+        #w = Scale(m1, from_=0, to=42) #meunah
+        #w.pack(side=LEFT) 
 
  
 class User_login(tk.Frame):
