@@ -26,9 +26,9 @@ window=Tk()
 window.title('Face_Rec_System')
 label_1=Label(window,text="Welcome,Please use the face-recognition system \nor enter password&username to log in\nFace recognition will open automatically\nEnter 'q' to exit \nIf you regret and want to enter with face recognition,enter 1\nIf you want to enter with password&username enter 2\nStop music with 's' button",fg="#696969",font = ('Arial' , f))
 label_1.pack()
-Button(window, text="Quit", command=window.destroy,font="verdana 10 bold italic").pack()
+Button(window, text="Open Camera Directly", command=window.destroy,font="verdana 10 bold italic").pack()
 Button(window, text="Change color", command=changecolor,font="verdana 10 bold italic").pack()
-window.after(1000000, window.destroy)
+window.after(15000, window.destroy)
 window.mainloop()
 
 
