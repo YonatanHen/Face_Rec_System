@@ -124,8 +124,10 @@ def faces():
                                         printUserDetails(i[2])
                                     elif(showDetails=='n' or showDetails=='N'):
                                         print("OK,Have a nice day!")
+                                        playsound('godbye.mp3',False)
                                     else:
                                         print("I see that as 'no',Have a nice day!")
+                                        playsound('godbye.mp3',False)
                                     #Admin's menu
                                     if(i[6]=='admin'):
                                         option=input("Hey admin! Do you want to reach the menu? y/n:")
@@ -141,6 +143,7 @@ def faces():
                                     usersDB.commit()
                                 elif(i[7]=='yes'):
                                     print("Goodbye "+i[0]+" "+i[1])
+                                    playsound('godbye.mp3',False)
                                     total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
                                     total="%.2f" %(float(i[5])+float(total))
                                     total = Time_Fixer(total)
@@ -212,5 +215,4 @@ def faces():
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
-
 
