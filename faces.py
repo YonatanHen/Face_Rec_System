@@ -203,6 +203,8 @@ def faces():
             playsound("Five_failed_attempts.mp3")
             img_item =  "unknown\\unknown" + str(i) +".png"
             cv2.imwrite(img_item, roi_color)
+            pygame.mixer.music.pause()
+            os.system("main.py")
             break
         if cv2.waitKey(20) & 0xFF == ord('q'):
             break
