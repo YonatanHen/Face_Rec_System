@@ -7,11 +7,8 @@ import sys
 import datetime
 import faces
 
-
 #playing sound in background helping with accessability for visually impaired users.
 pygame.mixer.init()
-if pygame.mixer.music.get_busy():
-   
 pygame.mixer.music.load('background_audio.mp3')
 pygame.mixer.music.play(999)
 #set volume of background music
@@ -32,17 +29,13 @@ print("Face recognition will open automatically\nEnter 'q' to exit")
 print("If you want to enter with password&username enter 2,if you regret and want to enter with face recognition,enter 1.")
 print("Stop music with 's' button")
 
-
-isPlayed=False
-#music unuseful when camera open
-
 #opening face recognition system when running
+pygame.mixer.music.pause()
 faces.faces()
-
-
 
 while x:
     if keyboard.is_pressed('1'):
+        pygame.mixer.music.pause()
         faces.faces()
         x = False
     if keyboard.is_pressed('2'):
@@ -53,6 +46,6 @@ while x:
         pygame.mixer.music.pause()
     if keyboard.is_pressed('q'):
         cap.release()
-        cv2.destroyAllWindows()
+        cvs2.destroyAllWindows()
         pygame.mixer.music.unpause()
         x=False
