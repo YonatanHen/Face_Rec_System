@@ -13,6 +13,12 @@ from Functions import *
 
 
 def faces():
+    #playing sound in background helping with accessability for visually impaired users.
+    pygame.mixer.init()
+    pygame.mixer.music.load('background_audio.mp3')
+    pygame.mixer.music.play(999)
+    #set volume of background music
+    pygame.mixer.music.set_volume(0.4)
     if os.path.isfile("match.mp3"):
         os.remove("match.mp3")
     face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml')
@@ -145,6 +151,7 @@ def faces():
                         if os.path.isfile("match.mp3") :
                             os.remove("match.mp3")
                         tempmatch = match
+                        pygame.mixer.music.pause()
                     os.system("main.py")
                 elif isRecCounter > 10:
                     color = (0, 255, 0) #green
