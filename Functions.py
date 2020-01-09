@@ -206,5 +206,3 @@ def adminMenu():
             
         else:
             print("Wrong input,Enter again.")
-
- 
