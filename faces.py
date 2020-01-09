@@ -42,10 +42,10 @@ def faces():
     counter2 = 0
     lrcounter = 8
     name = "None"
-    tempname = "None"
+    tempname = "analyzing..."
     color = (0,0,255)
     beepflag = 1
-    tempmatch = 'None'
+    tempmatch = "analyzing..."
     trysCounter=0
     #beepuls = 0
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -96,67 +96,65 @@ def faces():
                     
                 name = labels[id_]
                 #match sound
-                if isRecCounter > 5:
+                if (isRecCounter > 5):
                     match = "Match found: " + tempname
-                    if isRecCounter:
-                        color = (0, 255, 0)
-                    else:
-                        color = (255, 255, 255)
+                    color = (0, 255, 0)
                     cv2.putText(frame, match, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                     
                     tts = gTTS(text=match, lang = 'en')
                     tts.save("match.mp3")
-                    if(tempmatch != match):
-                        if os.path.isfile("match.mp3"):
-                            playsound("match.mp3",False)
-                            #delete camera window if match found.
-                            cap.release()
-                            cv2.destroyAllWindows() 
-                            usersDB=sqlite3.connect('users.db')
-                            cursor=usersDB.cursor() #cursor enable traversal over the records in database
-                            results=face_recognize(tempname)
-                            for i in results:
-                                print("Time is:{0}".format(datetime.datetime.now()))
-                                if(i[7] =='no'):
-                                    print("Welcome "+i[0]+" "+i[1])
-                                    showDetails=input("Do you want to watch your data? y/n:")
-                                    if(showDetails=='y' or showDetails=='Y'):
-                                        printUserDetails(i[2])
-                                    elif(showDetails=='n' or showDetails=='N'):
+                    if os.path.isfile("match.mp3"):
+                        playsound("match.mp3",False)
+                        for _ in range(100):
+                            cv2.imshow('frame',frame)
+                        #delete camera window if match found.
+                        cap.release()
+                        cv2.destroyAllWindows() 
+                        usersDB=sqlite3.connect('users.db')
+                        cursor=usersDB.cursor() #cursor enable traversal over the records in database
+                        results=face_recognize(tempname)
+                        for i in results:
+                            print("Time is:{0}".format(datetime.datetime.now()))
+                            if(i[7] =='no'):
+                                print("Welcome "+i[0]+" "+i[1])
+                                showDetails=input("Do you want to watch your data? y/n:")
+                                if(showDetails=='y' or showDetails=='Y'):
+                                    printUserDetails(i[2])
+                                elif(showDetails=='n' or showDetails=='N'):
+                                    print("OK,Have a nice day!")
+                                    playsound('godbye.mp3',False)
+                                else:
+                                    print("I see that as 'no',Have a nice day!")
+                                    playsound('godbye.mp3',False)
+                                #Admin's menu
+                                if(i[6]=='admin'):
+                                    option=input("Hey admin! Do you want to reach the menu? y/n:")
+                                    if(option=='y' or option=='Y'):
+                                        adminMenu()
+                                    elif(option=='n' or option=='N'):
                                         print("OK,Have a nice day!")
-                                        playsound('godbye.mp3',False)
                                     else:
                                         print("I see that as 'no',Have a nice day!")
-                                        playsound('godbye.mp3',False)
-                                    #Admin's menu
-                                    if(i[6]=='admin'):
-                                        option=input("Hey admin! Do you want to reach the menu? y/n:")
-                                        if(option=='y' or option=='Y'):
-                                            adminMenu()
-                                        elif(option=='n' or option=='N'):
-                                            print("OK,Have a nice day!")
-                                        else:
-                                            print("I see that as 'no',Have a nice day!")
-                                    playsound('welcome.mp3',False)
-                                    enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
-                                    cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
-                                    usersDB.commit()
-                                elif(i[7]=='yes'):
-                                    print("Goodbye "+i[0]+" "+i[1])
-                                    playsound('godbye.mp3',False)
-                                    total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
-                                    total="%.2f" %(float(i[5])+float(total))
-                                    total = Time_Fixer(total)
-                                    cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
-                                    usersDB.commit()
-                                break
+                                playsound('welcome.mp3',False)
+                                enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
+                                cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
+                                usersDB.commit()
+                            elif(i[7]=='yes'):
+                                print("Goodbye "+i[0]+" "+i[1])
+                                playsound('godbye.mp3',False)
+                                total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
+                                total="%.2f" %(float(i[5])+float(total))
+                                total = Time_Fixer(total)
+                                cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
+                                usersDB.commit()
+                            break
 
                         if os.path.isfile("match.mp3") :
                             os.remove("match.mp3")
                         tempmatch = match
                         pygame.mixer.music.pause()
                     os.system("main.py")
-                elif isRecCounter > 10:
+                elif isRecCounter > 2:
                     color = (0, 255, 0) #green
                     cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                     
@@ -166,11 +164,7 @@ def faces():
                                 
             else:
                 trysCounter+=1
-                #counter2+=1
-                if trysCounter==5:
-                    cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                    for _ in range(100):
-                        cv2.imshow('frame',frame)
+                counter2+=1
 
             stroke = 2
             end_cord_x = x + w
@@ -202,6 +196,9 @@ def faces():
         # Display the resulting frame
         cv2.imshow('frame',frame)
         if trysCounter>100:
+            cv2.putText(frame,"Five failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
+            for _ in range(100):
+                cv2.imshow('frame',frame)
             color = (0, 0, 255)
             playsound("Five_failed_attempts.mp3")
             img_item =  "unknown\\unknown" + str(i) +".png"
@@ -215,4 +212,3 @@ def faces():
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
-
