@@ -14,7 +14,6 @@ from time import sleep
 import tkinter as tk
 from tkinter import filedialog
 import shutil 
-from window import f
 
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
@@ -87,7 +86,7 @@ def adminMenu():
     cursor=usersDB.cursor()
     print("Please choose one of the options below:")
     while(exit==False):
-        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Add new photo to an exist user\n7.change font size\n8.Exit menu")
+        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Add new photo to an exist user\n7.change font size\n8.change color\n9.Exit")
         option=input("Enter an option: ")
         if(option=='1'):
             uname=input("Enter the username:")
@@ -208,11 +207,13 @@ def adminMenu():
         elif (option=='7'):
             print("Enter font size\n0-30")
             size=input()
-            changefont(size)
 
         elif(option=='8'):
+            print("enter a color for backgound")
+            color=input()
+
+        elif(option=='9'):
             exit=True
             print("Exiting admin's menu...")
-            
         else:
             print("Wrong input,Enter again.")
