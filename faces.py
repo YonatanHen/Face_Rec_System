@@ -97,7 +97,7 @@ def faces():
                     if(tempmatch != match):
                         time.sleep(2)
                         if os.path.isfile("match.mp3"):
-                            playsound("match.mp3",False)
+                            playsound-m("match.mp3",False)
                             #delete camera window if match found.
                             cap.release()
                             cv2.destroyAllWindows() 
