@@ -88,7 +88,6 @@ def faces():
                     match = "Match found: " + tempname
                     color = (0, 255, 0)
                     cv2.putText(frame, match, (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                    
                     tts = gTTS(text=match, lang = 'en')
                     tts.save("match.mp3")
                     if os.path.isfile("match.mp3"):
@@ -175,7 +174,6 @@ def faces():
             end_cord_y = y + h
             cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
             # sound
-            #print(x)
             if x < 350:
                 if lrcounter % 10 == 0:
                     playsound('moveright.mp3',False)
@@ -210,7 +208,10 @@ def faces():
             pygame.mixer.music.pause()
             cap.release()
             cv2.destroyAllWindows()
+            time.sleep(1)
             os.system("main.py")
             break
         if cv2.waitKey(20) & 0xFF == ord('q'):
+            cap.release()
+            cv2.destroyAllWindows()
             break
