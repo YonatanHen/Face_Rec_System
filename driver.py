@@ -49,8 +49,8 @@ class StartPage(tk.Frame):
         bottomFrame = tk.Frame(self)
         bottomFrame.pack(side=BOTTOM)
     
-        username_but1 = Button(self,text = "Login with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login))
-        vol_but2 = Button(self,text = "Turn down/up beep",bg="white",fg="blue")
+        username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login))
+        vol_but2 = Button(self,text = "Turn down/up music",bg="white",fg="blue")
         button3 = Button(self,text = "Login",bg="white",fg="green")
         quit_but4 = Button(self,text = "Quit",bg="white",fg="purple",command=quit)
         

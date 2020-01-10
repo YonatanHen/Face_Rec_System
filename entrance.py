@@ -11,41 +11,32 @@ import tkinter
 from playsound import playsound
 from getpass import getpass
 from Functions import *
+import faces
 
-def recognize(username,password):
-    "function check if username and password match one of the users in users.db,and return the relevant data"
-    usersDB=sqlite3.connect('users.db')
-    cursor=usersDB.cursor()
-    cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
-    return cursor.fetchall()
+music_vol=1
+music_flag=0
+def change_vol_down():
+    global music_vol
+    if(music_vol>0):
+        music_vol-=0.25
+        pygame.mixer.music.set_volume(music_vol)
 
-def Time_Fixer(time_string):
-    # Separator - hours/minutes
-    i=0
-    hours=''
-    while(time_string[i]!='.'):
-        hours=hours+time_string[i]
-        i=i+1
-    i=i+1
-    if time_string[i+1]:
-        minutes = time_string[i] + time_string[i+1]
+def change_vol_up():
+    global music_vol
+    if(music_vol<1):
+        music_vol+=0.25
+        pygame.mixer.music.set_volume(music_vol)
+
+def turn_DU_music():
+    global music_flag,music_vol
+    if(music_flag==0) & (music_vol!=0):
+        pygame.mixer.music.set_volume(0)
+        music_flag=1
     else:
-        minutes = time_string[i]
-
-    # minutes check
-    if(int(minutes)>=60):
-        temp_time=str("%.2f" % (float(minutes)/60))
-        print(temp_time)
-        temp_h=''
-        i=0
-        while(temp_time[i]!='.'):
-            temp_h=temp_h+temp_time[i]
-            i=i+1
-        i=i+1
-        
-        hours=int(hours)+int(temp_h)
-        minutes = int(minutes)- 60
-    return str(hours)+'.'+str(minutes)
+        music_flag=0
+        if(music_vol==0):
+            music_vol=0.25
+        pygame.mixer.music.set_volume(music_vol)
 
 
 def entrance(username,password):
@@ -117,6 +108,13 @@ class SeaofBTCapp(tk.Tk):
         container.pack(side="top",fill="both",expand=True)
         container.grid_rowconfigure(0,weight=1)
         container.grid_columnconfigure(0,weight=1)
+        #playing sound in background helping with accessability for visually impaired users.
+        pygame.mixer.init()
+        pygame.mixer.music.load('background_audio.mp3')
+        pygame.mixer.music.play(999)
+        #set volume of background music
+        global music_vol
+        pygame.mixer.music.set_volume(music_vol)
 
         self.frames={}
 
@@ -139,17 +137,30 @@ class StartPage(tk.Frame):
         bottomFrame = tk.Frame(self)
         bottomFrame.pack(side=BOTTOM)
     
-        username_but1 = Button(self,text = "Login with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login))
-        vol_but2 = Button(self,text = "Turn down/up beep",bg="white",fg="blue")
-        button3 = Button(self,text = "Login",bg="white",fg="green")
-        quit_but4 = Button(self,text = "Quit",bg="white",fg="purple",command=quit)
+        username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 8 bold italic")
+        face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces(),font="verdana 8 bold italic")
+        color_but3 = Button(self, text="Change color",bg="white",fg="orange",font="verdana 8 bold italic")   #להפעיל שינוי צבעים command=changecolor
+        vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:change_vol_up(),font="verdana 8 bold italic")
+        vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:change_vol_down(),font="verdana 8 bold italic")
+        mute_but6 = Button(self,text = "Mute",bg="white",fg="blue",command=turn_DU_music,font="verdana 8 bold italic")
+        quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 8 bold italic")
         
-        theLabel = Label(self,text="Yarin avraham !")
+
+        
+        theLabel = Label(self,text="Welcome !")
         theLabel.pack()
         username_but1.pack(fill=X)
-        vol_but2.pack(fill=X)
-        #button3.pack(side=LEFT)
-        quit_but4.pack(fill=X)
+        face_but2.pack(fill=X)
+        color_but3.pack(fill=X)
+        space_label1 = Label(self,text=" ")
+        space_label1.pack()
+        vol_up_but4.pack(fill=X)
+        vol_down_but5.pack(fill=X)
+        mute_but6.pack(fill=X)
+        space_label2 = Label(self,text=" ")
+        space_label2.pack()
+        quit_but7.pack(fill=X)
+        
         
         # מוסיף קוביה לכתיבה ומד
         m1 = PanedWindow() 
@@ -168,8 +179,8 @@ class StartPage(tk.Frame):
 class User_login(tk.Frame):
     def __init__(self,parent,controller):
         tk.Frame.__init__(self,parent)
-        lable_1 = Label(self,text="User Name:")
-        lable_2 = Label(self,text="Password:")
+        lable_1 = Label(self,text="User Name:",font="verdana 8 bold italic")
+        lable_2 = Label(self,text="Password:",font="verdana 8 bold italic")
         
         username=StringVar()
         password=StringVar()
@@ -178,11 +189,11 @@ class User_login(tk.Frame):
         lable_2.grid(row=1)
         entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
         entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
-        back_but1 = Button(self,text = "Go back",bg="white",fg="black",command=lambda:controller.show_frame(StartPage))
-        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:entrance(username.get(),password.get()))
-        quit_but3 = Button(self,text = "Quit",bg="white",fg="black",command=quit)
+        back_but1 = Button(self,text = "Go back",bg="white",fg="black",command=lambda:controller.show_frame(StartPage),font="verdana 8 bold italic")
+        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:entrance(username.get(),password.get()),font="verdana 8 bold italic")
+        quit_but3 = Button(self,text = "Quit",bg="white",fg="black",command=quit,font="verdana 8 bold italic")
 
-        c=Checkbutton(self,text="Keep me logged in !")
+        c=Checkbutton(self,text="Keep me logged in !",font="verdana 8 bold italic")
         back_but1.grid(row=3,columnspan=1)
         enter_but2.grid(row=3,columnspan=2)
         quit_but3.grid(row=4,columnspan=1)
