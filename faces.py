@@ -9,6 +9,15 @@ from playsound import playsound
 import sqlite3
 import pygame
 from Functions import *
+from tkinter import *
+
+def showDetails(x,name):
+    if (x):
+        printUserDetails(name)
+    else:
+       print("OK! Have a nice Day!")
+
+ 
 def faces():
     #playing sound in background helping with accessability for visually impaired users.
     pygame.mixer.init()
@@ -63,7 +72,7 @@ def faces():
         gray  = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=12, minNeighbors=5)
         for (x, y, w, h) in faces:
-            #print(x,y,w,h)
+            #print(x,yq,w,h)
             roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
             roi_color = frame[y:y+h, x:x+w]
             # recognize? deep learned model predict keras tensorflow pytorch scikit learn
@@ -96,23 +105,32 @@ def faces():
                         #delete camera window if match found.
                         cap.release()
                         cv2.destroyAllWindows()
-                        sleep(5)
+                        sleep(2)
                         usersDB=sqlite3.connect('users.db')
                         cursor=usersDB.cursor() #cursor enable traversal over the records in database
                         results=face_recognize(tempname)
                         for i in results:
                             if(i[6] != "blind worker"):
-                                print("Time is:{0}".format(datetime.datetime.now()))
+                                #print("Time is:{0}".format(datetime.datetime.now()))
                                 if(i[7] =='no'):
+                                    welcome=Tk()
+                                    welcome.title("Welcome "+i[0]+" "+i[1])
+                                    time_label=Label(welcome,text="Time is:{0}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
                                     playsound("welcome.mp3",False)
-                                    print("Welcome "+i[0]+" "+i[1])
-                                    showDetails=input("Do you want to watch your data? y/n:")
-                                    if(showDetails=='y' or showDetails=='Y'):
-                                        printUserDetails(i[2])
-                                    elif(showDetails=='n' or showDetails=='N'):
-                                        print("OK,Have a nice day!")
-                                    else:
-                                        print("I see that as 'no',Have a nice day!")
+                                    watchDataVar=IntVar()
+                                    watchDataVar.set(0)
+                                    chkBox=Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar)
+                                    submitBtn=Button(welcome,text="Submit",command=lambda:showDetails(chkBox,i[2]))
+                                    chkBox.pack()
+                                    submitBtn.pack()
+                                    #watchDataLabel=input("Do you want to watch your data? y/n:")
+                                    #if(showDetails=='y' or showDetails=='Y'):
+                                    #    printUserDetails(i[2])
+                                    #elif(showDetails=='n' or showDetails=='N'):
+                                    #    print("OK,Have a nice day!")
+                                    #else:
+                                    #    print("I see that as 'no',Have a nice day!")
+                                    welcome.mainloop()
                                     #Admin's menu
                                     if(i[6]=='admin'):
                                         option=input("I see that you are an admin! Do you want to reach the menu? y/n:")
@@ -153,7 +171,7 @@ def faces():
                             os.remove("match.mp3")
                         tempmatch = match
                         pygame.mixer.music.pause()
-                    os.system("main.py")
+                    os.system("entrance.py")
                 elif isRecCounter > 5:
                     color = (0, 255, 0) #green
                     cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
@@ -215,3 +233,5 @@ def faces():
             cap.release()
             cv2.destroyAllWindows()
             break
+
+faces()
