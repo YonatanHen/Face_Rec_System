@@ -91,7 +91,6 @@ def faces():
                     else:
                         color = (255, 255, 255)
                     cv2.putText(frame, match, (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                    
                     tts = gTTS(text=match, lang = 'en')
                     tts.save("match.mp3")
                     if(tempmatch != match):
