@@ -12,8 +12,11 @@ import sqlite3
 from getpass import getpass
 from time import sleep
 import tkinter as tk
+from tkinter import *
 from tkinter import filedialog
-import shutil 
+import shutil
+import pygame
+from gtts import gTTS
 
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
@@ -217,3 +220,61 @@ def adminMenu():
             print("Exiting admin's menu...")
         else:
             print("Wrong input,Enter again.")
+
+
+
+
+
+
+music_vol=1
+music_flag=0
+countTries=0 #counter entrance tries
+def change_vol_down():
+    global music_vol
+    if(music_vol>0):
+        music_vol-=0.25
+        pygame.mixer.music.set_volume(music_vol)
+
+def change_vol_up():
+    global music_vol
+    if(music_vol<1):
+        music_vol+=0.25
+        pygame.mixer.music.set_volume(music_vol)
+
+def turn_DU_music():
+    global music_flag,music_vol
+    if(music_flag==0) & (music_vol!=0):
+        pygame.mixer.music.set_volume(0)
+        music_flag=1
+    else:
+        music_flag=0
+        if(music_vol==0):
+            music_vol=0.25
+        pygame.mixer.music.set_volume(music_vol)
+
+
+def log(controller,us,passw):
+    global countTries
+    if recognize(us,passw):
+        entrance(us,passw)
+        text_window("have a nice day !")
+    elif(countTries!=5):
+        text_window("user-name and password not recognized,please enter again")
+        countTries+=1
+    else:
+        countTries=0
+        text_window("You tried to enter 5 times unssuccessfully!")
+        controller.show_frame(User_login)
+
+def text_window(str):
+    tts = gTTS(text=str, lang = 'en')
+    tts.save("text_window.mp3")
+    playsound('text_window.mp3',False)
+    text_window = Tk()
+    text_window.title('text_window')
+    Label(text_window, text=str,font="verdana 15 bold italic").pack(side=TOP)
+
+    if os.path.isfile("text_window.mp3"):
+        os.remove("text_window.mp3")
+
+    text_window.after(5000, text_window.destroy)

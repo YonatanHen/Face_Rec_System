@@ -233,5 +233,3 @@ def faces():
             cap.release()
             cv2.destroyAllWindows()
             break
-
-faces()
