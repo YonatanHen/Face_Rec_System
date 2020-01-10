@@ -5,7 +5,6 @@ import time
 from gtts import gTTS
 import os 
 from playsound import playsound
-#from main import y
 import sqlite3
 import pygame
 from Functions import *
@@ -115,7 +114,8 @@ def faces():
                                 if(i[7] =='no'):
                                     welcome=Tk()
                                     welcome.title("Welcome "+i[0]+" "+i[1])
-                                    time_label=Label(welcome,text="Time is:{0}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                                    time_label=Label(welcome,text="Date & Time:{0}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                                    time_label.pack()
                                     playsound("welcome.mp3",False)
                                     watchDataVar=IntVar()
                                     watchDataVar.set(0)
