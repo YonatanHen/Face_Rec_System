@@ -15,6 +15,7 @@ import faces
 
 music_vol=1
 music_flag=0
+countTries=0 #counter entrance tries
 def change_vol_down():
     global music_vol
     if(music_vol>0):
@@ -38,6 +39,38 @@ def turn_DU_music():
             music_vol=0.25
         pygame.mixer.music.set_volume(music_vol)
 
+
+def text_window(str):
+    tts = gTTS(text=str, lang = 'en')
+    tts.save("text_window.mp3")
+    playsound('text_window.mp3',False)
+    text_window = Tk()
+    text_window.title('text_window')
+    Label(text_window, text=str,font="verdana 15 bold italic").pack(side=TOP)
+
+    if os.path.isfile("text_window.mp3"):
+        os.remove("text_window.mp3")
+
+    text_window.after(5000, text_window.destroy)
+
+
+def log(controller,us,passw):
+    global countTries
+    print(countTries)
+    if recognize(us,passw):
+        entrance(us,passw)
+        text_window("have a nice day !")
+    elif(countTries!=5):
+        text_window("user-name and password not recognized,please enter again")
+        countTries+=1
+        if(countTries%2!=0):
+            controller.show_frame(User_login2)
+        else:
+            controller.show_frame(User_login)
+    else:
+        countTries=0
+        text_window("You tried to enter 5 times unssuccessfully!")
+        controller.show_frame(User_login)
 
 def entrance(username,password):
     #Users databse columns order:
@@ -91,7 +124,7 @@ def entrance(username,password):
                     usersDB.commit()
             break
         else:
-            countTries=countTries+1
+            countTries+=1
             if(countTries==5):
                 print("You tried to enter 5 times unssuccessfully!")
                 os._exit(0)
@@ -118,7 +151,7 @@ class SeaofBTCapp(tk.Tk):
 
         self.frames={}
 
-        for F in (StartPage,User_login):
+        for F in (StartPage,User_login,User_login2):
             frame=F(container,self)
             self.frames[F] = frame
             frame.grid(row = 0,column = 0,sticky = "nsew")
@@ -130,6 +163,7 @@ class SeaofBTCapp(tk.Tk):
         frame.tkraise() #make front
 
     
+
 class StartPage(tk.Frame):
     def __init__(self,parent,controller):
         tk.Frame.__init__(self,parent)
@@ -147,7 +181,7 @@ class StartPage(tk.Frame):
         
 
         
-        theLabel = Label(self,text="Welcome !")
+        theLabel = Label(self,text="Welcome !",font="verdana 8 bold italic")
         theLabel.pack()
         username_but1.pack(fill=X)
         face_but2.pack(fill=X)
@@ -163,8 +197,8 @@ class StartPage(tk.Frame):
         
         
         # מוסיף קוביה לכתיבה ומד
-        m1 = PanedWindow() 
-        m1.pack(fill = BOTH, expand = 1) 
+        #m1 = PanedWindow() 
+        #m1.pack(fill = BOTH, expand = 1) 
         #left = Entry(m1, bd = 5) // write box 
         #m2 = PanedWindow(m1, orient = VERTICAL) 
         #m1.add(m2) 
@@ -187,22 +221,56 @@ class User_login(tk.Frame):
 
         lable_1.grid(row=0,sticky=E)
         lable_2.grid(row=1)
+        
         entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
         entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
         back_but1 = Button(self,text = "Go back",bg="white",fg="black",command=lambda:controller.show_frame(StartPage),font="verdana 8 bold italic")
-        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:entrance(username.get(),password.get()),font="verdana 8 bold italic")
+        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:log(controller,username.get(),password.get()),font="verdana 8 bold italic")
         quit_but3 = Button(self,text = "Quit",bg="white",fg="black",command=quit,font="verdana 8 bold italic")
+        
 
+        username.set("")
+        password.set("")
+
+        global countTries
+        
         c=Checkbutton(self,text="Keep me logged in !",font="verdana 8 bold italic")
         back_but1.grid(row=3,columnspan=1)
         enter_but2.grid(row=3,columnspan=2)
         quit_but3.grid(row=4,columnspan=1)
         c.grid(columnspan=2)
-          
+    
+class User_login2(tk.Frame):
+    def __init__(self,parent,controller):
+        tk.Frame.__init__(self,parent)
+        lable_1 = Label(self,text="User Name:",font="verdana 8 bold italic")
+        lable_2 = Label(self,text="Password:",font="verdana 8 bold italic")
+        
+        username=StringVar()
+        password=StringVar()
+
+        lable_1.grid(row=0,sticky=E)
+        lable_2.grid(row=1)
+        entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
+        entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
+        back_but1 = Button(self,text = "Go back",bg="white",fg="black",command=lambda:controller.show_frame(StartPage),font="verdana 8 bold italic")
+        enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:log(controller,username.get(),password.get()),font="verdana 8 bold italic")
+        quit_but3 = Button(self,text = "Quit",bg="white",fg="black",command=quit,font="verdana 8 bold italic")
+
+        username.set("")
+        password.set("")
+
+        global countTries
+        
+        c=Checkbutton(self,text="Keep me logged in !",font="verdana 8 bold italic")
+        back_but1.grid(row=3,columnspan=1)
+        enter_but2.grid(row=3,columnspan=2)
+        quit_but3.grid(row=4,columnspan=1)
+        c.grid(columnspan=2)
+        
 def OpenMenu():
     app=SeaofBTCapp()
     app.mainloop()
 
-#counter entrance tries
-countTries=0
+
 OpenMenu()
