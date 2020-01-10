@@ -11,42 +11,7 @@ import tkinter
 from playsound import playsound
 from getpass import getpass
 from Functions import *
-
-def recognize(username,password):
-    "function check if username and password match one of the users in users.db,and return the relevant data"
-    usersDB=sqlite3.connect('users.db')
-    cursor=usersDB.cursor()
-    cursor.execute("SELECT * FROM users WHERE username=? and password=?",[(username),(password)])
-    return cursor.fetchall()
-
-def Time_Fixer(time_string):
-    # Separator - hours/minutes
-    i=0
-    hours=''
-    while(time_string[i]!='.'):
-        hours=hours+time_string[i]
-        i=i+1
-    i=i+1
-    if time_string[i+1]:
-        minutes = time_string[i] + time_string[i+1]
-    else:
-        minutes = time_string[i]
-
-    # minutes check
-    if(int(minutes)>=60):
-        temp_time=str("%.2f" % (float(minutes)/60))
-        print(temp_time)
-        temp_h=''
-        i=0
-        while(temp_time[i]!='.'):
-            temp_h=temp_h+temp_time[i]
-            i=i+1
-        i=i+1
-        
-        hours=int(hours)+int(temp_h)
-        minutes = int(minutes)- 60
-    return str(hours)+'.'+str(minutes)
-
+import faces
 
 def entrance(username,password):
     #Users databse columns order:
@@ -139,16 +104,16 @@ class StartPage(tk.Frame):
         bottomFrame = tk.Frame(self)
         bottomFrame.pack(side=BOTTOM)
     
-        username_but1 = Button(self,text = "Login with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login))
-        vol_but2 = Button(self,text = "Turn down/up beep",bg="white",fg="blue")
-        button3 = Button(self,text = "Login",bg="white",fg="green")
+        username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login))
+        face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces())
+        vol_but3 = Button(self,text = "Turn down/up music",bg="white",fg="blue")
         quit_but4 = Button(self,text = "Quit",bg="white",fg="purple",command=quit)
         
         theLabel = Label(self,text="Yarin avraham !")
         theLabel.pack()
         username_but1.pack(fill=X)
-        vol_but2.pack(fill=X)
-        #button3.pack(side=LEFT)
+        face_but2.pack(fill=X)
+        vol_but3.pack(fill=X)
         quit_but4.pack(fill=X)
         
         # מוסיף קוביה לכתיבה ומד
