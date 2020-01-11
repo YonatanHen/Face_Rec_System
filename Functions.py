@@ -83,6 +83,8 @@ def printUserDetails(username):
 def changefont(s):
     window.f=s
 
+"""
+
 def adminMenu():
     exit=False
     usersDB=sqlite3.connect('users.db')
@@ -135,8 +137,8 @@ def adminMenu():
                 total=entrance=0
                 isInside='no'
                 #add the entred data to the database
-                cursor.execute("""INSERT INTO users (first_name, last_name, username, password, entrance, total, role, isInside)
-                    VALUES (?,?,?,?,?,?,?,?)""",[(fName),(lName),(uname),(password),(entrance),(total),(role),(isInside)])
+                cursor.execute("""'''INSERT INTO users (first_name, last_name, username, password, entrance, total, role, isInside)
+                    VALUES (?,?,?,?,?,?,?,?)'''""",[(fName),(lName),(uname),(password),(entrance),(total),(role),(isInside)])
                 usersDB.commit() 
                 print("Data added succesfully")
                 print("Now, take few pictures of the new worker... press p -take a picture/q -stop Capturing")
@@ -221,7 +223,7 @@ def adminMenu():
         else:
             print("Wrong input,Enter again.")
 
-
+"""
 
 
 
