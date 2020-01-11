@@ -245,15 +245,15 @@ def change_vol_down(self):
     if(music_vol>0):
         music_vol-=0.25
         pygame.mixer.music.set_volume(music_vol)
+    elif(music_vol==0):
+        self.mute_but6["fg"]="red"
 
-def change_vol_up():
+def change_vol_up(self):
     global music_vol
     if(music_vol<1):
         music_vol+=0.25
         pygame.mixer.music.set_volume(music_vol)
         self.mute_but6["fg"]="blue"
-    else:
-        self.mute_but6["fg"]="red"
 
 def turn_DU_music(self):
     global music_flag,music_vol
@@ -269,10 +269,10 @@ def turn_DU_music(self):
         self.mute_but6["fg"]="blue"
 
 
-def log(controller,us,passw):
+def log(controller,user,password):
     global countTries
-    if recognize(us,passw):
-        entrance(us,passw)
+    if recognize(user,password):
+        entrance(user,password)
         text_window("have a nice day !")
     elif(countTries!=5):
         text_window("user-name and password not recognized,please enter again")
@@ -295,7 +295,8 @@ def text_window(str):
 
     text_window.after(5000, text_window.destroy)
 
-
+def pack_text(self,str):
+    Label(self,text=str,font="verdana 15 bold italic").pack()
     
 color_changer=0
 color1=["#C7C7C7","#A8A8A8","#919191","#848484","#7C7C7C","#727272","#737373","#727272","#717171","white"] #["bg"]
@@ -304,43 +305,23 @@ color2=["#545454","#4B4B4B","#4A4A4A","#434343","#3C3C3C","#323232","#2C2C2C","#
 def changecolor_StartPage(self):
     global color_changer,color1,color2
     if(color_changer!=9):
-        self.username_but1["bg"]=color1[color_changer]
-        self.username_but1["fg"]=color2[color_changer]
-        self.theLabel["bg"]=color1[color_changer]
-        self.theLabel["fg"]=color2[color_changer]
-        self.face_but2["bg"]=color1[color_changer]
-        self.face_but2["fg"]=color2[color_changer]
-        self.color_but3["bg"]=color1[color_changer]
-        self.color_but3["fg"]=color2[color_changer]
-        self.vol_up_but4["bg"]=color1[color_changer]
-        self.vol_up_but4["fg"]=color2[color_changer]
-        self.vol_down_but5["bg"]=color1[color_changer]
-        self.vol_down_but5["fg"]=color2[color_changer]
-        self.mute_but6["bg"]=color1[color_changer]
-        self.mute_but6["fg"]=color2[color_changer]
-        self.quit_but7["bg"]=color1[color_changer]
-        self.quit_but7["fg"]=color2[color_changer]
-
-        self.space_label1["bg"] = color1[color_changer]
-        self.space_label1["fg"] = color1[color_changer]
-        self.space_label2["bg"] = color1[color_changer]
-        self.space_label2["fg"] = color1[color_changer]
+        if(str(self)!=".!frame.!startpage"):
+            color_changer-=1
+        for i in range(len(self.object_arr)):
+            self.object_arr[i]["bg"]=color1[color_changer]
+            self.object_arr[i]["fg"]=color2[color_changer]
         color_changer+=1
     if(color_changer==9):
-        self.theLabel["bg"]=color1[color_changer]
-        self.username_but1["bg"]=color1[color_changer]
+        for i in range(len(self.object_arr)):
+            self.object_arr[i]["bg"]=color1[color_changer]
+        
         self.username_but1["fg"]="red"
-        self.face_but2["bg"]=color1[color_changer]
         self.face_but2["fg"]="green"
-        self.color_but3["bg"]=color1[color_changer]
         self.color_but3["fg"]="orange"
-        self.vol_up_but4["bg"]=color1[color_changer]
+        self.font_size8["fg"]="gold"
         self.vol_up_but4["fg"]="blue"
-        self.vol_down_but5["bg"]=color1[color_changer]
         self.vol_down_but5["fg"]="blue"
-        self.mute_but6["bg"]=color1[color_changer]
         self.mute_but6["fg"]="blue"
-        self.quit_but7["bg"]=color1[color_changer]
         self.quit_but7["fg"]="purple"
         self.space_label1["bg"] = color1[9]
         self.space_label1["fg"] = color1[9]
@@ -353,26 +334,13 @@ def changecolor_User_login(self):
     global color_changer
     if(color_changer!=0):
         self["bg"]=color1[color_changer-1]
-        self.back_but1["bg"]=color1[color_changer-1]
-        self.back_but1["fg"]=color2[color_changer-1]
-        self.enter_but2["bg"] = color1[color_changer-1]
-        self.enter_but2["fg"] = color2[color_changer-1]
-        self.quit_but3["bg"] = color1[color_changer-1]
-        self.quit_but3["fg"] = color2[color_changer-1]
-        self.lable_1["bg"] = color1[color_changer-1]
-        self.lable_1["fg"] = color2[color_changer-1]
-        self.lable_2["bg"] = color1[color_changer-1]
-        self.lable_2["fg"] = color2[color_changer-1]
+        for i in range(len(self.object_arr)):
+            self.object_arr[i]["bg"]=color1[color_changer-1]
+            self.object_arr[i]["fg"]=color2[color_changer-1]
+
     else:
-        self.back_but1["bg"]=color1[9]
-        self.back_but1["fg"]=color2[9]
-        self.enter_but2["bg"] = color1[9]
-        self.enter_but2["fg"] = color2[9]
-        self.quit_but3["bg"] = color1[9]
-        self.quit_but3["fg"] = color2[9]
-        self.lable_1["bg"] = color1[9]
-        self.lable_1["fg"] = color2[9]
-        self.lable_2["bg"] = color1[9]
-        self.lable_2["fg"] = color2[9]
+        for i in range(len(self.object_arr)):
+            self.object_arr[i]["bg"]=color1[9]
+            self.object_arr[i]["fg"]=color2[9]
 
 

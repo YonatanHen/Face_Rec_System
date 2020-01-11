@@ -10,11 +10,23 @@ from playsound import playsound
 from Functions import *
 from entrance import *
 
+font_size=16
+def Change_font_size(self):
+    global font_size
+    if(str(self)!=".!frame.!startpage"):
+        font_size-=1
+    for i in range(len(self.object_arr)):
+        self.object_arr[i]["font"] = "verdana " + str(font_size) + " bold italic"
+    font_size+=1
+    if((font_size==30) & (str(self)!=".!frame.!startpage")) | (font_size==31):
+        font_size=16
+    
 
 class ManageAppFrames(tk.Tk):
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
         self.title('Hours registration system')
+        self.geometry("1000x850")
         container = tk.Frame(self)
         container.pack(side="top",fill="both",expand=True)
         container.grid_rowconfigure(0,weight=1)
@@ -40,6 +52,7 @@ class ManageAppFrames(tk.Tk):
         from Functions import color_changer
         if(str(controller)=="<class '__main__.User_login'>"):
             changecolor_User_login(self.frames[controller])
+            Change_font_size(self.frames[controller])
         if(color_changer!=0):
             self.frames[controller]["bg"]=color1[color_changer-1]
         else:
@@ -56,23 +69,26 @@ class StartPage(tk.Frame):
         bottomFrame = tk.Frame(self)
         bottomFrame.pack(side=BOTTOM)
     
-        self.username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 8 bold italic")
-        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces(),font="verdana 8 bold italic")
+        self.username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 15 bold italic")
+        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces(),font="verdana 15 bold italic")
 
-        self.color_but3 = Button(self, text="Change color",command=lambda:changecolor_StartPage(self),bg="white",fg="orange",font="verdana 8 bold italic")   #להפעיל שינוי צבעים 
+        self.color_but3 = Button(self, text="Change color",command=lambda:changecolor_StartPage(self),bg="white",fg="orange",font="verdana 15 bold italic")   #להפעיל שינוי צבעים 
 
-        self.vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:change_vol_up(),font="verdana 8 bold italic")
-        self.vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:change_vol_down(self),font="verdana 8 bold italic")
-        self.mute_but6 = Button(self,text = "Mute",bg="white",fg="blue",command=lambda:turn_DU_music(self),font="verdana 8 bold italic")
-        self.quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 8 bold italic")
+        self.font_size8 = Button(self,text = "Set font size",bg="white",fg="gold",command=lambda:Change_font_size(self),font="verdana 15 bold italic")
+
+        self.vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:change_vol_up(self),font="verdana 15 bold italic")
+        self.vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:change_vol_down(self),font="verdana 15 bold italic")
+        self.mute_but6 = Button(self,text = "Mute",bg="white",fg="blue",command=lambda:turn_DU_music(self),font="verdana 15 bold italic")
+        self.quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
         
 
         
-        self.theLabel = Label(self,text="Welcome !",font="verdana 8 bold italic")
+        self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
         self.theLabel.pack(fill=X)
         self.username_but1.pack(fill=X)
         self.face_but2.pack(fill=X)
         self.color_but3.pack(fill=X)
+        self.font_size8.pack(fill=X)
         self.space_label1 = Label(self,text="")
         self.space_label1.pack(fill=X)
         self.vol_up_but4.pack(fill=X)
@@ -82,7 +98,7 @@ class StartPage(tk.Frame):
         self.space_label2.pack(fill=X)
         self.quit_but7.pack(fill=X)
         
-        
+        self.object_arr=[self.theLabel,self.username_but1,self.face_but2,self.color_but3,self.font_size8,self.space_label1,self.vol_up_but4,self.vol_down_but5,self.mute_but6,self.space_label2,self.quit_but7]
         # מוסיף קוביה לכתיבה ומד
         #m1 = PanedWindow() 
         #m1.pack(fill = BOTH, expand = 1) 
@@ -102,8 +118,8 @@ class User_login(tk.Frame):
     def __init__(self,parent,controller):
         
         tk.Frame.__init__(self,parent)
-        self.lable_1 = Label(self,text="User Name:",font="verdana 8 bold italic")
-        self.lable_2 = Label(self,text="Password:",font="verdana 8 bold italic")
+        self.lable_1 = Label(self,text="User Name:",font="verdana 15 bold italic")
+        self.lable_2 = Label(self,text="Password:",font="verdana 15 bold italic")
         
         username=StringVar()
         password=StringVar()
@@ -113,25 +129,27 @@ class User_login(tk.Frame):
         
         self.entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
         self.entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
-        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 8 bold italic")
-        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(controller,username.get(),password.get()),font="verdana 8 bold italic")
-        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 8 bold italic")
-        
+        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 15 bold italic")
+        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(controller,username.get(),password.get()),font="verdana 15 bold italic")
+        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 15 bold italic")
 
         username.set("")
         password.set("")
-        
-        self.back_but1.grid(row=3,columnspan=1)
-        self.enter_but2.grid(row=3,columnspan=2)
-        self.quit_but3.grid(row=4,columnspan=1)
 
-    
+        self.back_but1.grid(row=3,columnspan=1)
+        self.enter_but2.grid(row=4,columnspan=1)
+        self.quit_but3.grid(row=5,columnspan=1)
+
+        self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
+
+
  
 def OpenMenu():
     app=ManageAppFrames()
     app.mainloop()
 
-faces.faces()
+
+#faces.faces()
 OpenMenu()
 
 
