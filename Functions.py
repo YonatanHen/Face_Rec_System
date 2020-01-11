@@ -66,8 +66,10 @@ def Time_Fixer(time_string):
 
 
 def printUserDetails(username):
+    print(username)
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
+    "".join(username)
     result=cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
     days=0
     root=Tk()
@@ -79,11 +81,11 @@ def printUserDetails(username):
         if (float(row[5])>=24):
             days=float(row[5])//24
         Label(root,text="total days:"+ str(days)).grid(row=1,column=0)
-        Label(root,text="Enter your hourly wage").grid(row=2,column=0)
+        Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
         salary=DoubleVar()
-        Entry(root,textvariable=salary).grid(row=2,column=1)
-        Button(root,text="Submit",command=lambda:Label(root,\
-        text="Total gross profits are {0}".format(float(salary.get())*float(row[5]))) if salary.get()>=0\
+        entry1=Entry(root,textvariable=salary).grid(row=2,column=1)
+        btn=Button(root,text="Submit",command=lambda:Label(root,\
+        text="Total gross profits are {0}".format(float(entry1.get())*float(row[5]))).grid(row=3) if salary.get()>=0\
         else messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
     root.mainloop()
 
@@ -372,3 +374,5 @@ def changecolor_User_login(self):
         self.lable_1["fg"] = color2[9]
         self.lable_2["bg"] = color1[9]
         self.lable_2["fg"] = color2[9]
+
+
