@@ -32,6 +32,8 @@ def showDetails(x,username):
             btn=Button(root,text="Submit",command=lambda:Label(root,text="Total gross profits are {0}".format(salary.get()*float(row[5]))).grid(row=3) if\
             salary.get()>=0 else
             messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
+            if(row[6]=='admin' or row[6]=='Admin'):
+                Button(root,text="open admin menu",command=AdminMenu).grid(row=3,column=1)
         root.mainloop()
     else:
        print("OK! Have a nice Day!")
@@ -143,14 +145,8 @@ def faces():
                                     Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
                                     welcome.mainloop()
                                     #Admin's menu
-                                    if(i[6]=='admin'):
-                                        option=input("I see that you are an admin! Do you want to reach the menu? y/n:")
-                                        if(option=='y' or option=='Y'):
-                                            AdminMenu()
-                                        elif(option=='n' or option=='N'):
-                                            print("OK,Have a nice day!")
-                                        else:
-                                            print("I see that as 'no',Have a nice day!")
+                                    if(i[6]=='Admin' or i[6]=='admin'):
+                                        Button(welcome,text="open admin menu",command=AdminMenu).pack()
                                     enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                                     cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
                                     usersDB.commit()
