@@ -98,6 +98,8 @@ class StartPage(tk.Frame):
         self.space_label2.pack(fill=X)
         self.quit_but7.pack(fill=X)
         
+<<<<<<< HEAD
+=======
         self.object_arr=[self.theLabel,self.username_but1,self.face_but2,self.color_but3,self.font_size8,self.space_label1,self.vol_up_but4,self.vol_down_but5,self.mute_but6,self.space_label2,self.quit_but7]
         # מוסיף קוביה לכתיבה ומד
         #m1 = PanedWindow() 
@@ -143,6 +145,7 @@ class User_login(tk.Frame):
         self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
 
 
+>>>>>>> daf13ab855fb61c65a5e3668f5c8deb72ee6d12f
  
 def OpenMenu():
     app=ManageAppFrames()
@@ -151,39 +154,3 @@ def OpenMenu():
 
 #faces.faces()
 OpenMenu()
-
-
-'''
-#playing sound in background helping with accessability for visually impaired users.
-pygame.mixer.init()
-pygame.mixer.music.load('background_audio.mp3')
-pygame.mixer.music.play(999)
-#set volume of background music
-pygame.mixer.music.set_volume(0.4)
-
-if keyboard.is_pressed('s'):
-    pygame.mixer.music.pause()
-
-os.system('MainPageWindow.py')
-print(datetime.datetime.now())
-x = True
-
-#opening face recognition system when running
-pygame.mixer.music.pause()
-faces.faces()
-
-while x:
-    if keyboard.is_pressed('1'):
-        pygame.mixer.music.pause()
-        faces.faces()
-        x = False
-    if keyboard.is_pressed('2'):
-        pygame.mixer.music.pause()
-        os.system('entrance.py')
-        x = False
-    if keyboard.is_pressed('s'):
-        pygame.mixer.music.pause()
-    if keyboard.is_pressed('q'):
-        cap.release()
-        cv2.destroyAllWindows()
-        x=False'''
