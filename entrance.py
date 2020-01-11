@@ -24,7 +24,7 @@ from Functions import *
 from tkinter import *
 from adminMenu import AdminMenu
 import faces
-
+from tkinter import messagebox
 
 def showDetails(x,username):
     if (x):
@@ -51,7 +51,7 @@ def showDetails(x,username):
                 Button(root,text="open admin menu",command=AdminMenu).grid(row=3,column=1)
         root.mainloop()
     else:
-       print("OK! Have a nice Day!")
+        messagebox.showinfo("OK! Have a nice Day!")
 
 def entrance(username,password):
     #Users databse columns order:

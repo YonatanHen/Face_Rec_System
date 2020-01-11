@@ -10,6 +10,7 @@ import pygame
 from Functions import *
 from tkinter import *
 from adminMenu import AdminMenu
+from tkinter import messagebox
 
 def showDetails(x,username):
     if (x):
@@ -36,7 +37,7 @@ def showDetails(x,username):
                 Button(root,text="open admin menu",command=AdminMenu).grid(row=3,column=1)
         root.mainloop()
     else:
-       print("OK! Have a nice Day!")
+      messagebox.showinfo("OK! Have a nice Day!")
 
  
 def faces():
@@ -143,10 +144,10 @@ def faces():
                                     watchDataVar.set(0)
                                     Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
                                     Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
-                                    welcome.mainloop()
                                     #Admin's menu
                                     if(i[6]=='Admin' or i[6]=='admin'):
                                         Button(welcome,text="open admin menu",command=AdminMenu).pack()
+                                    welcome.mainloop()
                                     enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                                     cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
                                     usersDB.commit()
