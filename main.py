@@ -38,7 +38,9 @@ class ManageAppFrames(tk.Tk):
 
     def show_frame(self,controller):
         from Functions import color_changer
-        if(str(controller)=="<class '__main__.User_login'>"):
+        print(controller)
+        if(str(controller)=="<class 'Functions.User_login'>"):
+            print("ddddddddddddddddddddddddddddddddddddddddddddddd")
             changecolor_User_login(self.frames[controller])
             Change_font_size(self.frames[controller])
         if(color_changer!=0):
@@ -50,41 +52,7 @@ class ManageAppFrames(tk.Tk):
 
     
 
-class StartPage(tk.Frame):
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
-        
-        bottomFrame = tk.Frame(self)
-        bottomFrame.pack(side=BOTTOM)
-    
-        self.username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 15 bold italic")
-        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces(),font="verdana 15 bold italic")
 
-        self.color_but3 = Button(self, text="Change color",command=lambda:changecolor_StartPage(self),bg="white",fg="orange",font="verdana 15 bold italic")   #להפעיל שינוי צבעים 
-
-        self.font_size8 = Button(self,text = "Set font size",bg="white",fg="gold",command=lambda:Change_font_size(self),font="verdana 15 bold italic")
-
-        self.vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:change_vol_up(self),font="verdana 15 bold italic")
-        self.vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:change_vol_down(self),font="verdana 15 bold italic")
-        self.mute_but6 = Button(self,text = "Mute",bg="white",fg="blue",command=lambda:turn_DU_music(self),font="verdana 15 bold italic")
-        self.quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
-        
-
-        
-        self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
-        self.theLabel.pack(fill=X)
-        self.username_but1.pack(fill=X)
-        self.face_but2.pack(fill=X)
-        self.color_but3.pack(fill=X)
-        self.font_size8.pack(fill=X)
-        self.space_label1 = Label(self,text="")
-        self.space_label1.pack(fill=X)
-        self.vol_up_but4.pack(fill=X)
-        self.vol_down_but5.pack(fill=X)
-        self.mute_but6.pack(fill=X)
-        self.space_label2 = Label(self,text="")
-        self.space_label2.pack(fill=X)
-        self.quit_but7.pack(fill=X)
 
 
 
