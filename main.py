@@ -97,60 +97,13 @@ class StartPage(tk.Frame):
         self.space_label2 = Label(self,text="")
         self.space_label2.pack(fill=X)
         self.quit_but7.pack(fill=X)
-        
-<<<<<<< HEAD
-=======
-        self.object_arr=[self.theLabel,self.username_but1,self.face_but2,self.color_but3,self.font_size8,self.space_label1,self.vol_up_but4,self.vol_down_but5,self.mute_but6,self.space_label2,self.quit_but7]
-        # מוסיף קוביה לכתיבה ומד
-        #m1 = PanedWindow() 
-        #m1.pack(fill = BOTH, expand = 1) 
-        #left = Entry(m1, bd = 5) // write box 
-        #m2 = PanedWindow(m1, orient = VERTICAL) 
-        #m1.add(m2) 
-
-        #top = Scale( m2, orient = HORIZONTAL) #meuzan
-        #m2.add(top) 
-
-        #w = Scale(m1, from_=0, to=42) #meunah
-        #w.pack(side=LEFT) 
-
- 
-class User_login(tk.Frame):
-    global color_changer,color1,color2,is_color_changed,countTries
-    def __init__(self,parent,controller):
-        
-        tk.Frame.__init__(self,parent)
-        self.lable_1 = Label(self,text="User Name:",font="verdana 15 bold italic")
-        self.lable_2 = Label(self,text="Password:",font="verdana 15 bold italic")
-        
-        username=StringVar()
-        password=StringVar()
-
-        self.lable_1.grid(row=0,sticky=E)
-        self.lable_2.grid(row=1)
-        
-        self.entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
-        self.entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
-        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 15 bold italic")
-        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(controller,username.get(),password.get()),font="verdana 15 bold italic")
-        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 15 bold italic")
-
-        username.set("")
-        password.set("")
-
-        self.back_but1.grid(row=3,columnspan=1)
-        self.enter_but2.grid(row=4,columnspan=1)
-        self.quit_but3.grid(row=5,columnspan=1)
-
-        self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
 
 
->>>>>>> daf13ab855fb61c65a5e3668f5c8deb72ee6d12f
- 
+
 def OpenMenu():
     app=ManageAppFrames()
     app.mainloop()
 
 
-#faces.faces()
+faces.faces()
 OpenMenu()
