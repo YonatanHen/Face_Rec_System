@@ -131,7 +131,7 @@ def OpenMenu():
     app=ManageAppFrames()
     app.mainloop()
 
-
+faces.faces()
 OpenMenu()
 
 
