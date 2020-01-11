@@ -82,50 +82,6 @@ class StartPage(tk.Frame):
         self.space_label2.pack(fill=X)
         self.quit_but7.pack(fill=X)
         
-        
-        # מוסיף קוביה לכתיבה ומד
-        #m1 = PanedWindow() 
-        #m1.pack(fill = BOTH, expand = 1) 
-        #left = Entry(m1, bd = 5) // write box 
-        #m2 = PanedWindow(m1, orient = VERTICAL) 
-        #m1.add(m2) 
-
-        #top = Scale( m2, orient = HORIZONTAL) #meuzan
-        #m2.add(top) 
-
-        #w = Scale(m1, from_=0, to=42) #meunah
-        #w.pack(side=LEFT) 
-
- 
-class User_login(tk.Frame):
-    global color_changer,color1,color2,is_color_changed,countTries
-    def __init__(self,parent,controller):
-        
-        tk.Frame.__init__(self,parent)
-        self.lable_1 = Label(self,text="User Name:",font="verdana 8 bold italic")
-        self.lable_2 = Label(self,text="Password:",font="verdana 8 bold italic")
-        
-        username=StringVar()
-        password=StringVar()
-
-        self.lable_1.grid(row=0,sticky=E)
-        self.lable_2.grid(row=1)
-        
-        self.entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
-        self.entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
-        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 8 bold italic")
-        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(controller,username.get(),password.get()),font="verdana 8 bold italic")
-        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 8 bold italic")
-        
-
-        username.set("")
-        password.set("")
-        
-        self.back_but1.grid(row=3,columnspan=1)
-        self.enter_but2.grid(row=3,columnspan=2)
-        self.quit_but3.grid(row=4,columnspan=1)
-
-    
  
 def OpenMenu():
     app=ManageAppFrames()
@@ -133,39 +89,3 @@ def OpenMenu():
 
 faces.faces()
 OpenMenu()
-
-
-'''
-#playing sound in background helping with accessability for visually impaired users.
-pygame.mixer.init()
-pygame.mixer.music.load('background_audio.mp3')
-pygame.mixer.music.play(999)
-#set volume of background music
-pygame.mixer.music.set_volume(0.4)
-
-if keyboard.is_pressed('s'):
-    pygame.mixer.music.pause()
-
-os.system('MainPageWindow.py')
-print(datetime.datetime.now())
-x = True
-
-#opening face recognition system when running
-pygame.mixer.music.pause()
-faces.faces()
-
-while x:
-    if keyboard.is_pressed('1'):
-        pygame.mixer.music.pause()
-        faces.faces()
-        x = False
-    if keyboard.is_pressed('2'):
-        pygame.mixer.music.pause()
-        os.system('entrance.py')
-        x = False
-    if keyboard.is_pressed('s'):
-        pygame.mixer.music.pause()
-    if keyboard.is_pressed('q'):
-        cap.release()
-        cv2.destroyAllWindows()
-        x=False'''
