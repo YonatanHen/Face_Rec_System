@@ -11,8 +11,45 @@ import tkinter
 from playsound import playsound
 from getpass import getpass
 from Functions import *
+import pickle
+import camera
+import datetime
+import time
+from gtts import gTTS
+import os 
+from playsound import playsound
+import sqlite3
+import pygame
+from Functions import *
+from tkinter import *
+from adminMenu import AdminMenu
 import faces
 
+
+def showDetails(x,username):
+    if (x):
+        usersDB=sqlite3.connect('users.db')
+        cursor=usersDB.cursor()
+        result=cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
+        days=0
+        for row in result:
+            root=Tk()
+            root.title("Show {} details".format(row[2]))
+            label0=Label(root,text="total hours: {}".format(row[5])).grid(row=0)
+            if(float(row[5])%24!=0):
+                days+=1
+            if (float(row[5])>=24):
+                days=float(row[5])//24
+            label1=Label(root,text="total days: {}".format(days)).grid(row=1)
+            label2=Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
+            salary=DoubleVar(root,0.0)
+            entry1=Entry(root,textvariable=salary).grid(row=2,column=1)
+            btn=Button(root,text="Submit",command=lambda:Label(root,text="Total gross profits are {0}".format(salary.get()*float(row[5]))).grid(row=3) if\
+            salary.get()>=0 else
+            messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
+        root.mainloop()
+    else:
+       print("OK! Have a nice Day!")
 
 def entrance(username,password):
     #Users databse columns order:
@@ -32,21 +69,21 @@ def entrance(username,password):
             for i in results:
                 print("Time is:{0}".format(datetime.datetime.now()))
                 if(i[7] =='no'):
-                    print("Welcome "+i[0]+" "+i[1])
-                    if(i[6] != "blind worker"):
-                        #print on the screen user details if user is not visually impaired
-                        showDetails=input("Do you want to watch your data? y/n:")
-                        if(showDetails=='y' or showDetails=='Y'):
-                            printUserDetails(i[2])
-                        elif(showDetails=='n' or showDetails=='N'):
-                            print("OK,Have a nice day!")
-                        else:
-                            print("I see that as 'no',Have a nice day!")
+                    welcome=Tk()
+                    welcome.title("Welcome "+i[0]+" "+i[1])
+                    time_label=Label(welcome,text="Date & Time:{0}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                    time_label.pack()
+                    playsound("welcome.mp3",False)
+                    watchDataVar=IntVar()
+                    watchDataVar.set(0)
+                    Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
+                    Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
+                    welcome.mainloop()
                     #Admin's menu
                     if(i[6]=='Admin'):
                         option=input("Hey admin! Do you want to reach the menu? y/n")
                         if(option=='y' or option=='Y'):
-                            adminMenu()
+                            AdminMenu()
                         elif(option=='n' or option=='N'):
                             print("OK")
                         else:
@@ -65,5 +102,4 @@ def entrance(username,password):
                     cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
                     usersDB.commit()
             break
-
 
