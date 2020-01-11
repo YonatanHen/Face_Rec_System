@@ -17,6 +17,7 @@ from tkinter import filedialog
 import shutil
 import pygame
 from gtts import gTTS
+from tkinter import messagebox
 
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
@@ -69,19 +70,25 @@ def printUserDetails(username):
     cursor=usersDB.cursor()
     result=cursor.execute("SELECT * FROM users WHERE username=?",[(username)])
     days=0
+    root=Tk()
+    root.title("Show {} details".format(username))
     for row in result:
-        print("total hours:"+ row[5])
+        Label(root,text="total hours:"+ row[5]).grid(row=0,column=0)
         if(float(row[5])%24!=0):
             days+=1
         if (float(row[5])>=24):
             days=float(row[5])//24
-        print("total days:"+ str(days))
-    #Ask non-blind users if they want to watch therit total profits
-        salaryPerHour=input("Enter your hourly wage")
-        print("Total gross profits are"+str(float(salaryPerHour)*float(row[5])))
+        Label(root,text="total days:"+ str(days)).grid(row=1,column=0)
+        Label(root,text="Enter your hourly wage").grid(row=2,column=0)
+        salary=DoubleVar()
+        Entry(root,textvariable=salary).grid(row=2,column=1)
+        Button(root,text="Submit",command=lambda:Label(root,\
+        text="Total gross profits are {0}".format(float(salary.get())*float(row[5]))) if salary.get()>=0/
+        else messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
+    root.mainloop()
 
-def changefont(s):
-    window.f=s
+#def changefont(s):
+#    window.f=s
 
 """
 
