@@ -18,6 +18,35 @@ import shutil
 import pygame
 from gtts import gTTS
 from tkinter import messagebox
+from entrance import entrance
+
+class User_login(tk.Frame):
+    global color_changer,color1,color2,is_color_changed,countTries
+    def __init__(self,parent,controller):
+        
+        tk.Frame.__init__(self,parent)
+        self.lable_1 = Label(self,text="User Name:",font="verdana 8 bold italic")
+        self.lable_2 = Label(self,text="Password:",font="verdana 8 bold italic")
+        
+        username=StringVar()
+        password=StringVar()
+
+        self.lable_1.grid(row=0,sticky=E)
+        self.lable_2.grid(row=1)
+        
+        self.entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
+        self.entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
+        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 8 bold italic")
+        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(controller,username.get(),password.get()),font="verdana 8 bold italic")
+        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 8 bold italic")
+        
+
+        username.set("")
+        password.set("")
+        
+        self.back_but1.grid(row=3,columnspan=1)
+        self.enter_but2.grid(row=3,columnspan=2)
+        self.quit_but3.grid(row=4,columnspan=1)
 
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
