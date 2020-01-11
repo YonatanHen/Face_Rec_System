@@ -14,7 +14,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
 import shutil
-
+import pygame
 
 ##########################################change user data###################################################
 def changeUserData():
@@ -35,7 +35,7 @@ def changeUserData():
 #######################################Change the volume of the system##################################################
 def changeVol():
     print("Please enter numbers between 0 to 100")
-    vol=input()
+    vol=int(input())
     vol=vol/100
     pygame.mixer.music.set_volume(vol)
 
