@@ -18,6 +18,8 @@ import shutil
 import pygame
 from gtts import gTTS
 from tkinter import messagebox
+from entrance import *
+from main import *
 
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
@@ -344,3 +346,13 @@ def changecolor_User_login(self):
             self.object_arr[i]["fg"]=color2[9]
 
 
+font_size=16
+def Change_font_size(self):
+    global font_size
+    if(str(self)!=".!frame.!startpage"):
+        font_size-=1
+    for i in range(len(self.object_arr)):
+        self.object_arr[i]["font"] = "verdana " + str(font_size) + " bold italic"
+    font_size+=1
+    if((font_size==30) & (str(self)!=".!frame.!startpage")) | (font_size==31):
+        font_size=16
