@@ -182,7 +182,7 @@ def faces():
                             os.remove("match.mp3")
                         tempmatch = match
                         pygame.mixer.music.pause()
-                    os.system("entrance.py")
+                    os.system("main.py")
                 elif isRecCounter > 5:
                     color = (0, 255, 0) #green
                     cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
