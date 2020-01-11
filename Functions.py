@@ -479,10 +479,10 @@ def entrance(username,password):
                     watchDataVar.set(0)
                     Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
                     Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
-                    welcome.mainloop()
                     #Admin's menu
                     if(i[6]=='Admin'):
                         Button(welcome,text="open admin menu",command=AdminMenu).pack()
+                    welcome.mainloop()
                     playsound('welcome.mp3',False)
                     enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                     cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(username)])
