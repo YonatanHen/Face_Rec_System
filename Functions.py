@@ -83,7 +83,7 @@ def printUserDetails(username):
         salary=DoubleVar()
         Entry(root,textvariable=salary).grid(row=2,column=1)
         Button(root,text="Submit",command=lambda:Label(root,\
-        text="Total gross profits are {0}".format(float(salary.get())*float(row[5]))) if salary.get()>=0/
+        text="Total gross profits are {0}".format(float(salary.get())*float(row[5]))) if salary.get()>=0\
         else messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
     root.mainloop()
 
