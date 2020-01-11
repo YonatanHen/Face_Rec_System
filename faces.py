@@ -9,6 +9,7 @@ import sqlite3
 import pygame
 from Functions import *
 from tkinter import *
+from adminMenu import AdminMenu
 
 def showDetails(x,username):
     if (x):
@@ -26,9 +27,9 @@ def showDetails(x,username):
                 days=float(row[5])//24
             label1=Label(root,text="total days: {}".format(days)).grid(row=1)
             label2=Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
-            salary=DoubleVar()
+            salary=DoubleVar(root,0.0)
             entry1=Entry(root,textvariable=salary).grid(row=2,column=1)
-            btn=Button(root,text="Submit",command=lambda:Label(root,text="Total gross profits are {0}".format(float(salary.get())*float(row[5]))).grid(row=3) if\
+            btn=Button(root,text="Submit",command=lambda:Label(root,text="Total gross profits are {0}".format(salary.get()*float(row[5]))).grid(row=3) if\
             salary.get()>=0 else
             messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
         root.mainloop()
@@ -138,23 +139,14 @@ def faces():
                                     playsound("welcome.mp3",False)
                                     watchDataVar=IntVar()
                                     watchDataVar.set(0)
-                                    chkBox=Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar)
-                                    submitBtn=Button(welcome,text="Submit",command=lambda:showDetails(chkBox,i[2]))
-                                    chkBox.pack()
-                                    submitBtn.pack()
-                                    #watchDataLabel=input("Do you want to watch your data? y/n:")
-                                    #if(showDetails=='y' or showDetails=='Y'):
-                                    #    printUserDetails(i[2])
-                                    #elif(showDetails=='n' or showDetails=='N'):
-                                    #    print("OK,Have a nice day!")
-                                    #else:
-                                    #    print("I see that as 'no',Have a nice day!")
+                                    Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
+                                    Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
                                     welcome.mainloop()
                                     #Admin's menu
                                     if(i[6]=='admin'):
                                         option=input("I see that you are an admin! Do you want to reach the menu? y/n:")
                                         if(option=='y' or option=='Y'):
-                                            adminMenu()
+                                            AdminMenu()
                                         elif(option=='n' or option=='N'):
                                             print("OK,Have a nice day!")
                                         else:
@@ -252,3 +244,4 @@ def faces():
             cap.release()
             cv2.destroyAllWindows()
             break
+
