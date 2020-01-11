@@ -26,6 +26,7 @@ from adminMenu import AdminMenu
 import faces
 from tkinter import messagebox
 
+
 def showDetails(x,username):
     if (x):
         usersDB=sqlite3.connect('users.db')

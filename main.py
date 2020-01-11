@@ -5,7 +5,7 @@ import tkinter as tk
 import keyboard
 import sys
 import datetime
-import faces
+from faces import faces
 from playsound import playsound
 from Functions import *
 from entrance import *
