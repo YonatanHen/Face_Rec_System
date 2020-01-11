@@ -229,7 +229,7 @@ def adminMenu():
 music_vol=1
 music_flag=0
 countTries=0 #counter entrance tries
-def change_vol_down():
+def change_vol_down(self):
     global music_vol
     if(music_vol>0):
         music_vol-=0.25
@@ -240,17 +240,22 @@ def change_vol_up():
     if(music_vol<1):
         music_vol+=0.25
         pygame.mixer.music.set_volume(music_vol)
+        self.mute_but6["fg"]="blue"
+    else:
+        self.mute_but6["fg"]="red"
 
-def turn_DU_music():
+def turn_DU_music(self):
     global music_flag,music_vol
     if(music_flag==0) & (music_vol!=0):
         pygame.mixer.music.set_volume(0)
+        self.mute_but6["fg"]="red"
         music_flag=1
     else:
         music_flag=0
         if(music_vol==0):
             music_vol=0.25
         pygame.mixer.music.set_volume(music_vol)
+        self.mute_but6["fg"]="blue"
 
 
 def log(controller,us,passw):
@@ -278,3 +283,83 @@ def text_window(str):
         os.remove("text_window.mp3")
 
     text_window.after(5000, text_window.destroy)
+
+
+    
+color_changer=0
+color1=["#C7C7C7","#A8A8A8","#919191","#848484","#7C7C7C","#727272","#737373","#727272","#717171","white"] #["bg"]
+color2=["#545454","#4B4B4B","#4A4A4A","#434343","#3C3C3C","#323232","#2C2C2C","#242424","#010101","black"] #["fg"]
+
+def changecolor_StartPage(self):
+    global color_changer,color1,color2
+    if(color_changer!=9):
+        self.username_but1["bg"]=color1[color_changer]
+        self.username_but1["fg"]=color2[color_changer]
+        self.theLabel["bg"]=color1[color_changer]
+        self.theLabel["fg"]=color2[color_changer]
+        self.face_but2["bg"]=color1[color_changer]
+        self.face_but2["fg"]=color2[color_changer]
+        self.color_but3["bg"]=color1[color_changer]
+        self.color_but3["fg"]=color2[color_changer]
+        self.vol_up_but4["bg"]=color1[color_changer]
+        self.vol_up_but4["fg"]=color2[color_changer]
+        self.vol_down_but5["bg"]=color1[color_changer]
+        self.vol_down_but5["fg"]=color2[color_changer]
+        self.mute_but6["bg"]=color1[color_changer]
+        self.mute_but6["fg"]=color2[color_changer]
+        self.quit_but7["bg"]=color1[color_changer]
+        self.quit_but7["fg"]=color2[color_changer]
+
+        self.space_label1["bg"] = color1[color_changer]
+        self.space_label1["fg"] = color1[color_changer]
+        self.space_label2["bg"] = color1[color_changer]
+        self.space_label2["fg"] = color1[color_changer]
+        color_changer+=1
+    if(color_changer==9):
+        self.theLabel["bg"]=color1[color_changer]
+        self.username_but1["bg"]=color1[color_changer]
+        self.username_but1["fg"]="red"
+        self.face_but2["bg"]=color1[color_changer]
+        self.face_but2["fg"]="green"
+        self.color_but3["bg"]=color1[color_changer]
+        self.color_but3["fg"]="orange"
+        self.vol_up_but4["bg"]=color1[color_changer]
+        self.vol_up_but4["fg"]="blue"
+        self.vol_down_but5["bg"]=color1[color_changer]
+        self.vol_down_but5["fg"]="blue"
+        self.mute_but6["bg"]=color1[color_changer]
+        self.mute_but6["fg"]="blue"
+        self.quit_but7["bg"]=color1[color_changer]
+        self.quit_but7["fg"]="purple"
+        self.space_label1["bg"] = color1[9]
+        self.space_label1["fg"] = color1[9]
+        self.space_label2["bg"] = color1[9]
+        self.space_label2["fg"] = color1[9]
+        color_changer=0
+        
+
+def changecolor_User_login(self):
+    global color_changer
+    if(color_changer!=0):
+        self["bg"]=color1[color_changer-1]
+        self.back_but1["bg"]=color1[color_changer-1]
+        self.back_but1["fg"]=color2[color_changer-1]
+        self.enter_but2["bg"] = color1[color_changer-1]
+        self.enter_but2["fg"] = color2[color_changer-1]
+        self.quit_but3["bg"] = color1[color_changer-1]
+        self.quit_but3["fg"] = color2[color_changer-1]
+        self.lable_1["bg"] = color1[color_changer-1]
+        self.lable_1["fg"] = color2[color_changer-1]
+        self.lable_2["bg"] = color1[color_changer-1]
+        self.lable_2["fg"] = color2[color_changer-1]
+    else:
+        self.back_but1["bg"]=color1[9]
+        self.back_but1["fg"]=color2[9]
+        self.enter_but2["bg"] = color1[9]
+        self.enter_but2["fg"] = color2[9]
+        self.quit_but3["bg"] = color1[9]
+        self.quit_but3["fg"] = color2[9]
+        self.lable_1["bg"] = color1[9]
+        self.lable_1["fg"] = color2[9]
+        self.lable_2["bg"] = color1[9]
+        self.lable_2["fg"] = color2[9]
