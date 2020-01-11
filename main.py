@@ -8,19 +8,7 @@ import datetime
 from faces import faces
 from playsound import playsound
 from Functions import *
-from entrance import *
 
-font_size=16
-def Change_font_size(self):
-    global font_size
-    if(str(self)!=".!frame.!startpage"):
-        font_size-=1
-    for i in range(len(self.object_arr)):
-        self.object_arr[i]["font"] = "verdana " + str(font_size) + " bold italic"
-    font_size+=1
-    if((font_size==30) & (str(self)!=".!frame.!startpage")) | (font_size==31):
-        font_size=16
-    
 
 class ManageAppFrames(tk.Tk):
     def __init__(self,*args,**kwargs):
@@ -105,5 +93,5 @@ def OpenMenu():
     app.mainloop()
 
 
-faces.faces()
+faces()
 OpenMenu()
