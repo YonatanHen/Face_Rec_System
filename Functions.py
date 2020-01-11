@@ -18,6 +18,7 @@ import shutil
 import pygame
 from gtts import gTTS
 from tkinter import messagebox
+from faces import *
 
 class StartPage(tk.Frame):
     def __init__(self,parent,controller):
@@ -27,7 +28,7 @@ class StartPage(tk.Frame):
         bottomFrame.pack(side=BOTTOM)
     
         self.username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 15 bold italic")
-        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces(),font="verdana 15 bold italic")
+        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces(),font="verdana 15 bold italic")
 
         self.color_but3 = Button(self, text="Change color",command=lambda:changecolor_StartPage(self),bg="white",fg="orange",font="verdana 15 bold italic")   #להפעיל שינוי צבעים 
 
@@ -39,7 +40,6 @@ class StartPage(tk.Frame):
         self.quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
         
 
-        
         self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
         self.theLabel.pack(fill=X)
         self.username_but1.pack(fill=X)
@@ -81,9 +81,10 @@ class User_login(tk.Frame):
         username.set("")
         password.set("")
 
-        self.back_but1.grid(row=3,columnspan=1)
-        self.enter_but2.grid(row=4,columnspan=1)
+        self.back_but1.grid(row=4,columnspan=1)
+        self.enter_but2.grid(row=3,columnspan=1)
         self.quit_but3.grid(row=5,columnspan=1)
+        self.ER_label = Label(self,text="").grid()
 
         self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
 
@@ -352,6 +353,7 @@ def log(controller,user,password):
         controller.show_frame(User_login)
 
 def text_window(str):
+    global font_size
     tts = gTTS(text=str, lang = 'en')
     tts.save("text_window.mp3")
     playsound('text_window.mp3',False)
@@ -365,7 +367,9 @@ def text_window(str):
     text_window.after(5000, text_window.destroy)
 
 def pack_text(self,str):
-    Label(self,text=str,font="verdana 15 bold italic").pack()
+    global font_size
+    self.ER_label["text"]=str
+    self.ER_label["font"]="verdana " + str(font_size) + " bold italic"
     
 color_changer=0
 color1=["#C7C7C7","#A8A8A8","#919191","#848484","#7C7C7C","#727272","#737373","#727272","#717171","white"] #["bg"]
