@@ -171,6 +171,6 @@ def AdminMenu():
     Button(menu,text="Watch users data",command=lambda:watchData()).pack()
     Button(menu,text="Add new user",command=lambda:add()).pack()
     Button(menu,text="Add new photo to exist user",command=lambda:addPhoto()).pack()
+    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py")).pack()
     Button(menu,text="Quit",command=lambda:menu.destroy()).pack()
     menu.mainloop()
-
