@@ -19,6 +19,7 @@ import pygame
 from gtts import gTTS
 from tkinter import messagebox
 from adminMenu import AdminMenu
+from faces import faces
 
 class StartPage(tk.Frame):
     def __init__(self,parent,controller):
@@ -107,8 +108,8 @@ class User_login(tk.Frame):
         self.entry_1=Entry(self,textvariable=self.username)
         self.entry_2=Entry(self,textvariable=self.password)
         self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 15 bold italic")
-        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(self,controller),font="verdana 15 bold italic")
-        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 15 bold italic")
+        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:enterCommand(self,controller),font="verdana 15 bold italic")
+        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=lambda:quitCommand(),font="verdana 15 bold italic")
 
         self.username.set("")
         self.password.set("")
@@ -128,6 +129,13 @@ class User_login(tk.Frame):
 
         self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
 
+        def quitCommand():
+            os.system("main.py")
+
+        def enterCommand(self,controller):
+            log(self,controller)
+            quitCommand()
+
     def enter_sound(self, event):
         playsound('event sounds\\Enter.mp3',False)
     
@@ -142,6 +150,9 @@ class User_login(tk.Frame):
 
     def Password_sound(self, event):
         playsound('event sounds\\Password.mp3',False)
+
+
+
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
     usersDB=sqlite3.connect('users.db')
@@ -206,8 +217,8 @@ def printUserDetails(username):
         Label(root,text="total days:"+ str(days)).grid(row=1,column=0)
         Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
         salary=DoubleVar()
-        entry1=Entry(root,textvariable=salary).grid(row=2,column=1)
-        btn=Button(root,text="Submit",command=lambda:Label(root,\
+        Entry(root,textvariable=salary).grid(row=2,column=1)
+        Button(root,text="Submit",command=lambda:Label(root,\
         text="Total gross profits are {0}".format(float(entry1.get())*float(row[5]))).grid(row=3) if salary.get()>=0\
         else messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
     root.mainloop()
@@ -256,6 +267,7 @@ def log(self,controller):
         countTries=0
         pack_text(self,"You tried to enter 5 times unssuccessfully!")
         controller.show_frame(User_login)
+        os.system("main.py")
 
 def text_window(str):
     global font_size
