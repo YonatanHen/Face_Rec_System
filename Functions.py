@@ -18,7 +18,6 @@ import shutil
 import pygame
 from gtts import gTTS
 from tkinter import messagebox
-from faces import *
 
 class StartPage(tk.Frame):
     def __init__(self,parent,controller):
