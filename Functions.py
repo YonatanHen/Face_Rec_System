@@ -396,7 +396,7 @@ def entrance(username,password):
                     Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
                     Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
                     #Admin's menu
-                    if(i[6]=='Admin'):
+                    if(i[6]=='Admin' or i[6]=='admin'):
                         Button(welcome,text="open admin menu",command=AdminMenu).pack()
                     welcome.mainloop()
                     playsound('welcome.mp3',False)
