@@ -18,6 +18,7 @@ import shutil
 import pygame
 from gtts import gTTS
 from tkinter import messagebox
+from adminMenu import AdminMenu
 
 class StartPage(tk.Frame):
     def __init__(self,parent,controller):
@@ -211,153 +212,6 @@ def printUserDetails(username):
         else messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
     root.mainloop()
 
-#def changefont(s):
-#    window.f=s
-
-"""
-
-def adminMenu():
-    exit=False
-    usersDB=sqlite3.connect('users.db')
-    cursor=usersDB.cursor()
-    print("Please choose one of the options below:")
-    while(exit==False):
-        print("1.Change user data\n2.Change the volume of the system\n3.Delete user\s\n4.watch users data\n5.add new user\n6.Add new photo to an exist user\n7.change font size\n8.change color\n9.Exit")
-        option=input("Enter an option: ")
-        if(option=='1'):
-            uname=input("Enter the username:")
-            cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
-            flag=cursor.fetchall()
-            if flag:
-                field=input("Enter a field that you want to change:")
-                newVal=input("Enter the new value of {} {}:".format(uname,field))
-                cursor.execute("UPDATE users SET {}=? WHERE username=?".format(field),[(str(newVal)),(uname)])
-                usersDB.commit()
-            else:
-                print("Username not found...")
-        elif(option=='2'):
-            print("Please enter numbers between 0 to 100")
-            vol=input()
-            vol=vol/100
-            pygame.mixer.music.set_volume(vol)
-        elif(option=='3'):
-            usernameDel=input("Enter the username that you want to delete:")
-            flag=cursor.execute("SELECT username FROM users WHERE username=?",[(usernameDel)])
-            if(flag):
-                cursor.execute("DELETE from users WHERE username=?",[(usernameDel)])
-                usersDB.commit()
-                shutil.rmtree("images//"+str(usernameDel), ignore_errors=True)
-                print("User deleted successfully!\n")
-            else:
-                print("Username wasn't found in the database.")   
-        elif(option=='4'):
-            cursor.execute("select * from users")
-            for row in cursor:
-                print(row)
-        elif(option=='5'):
-            uname=input("Enter the username: ")
-            flag=cursor.execute("SELECT * FROM users WHERE username=?",[(uname)])
-            flag=cursor.fetchall()
-            if flag:
-                print("user name already exist...")
-            else:
-                fName=input("Enter first name: ")
-                lName=input("Enter last name: ")
-                password=input("Enter password: ")
-                role=input("Enter role (admin or worker): ")
-                total=entrance=0
-                isInside='no'
-                #add the entred data to the database
-                cursor.execute("""'''INSERT INTO users (first_name, last_name, username, password, entrance, total, role, isInside)
-                    VALUES (?,?,?,?,?,?,?,?)'''""",[(fName),(lName),(uname),(password),(entrance),(total),(role),(isInside)])
-                usersDB.commit() 
-                print("Data added succesfully")
-                print("Now, take few pictures of the new worker... press p -take a picture/q -stop Capturing")
-                
-                key = cv2. waitKey(1)
-                webcam = cv2.VideoCapture(0)
-                
-                sleep(2)
-                path="images//"+str(uname)
-                os.mkdir(path)
-                i=0
-                while True:
-                    check, frame = webcam.read()
-                    frame = cv2.flip(frame,1)
-                    cv2.imshow('Capturing', frame)
-                    if cv2.waitKey(20) & 0xFF == ord('p'):
-                        i+=1
-                        cv2.imwrite(filename="images\\" + str(uname) + "\\" + str(uname) + str(i) +".png", img=frame)
-                        print("Image saved!")
-                        
-                    elif cv2.waitKey(20) & 0xFF == ord('q'):
-                        webcam.release()
-                        cv2.destroyAllWindows()
-                        break
-
-        elif (option=='6'):
-            root = tk.Tk()
-            root.withdraw()
-            while(True):
-                user_fol=input("Enter username to add a picture to: ")
-                root.attributes("-topmost", True)
-                if os.path.isdir("images\\" + user_fol):
-                    add_photo=None
-                    while add_photo!='1' and add_photo!='2' and add_photo!='3':
-                        add_photo=input("For choose an exist photo press 1, to take a new photo press 2, to go back to menu press 3: ")
-                    if add_photo=='1':
-                        file_path = filedialog.askopenfilename()
-                        newPath = shutil.copy(file_path, "images\\" + user_fol + "\\" )
-                        print("\nNow the user have a new picture !\n")
-                    elif add_photo=='2':
-                        webcam = cv2.VideoCapture(0)
-                        i=0
-                        while  os.path.isfile("images\\" + user_fol + "\\" + user_fol + str(i) +".png"):
-                            i+=1
-                        i-=1
-                        while True:
-                            check, frame = webcam.read()
-                            frame = cv2.flip(frame,1)
-                            cv2.imshow('Capturing', frame)
-                            if cv2.waitKey(20) & 0xFF == ord('p'):
-                                i+=1
-                                cv2.imwrite(filename="images\\" + user_fol + "\\" + user_fol + str(i) +".png", img=frame)
-                                print("Image saved!")
-                                
-                            elif cv2.waitKey(20) & 0xFF == ord('q'):
-                                webcam.release()
-                                cv2.destroyAllWindows()
-                                sleep(2)
-                                print("\nNow the user have a new picture/s !\n")
-                                break
-                    else:
-                        break            
-                else:                    
-                    try_again=None
-                    while try_again!='y' and try_again!='n':
-                        try_again=input(("There is no folder to username - {0}, do you want to try again? y/n: ".format(user_fol)))
-                    if try_again=='n':
-                        break
-                    
-
-        elif (option=='7'):
-            print("Enter font size\n0-30")
-            size=input()
-
-        elif(option=='8'):
-            print("enter a color for backgound")
-            color=input()
-
-        elif(option=='9'):
-            exit=True
-            print("Exiting admin's menu...")
-        else:
-            print("Wrong input,Enter again.")
-
-"""
-
-
-
 
 music_vol=1
 music_flag=0
@@ -508,33 +362,25 @@ def showDetails(x,username):
             messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
         root.mainloop()
     else:
-        messagebox.showinfo("OK! Have a nice Day!")
+        messagebox.showinfo("Info","OK! Have a nice Day!")
 
 def entrance(username,password):
     #Users databse columns order:
     #0.first_name,1.last_name,2.username,3.password,4.entrance,5.total,6.role,7.isInside
-    #countTries=0
-    print("======================================================")
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor() #cursor enable traversal over the records in database
     global countTries
     while True:
-        '''
-        username=input("Enter user-name:")
-        password=getpass("Enter password:")
-        '''
         results=recognize(username,password)
         if results: #if results!=NULL, in other words, if user found in the DB
             for i in results:
-                print("Time is:{0}".format(datetime.datetime.now()))
                 if(i[7] =='no'):
                     welcome=Tk()
                     welcome.title("Welcome "+i[0]+" "+i[1])
                     time_label=Label(welcome,text="Date & Time:{0}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
                     time_label.pack()
                     playsound("welcome.mp3",False)
-                    watchDataVar=IntVar()
-                    watchDataVar.set(0)
+                    watchDataVar=IntVar(welcome,0)
                     Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
                     Button(welcome,text="Submit",command=lambda:showDetails(watchDataVar.get(),str(i[2]))).pack()
                     #Admin's menu
@@ -550,8 +396,6 @@ def entrance(username,password):
                     total=str(float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)-(float(i[4])))
                     total="%.2f" %(float(i[5])+float(total))
                     total = Time_Fixer(total)
-
-                    
                     cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(username)])
                     usersDB.commit()
             break
