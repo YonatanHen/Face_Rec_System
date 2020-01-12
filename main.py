@@ -5,7 +5,6 @@ import tkinter as tk
 import keyboard
 import sys
 import datetime
-from faces import faces
 from playsound import playsound
 from Functions import *
 
@@ -38,9 +37,7 @@ class ManageAppFrames(tk.Tk):
 
     def show_frame(self,controller):
         from Functions import color_changer
-        print(controller)
         if(str(controller)=="<class 'Functions.User_login'>"):
-            print("ddddddddddddddddddddddddddddddddddddddddddddddd")
             changecolor_User_login(self.frames[controller])
             Change_font_size(self.frames[controller])
         if(color_changer!=0):

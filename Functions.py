@@ -18,6 +18,7 @@ import shutil
 import pygame
 from gtts import gTTS
 from tkinter import messagebox
+from faces import *
 
 class StartPage(tk.Frame):
     def __init__(self,parent,controller):
@@ -27,7 +28,7 @@ class StartPage(tk.Frame):
         bottomFrame.pack(side=BOTTOM)
     
         self.username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 15 bold italic")
-        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces.faces(),font="verdana 15 bold italic")
+        self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces(),font="verdana 15 bold italic")
 
         self.color_but3 = Button(self, text="Change color",command=lambda:changecolor_StartPage(self),bg="white",fg="orange",font="verdana 15 bold italic")   #להפעיל שינוי צבעים 
 
@@ -39,55 +40,108 @@ class StartPage(tk.Frame):
         self.quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
         
 
-        
         self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
         self.theLabel.pack(fill=X)
         self.username_but1.pack(fill=X)
+        self.username_but1.bind("<Leave>", self.log_sound)
         self.face_but2.pack(fill=X)
+        self.face_but2.bind("<Leave>", self.face_sound)
         self.color_but3.pack(fill=X)
+        self.color_but3.bind("<Leave>", self.Change_color_sound)
         self.font_size8.pack(fill=X)
+        self.font_size8.bind("<Leave>", self.Font_size_sound)
         self.space_label1 = Label(self,text="")
         self.space_label1.pack(fill=X)
         self.vol_up_but4.pack(fill=X)
+        self.vol_up_but4.bind("<Leave>", self.vol_up_sound)
         self.vol_down_but5.pack(fill=X)
+        self.vol_down_but5.bind("<Leave>", self.vol_down_sound)
         self.mute_but6.pack(fill=X)
+        self.mute_but6.bind("<Leave>", self.Mute_sound)
         self.space_label2 = Label(self,text="")
         self.space_label2.pack(fill=X)
         self.quit_but7.pack(fill=X)
+        self.quit_but7.bind("<Leave>", self.Quit_sound)
         
         self.object_arr=[self.theLabel,self.username_but1,self.face_but2,self.color_but3,self.font_size8,self.space_label1,self.vol_up_but4,self.vol_down_but5,self.mute_but6,self.space_label2,self.quit_but7]
+    
+    def log_sound(self, event):
+        playsound('event sounds\\log.mp3',False)
+
+    def face_sound(self, event):
+        playsound('event sounds\\face.mp3',False)
+
+    def Change_color_sound(self, event):
+        playsound('event sounds\\Change color.mp3',False)
+
+    def Font_size_sound(self, event):
+        playsound('event sounds\\Font_size.mp3',False)
+
+    def vol_up_sound(self, event):
+        playsound('event sounds\\vol_up.mp3',False)
+
+    def vol_down_sound(self, event):
+        playsound('event sounds\\vol_down.mp3',False)
+
+    def Mute_sound(self, event):
+        playsound('event sounds\\Mute.mp3',False)
+
+    def Quit_sound(self, event):
+        playsound('event sounds\\Quit.mp3',False)
 
  
 class User_login(tk.Frame):
     global color_changer,color1,color2,is_color_changed,countTries
     def __init__(self,parent,controller):
-        
+      
         tk.Frame.__init__(self,parent)
         self.lable_1 = Label(self,text="User Name:",font="verdana 15 bold italic")
         self.lable_2 = Label(self,text="Password:",font="verdana 15 bold italic")
         
-        username=StringVar()
-        password=StringVar()
+        self.username=StringVar()
+        self.password=StringVar()
 
         self.lable_1.grid(row=0,sticky=E)
         self.lable_2.grid(row=1)
         
-        self.entry_1=Entry(self,textvariable=username).grid(row=0,column=1)
-        self.entry_2=Entry(self,textvariable=password).grid(row=1,column=1)
+        self.entry_1=Entry(self,textvariable=self.username)
+        self.entry_2=Entry(self,textvariable=self.password)
         self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 15 bold italic")
-        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(controller,username.get(),password.get()),font="verdana 15 bold italic")
+        self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:log(self,controller),font="verdana 15 bold italic")
         self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=quit,font="verdana 15 bold italic")
 
-        username.set("")
-        password.set("")
+        self.username.set("")
+        self.password.set("")
 
-        self.back_but1.grid(row=3,columnspan=1)
-        self.enter_but2.grid(row=4,columnspan=1)
-        self.quit_but3.grid(row=5,columnspan=1)
+        self.entry_1.grid(row=0,column=1)
+        self.entry_1.bind("<Leave>", self.User_Name_sound)
+        self.entry_2.grid(row=1,column=1)
+        self.entry_2.bind("<Leave>", self.Password_sound)
+        self.back_but1.grid(row=4,columnspan=2)
+        self.back_but1.bind("<Leave>", self.Go_back_sound)
+        self.enter_but2.grid(row=3,columnspan=2)
+        self.enter_but2.bind("<Leave>", self.enter_sound)
+        self.quit_but3.grid(row=5,columnspan=2)
+        self.quit_but3.bind("<Leave>", self.quit_sound)
+        self.ER_label = Label(self,text="")
+        self.ER_label.grid(row=7,column=2)
 
         self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
 
+    def enter_sound(self, event):
+        playsound('event sounds\\Enter.mp3',False)
+    
+    def quit_sound(self, event):
+        playsound('event sounds\\Quit.mp3',False)
+    
+    def Go_back_sound(self, event):
+        playsound('event sounds\\Go back.mp3',False)
 
+    def User_Name_sound(self, event):
+        playsound('event sounds\\User Name.mp3',False)
+
+    def Password_sound(self, event):
+        playsound('event sounds\\Password.mp3',False)
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
     usersDB=sqlite3.connect('users.db')
@@ -338,20 +392,20 @@ def turn_DU_music(self):
         self.mute_but6["fg"]="blue"
 
 
-def log(controller,user,password):
+def log(self,controller):
     global countTries
-    if recognize(user,password):
-        entrance(user,password)
-        text_window("have a nice day !")
+    if recognize(self.username.get(),self.password.get()):
+        entrance(self.username.get(),self.password.get())
     elif(countTries!=5):
-        text_window("user-name and password not recognized,please enter again")
+        pack_text(self,"user-name and password not recognized,please enter again")
         countTries+=1
     else:
         countTries=0
-        text_window("You tried to enter 5 times unssuccessfully!")
+        pack_text(self,"You tried to enter 5 times unssuccessfully!")
         controller.show_frame(User_login)
 
 def text_window(str):
+    global font_size
     tts = gTTS(text=str, lang = 'en')
     tts.save("text_window.mp3")
     playsound('text_window.mp3',False)
@@ -364,9 +418,16 @@ def text_window(str):
 
     text_window.after(5000, text_window.destroy)
 
-def pack_text(self,str):
-    Label(self,text=str,font="verdana 15 bold italic").pack()
-    
+def pack_text(self,stri):
+    global font_size
+    tts = gTTS(text=stri, lang = 'en')
+    tts.save("pack_text.mp3")
+    playsound('pack_text.mp3',False)
+    self.ER_label["text"]=stri
+    self.ER_label["font"]="verdana "+ str(font_size-1) +" bold italic"
+    if os.path.isfile("pack_text.mp3"):
+        os.remove("pack_text.mp3")
+
 color_changer=0
 color1=["#C7C7C7","#A8A8A8","#919191","#848484","#7C7C7C","#727272","#737373","#727272","#717171","white"] #["bg"]
 color2=["#545454","#4B4B4B","#4A4A4A","#434343","#3C3C3C","#323232","#2C2C2C","#242424","#010101","black"] #["fg"]
