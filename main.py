@@ -7,7 +7,7 @@ import sys
 import datetime
 from playsound import playsound
 from Functions import *
-
+from faces import *
 
 class ManageAppFrames(tk.Tk):
     def __init__(self,*args,**kwargs):
@@ -46,11 +46,6 @@ class ManageAppFrames(tk.Tk):
             self.frames[controller]["bg"]=color1[9]
         frame = self.frames[controller]
         frame.tkraise() #make front
-
-    
-
-
-
 
 
 def OpenMenu():
