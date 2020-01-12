@@ -243,7 +243,7 @@ class StartPage(tk.Frame):
         self.vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:change_vol_up(self),font="verdana 15 bold italic")
         self.vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:change_vol_down(self),font="verdana 15 bold italic")
         self.mute_but6 = Button(self,text = "Mute",bg="white",fg="blue",command=lambda:turn_DU_music(self),font="verdana 15 bold italic")
-        self.quit_but7 = Button(self,text = "Quit",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
+        self.quit_but7 = Button(self,text = "Turn of system",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
         
 
         self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
@@ -274,8 +274,8 @@ class StartPage(tk.Frame):
         self.space_label2 = Label(self,text="")
         self.space_label2.pack(fill=X)
         self.quit_but7.pack(fill=X)
-        self.quit_but7.bind("<Button-1>", self.Quit_sound)
-        self.quit_but7.bind("<Button-3>", self.Quit_sound)
+        self.quit_but7.bind("<Button-1>", self.Turn_of_sound)
+        self.quit_but7.bind("<Button-3>", self.Turn_of_sound)
         
         self.object_arr=[self.theLabel,self.username_but1,self.face_but2,self.color_but3,self.font_size8,self.space_label1,self.vol_up_but4,self.vol_down_but5,self.mute_but6,self.space_label2,self.quit_but7]
     
@@ -300,8 +300,8 @@ class StartPage(tk.Frame):
     def Mute_sound(self, event):
         playsound('event sounds\\Mute.mp3',False)
 
-    def Quit_sound(self, event):
-        playsound('event sounds\\Quit.mp3',False)
+    def Turn_of_sound(self, event):
+        playsound('event sounds\\Turn_of.mp3',True)
 
 
  
@@ -366,7 +366,7 @@ def quitCommand(controller):
 
 def enterCommand(self,controller):
     log(self,controller)
-    quitCommand(controller)
+    
     
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
@@ -475,6 +475,7 @@ def log(self,controller):
     global countTries
     if recognize(self.username.get(),self.password.get()):
         entrance(self.username.get(),self.password.get())
+        quitCommand(controller)
     elif(countTries!=5):
         pack_text(self,"user-name and password not recognized,please enter again")
         countTries+=1
