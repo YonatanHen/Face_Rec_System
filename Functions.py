@@ -475,14 +475,18 @@ def log(self,controller):
     global countTries
     if recognize(self.username.get(),self.password.get()):
         entrance(self.username.get(),self.password.get())
+        countTries=0
+        self.ER_label["text"]=""
         quitCommand(controller)
-    elif(countTries!=5):
-        pack_text(self,"user-name and password not recognized,please enter again")
+    elif(countTries!=4):
+        pack_unrec_us(self)
         countTries+=1
     else:
         countTries=0
-        pack_text(self,"You tried to enter 5 times unssuccessfully!")
+        text_window("You tried to enter 5 times unssuccessfully!")
+        self.ER_label["text"]=""
         controller.show_frame(StartPage)
+
         #os.system("main.py")
 
 def text_window(str):
@@ -501,13 +505,19 @@ def text_window(str):
 
 def pack_text(self,stri):
     global font_size
+    self.ER_label["text"]=stri
+    self.ER_label["font"]="verdana "+ str(font_size-1) +" bold italic"
     tts = gTTS(text=stri, lang = 'en')
     tts.save("pack_text.mp3")
     playsound('pack_text.mp3',False)
-    self.ER_label["text"]=stri
-    self.ER_label["font"]="verdana "+ str(font_size-1) +" bold italic"
     if os.path.isfile("pack_text.mp3"):
         os.remove("pack_text.mp3")
+
+def pack_unrec_us(self):
+    global font_size
+    self.ER_label["text"]="user-name and password not recognized,please enter again"
+    self.ER_label["font"]="verdana "+ str(font_size-1) +" bold italic"
+    playsound('not_rec.mp3',False)
 
 color_changer=0
 color1=["#C7C7C7","#A8A8A8","#919191","#848484","#7C7C7C","#727272","#737373","#727272","#717171","white"] #["bg"]
@@ -517,7 +527,7 @@ def changecolor_StartPage(self):
     global color_changer,color1,color2
     if(color_changer!=9):
         if(str(self)!=".!frame.!startpage"):
-            color_changer-=1
+            color_changer-=1   
         for i in range(len(self.object_arr)):
             self.object_arr[i]["bg"]=color1[color_changer]
             self.object_arr[i]["fg"]=color2[color_changer]
