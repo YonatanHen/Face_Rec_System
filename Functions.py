@@ -90,6 +90,7 @@ class StartPage(tk.Frame):
     def Quit_sound(self, event):
         playsound('event sounds\\Quit.mp3',False)
 
+
  
 class User_login(tk.Frame):
     global color_changer,color1,color2,is_color_changed,countTries
@@ -106,10 +107,10 @@ class User_login(tk.Frame):
         self.lable_2.grid(row=1)
         
         self.entry_1=Entry(self,textvariable=self.username)
-        self.entry_2=Entry(self,textvariable=self.password)
+        self.entry_2=Entry(self,show="*",textvariable=self.password)
         self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 15 bold italic")
         self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:enterCommand(self,controller),font="verdana 15 bold italic")
-        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=lambda:quitCommand(),font="verdana 15 bold italic")
+        self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=lambda:quitCommand(controller),font="verdana 15 bold italic")
 
         self.username.set("")
         self.password.set("")
@@ -129,12 +130,6 @@ class User_login(tk.Frame):
 
         self.object_arr=[self.lable_1,self.lable_2,self.back_but1,self.enter_but2,self.quit_but3]
 
-        def quitCommand():
-            os.system("main.py")
-
-        def enterCommand(self,controller):
-            log(self,controller)
-            quitCommand()
 
     def enter_sound(self, event):
         playsound('event sounds\\Enter.mp3',False)
@@ -152,7 +147,14 @@ class User_login(tk.Frame):
         playsound('event sounds\\Password.mp3',False)
 
 
+def quitCommand(controller):
+    controller.destroy()
+    os.system("main.py")
 
+def enterCommand(self,controller):
+    log(self,controller)
+    quitCommand(controller)
+    
 def recognize(username,password):
     """function check if username and password match one of the users in users.db,and return the relevant data"""
     usersDB=sqlite3.connect('users.db')
@@ -266,8 +268,8 @@ def log(self,controller):
     else:
         countTries=0
         pack_text(self,"You tried to enter 5 times unssuccessfully!")
-        controller.show_frame(User_login)
-        os.system("main.py")
+        controller.show_frame(StartPage)
+        #os.system("main.py")
 
 def text_window(str):
     global font_size
