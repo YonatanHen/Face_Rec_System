@@ -8,6 +8,7 @@ import datetime
 from playsound import playsound
 from Functions import *
 from faces import *
+from MainPageWindow import WelcomeWindow
 
 class ManageAppFrames(tk.Tk):
     def __init__(self,*args,**kwargs):
@@ -52,6 +53,6 @@ def OpenMenu():
     app=ManageAppFrames()
     app.mainloop()
 
-
+WelcomeWindow()
 faces()
 OpenMenu()
