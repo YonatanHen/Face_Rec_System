@@ -7,7 +7,6 @@ import sys
 import datetime
 from playsound import playsound
 from Functions import *
-from faces import *
 from MainPageWindow import WelcomeWindow
 
 class ManageAppFrames(tk.Tk):
