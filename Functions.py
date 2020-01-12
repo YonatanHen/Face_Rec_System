@@ -493,10 +493,13 @@ def text_window(str):
     global font_size
     tts = gTTS(text=str, lang = 'en')
     tts.save("text_window.mp3")
-    playsound('text_window.mp3',False)
     text_window = Tk()
     text_window.title('text_window')
     Label(text_window, text=str,font="verdana 15 bold italic").pack(side=TOP)
+    t_end = time.time() + 3*1
+    while time.time() < t_end:
+        t_end=t_end
+    playsound('text_window.mp3',False)
 
     if os.path.isfile("text_window.mp3"):
         os.remove("text_window.mp3")
