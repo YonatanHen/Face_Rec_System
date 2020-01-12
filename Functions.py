@@ -477,6 +477,8 @@ def log(self,controller):
         entrance(self.username.get(),self.password.get())
         countTries=0
         self.ER_label["text"]=""
+        self.entry_1.delete(0, 'end')
+        self.entry_2.delete(0, 'end')
         quitCommand(controller)
     elif(countTries!=4):
         pack_unrec_us(self)
@@ -485,6 +487,8 @@ def log(self,controller):
         countTries=0
         text_window("You tried to enter 5 times unssuccessfully!")
         self.ER_label["text"]=""
+        self.entry_1.delete(0, 'end')
+        self.entry_2.delete(0, 'end')
         controller.show_frame(StartPage)
 
         #os.system("main.py")
@@ -499,7 +503,7 @@ def text_window(str):
     t_end = time.time() + 3*1
     while time.time() < t_end:
         t_end=t_end
-    playsound('text_window.mp3',False)
+    playsound('text_window.mp3',True)
 
     if os.path.isfile("text_window.mp3"):
         os.remove("text_window.mp3")
