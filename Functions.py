@@ -494,20 +494,18 @@ def showDetails(x,username):
         for row in result:
             root=Tk()
             root.title("Show {} details".format(row[2]))
-            label0=Label(root,text="total hours: {}".format(row[5])).grid(row=0)
+            Label(root,text="total hours: {}".format(row[5])).grid(row=0)
             if(float(row[5])%24!=0):
                 days+=1
             if (float(row[5])>=24):
                 days=float(row[5])//24
-            label1=Label(root,text="total days: {}".format(days)).grid(row=1)
-            label2=Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
+            Label(root,text="total days: {}".format(days)).grid(row=1)
+            Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
             salary=DoubleVar(root,0.0)
-            entry1=Entry(root,textvariable=salary).grid(row=2,column=1)
-            btn=Button(root,text="Submit",command=lambda:Label(root,text="Total gross profits are {0}".format(salary.get()*float(row[5]))).grid(row=3) if\
+            Entry(root,textvariable=salary).grid(row=2,column=1)
+            Button(root,text="Submit",command=lambda:Label(root,text="Total gross profits are {0}".format(salary.get()*float(row[5]))).grid(row=3) if\
             salary.get()>=0 else
             messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
-            if(row[6]=='admin' or row[6]=='Admin'):
-                Button(root,text="open admin menu",command=AdminMenu).grid(row=3,column=1)
         root.mainloop()
     else:
         messagebox.showinfo("OK! Have a nice Day!")
