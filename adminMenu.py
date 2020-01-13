@@ -32,7 +32,8 @@ def AdminMenu():
     Button(menu,text="Watch users data",command=lambda:watchData()).pack()
     Button(menu,text="Add new user",command=lambda:add()).pack()
     Button(menu,text="Add new photo to exist user",command=lambda:addPhoto()).pack()
-    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py")).pack()
+    change_unknown_button(menu)
+    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py"))
     Button(menu,text="Quit",command=lambda:menu.destroy()).pack()
     menu.mainloop()
 
@@ -176,3 +177,16 @@ def addPhoto():
                 break
 
 ##########################################################################################################          
+# unknown_folder function- open unknown folder
+def unknown_folder():
+    filedialog.askopenfilename(initialdir='unknown')
+
+##########################################################################################################          
+# change_unknown_button function - pack red unknown button if the folder is not empty
+def change_unknown_button(menu):
+    if not os.listdir('unknown') :
+        Button(menu,text="Open unknown folder",command=lambda:unknown_folder()).pack()
+    else:
+        Button(menu,text="Open unknown folder",fg="red",command=lambda:unknown_folder()).pack()
+
+##########################################################################################################  
