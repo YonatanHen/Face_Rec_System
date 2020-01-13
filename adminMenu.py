@@ -177,12 +177,12 @@ def addPhoto():
                 break
 
 ##########################################################################################################          
-
+# unknown_folder function- open unknown folder
 def unknown_folder():
     filedialog.askopenfilename(initialdir='unknown')
 
 ##########################################################################################################          
-
+# change_unknown_button function - pack red unknown button if the folder is not empty
 def change_unknown_button(menu):
     if not os.listdir('unknown') :
         Button(menu,text="Open unknown folder",command=lambda:unknown_folder()).pack()
