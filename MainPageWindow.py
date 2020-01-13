@@ -9,7 +9,7 @@ import datetime
 import time
 
 
-
+# WelcomeWindow function - open an explanation window
 def WelcomeWindow():  
     window=Tk()
     f=20

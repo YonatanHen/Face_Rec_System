@@ -16,7 +16,27 @@ from tkinter import filedialog
 import shutil
 import pygame
 
-##########################################change user data###################################################
+'''
+====================================================================================================
+                            AdminMenu function - open admin menu
+====================================================================================================
+'''
+def AdminMenu():
+    menu=Tk()
+    menu.title("Admin menu")
+    exit=False
+    Label(menu,text="Choose one of the following options, operate them in CMD window:",font=('Ariel',12)).pack()
+    Button(menu,text="Change user data",command=lambda:changeUserData()).pack()
+    Button(menu,text="Change the volume of the system",command=lambda:changeVol()).pack()
+    Button(menu,text="Delete user",command=lambda:deleteUser()).pack()
+    Button(menu,text="Watch users data",command=lambda:watchData()).pack()
+    Button(menu,text="Add new user",command=lambda:add()).pack()
+    Button(menu,text="Add new photo to exist user",command=lambda:addPhoto()).pack()
+    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py")).pack()
+    Button(menu,text="Quit",command=lambda:menu.destroy()).pack()
+    menu.mainloop()
+
+########################################## change user data ###################################################
 def changeUserData():
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
@@ -32,14 +52,14 @@ def changeUserData():
     else:
         print("Username not found...")
 
-#######################################Change the volume of the system##################################################
+####################################### Change the volume of the system ##################################################
 def changeVol():
     print("Please enter numbers between 0 to 100")
     vol=int(input())
     vol=vol/100
     pygame.mixer.music.set_volume(vol)
 
-############################################Delete user#################################################################
+############################################ Delete user #################################################################
 
 def deleteUser():
     usersDB=sqlite3.connect('users.db')
@@ -54,7 +74,7 @@ def deleteUser():
     else:
         print("Username wasn't found in the database.")
 
-###############################################Watch users Data############################################
+############################################### Watch users Data ############################################
 
 def watchData():
     usersDB=sqlite3.connect('users.db')
@@ -63,7 +83,7 @@ def watchData():
     for row in cursor:
         print(row)
 
-###########################################Add new User#####################################################
+########################################### Add new User #####################################################
 
 def add():
     usersDB=sqlite3.connect('users.db')
@@ -109,7 +129,7 @@ def add():
                 break
 
 
-###########################################Add photo to user#####################################################
+########################################### Add photo to user #####################################################
 
 def addPhoto():
     root = Tk()
@@ -155,22 +175,4 @@ def addPhoto():
             if try_again=='n':
                 break
 
-##########################################################################################################3              
-
-
-
-
-def AdminMenu():
-    menu=Tk()
-    menu.title("Admin menu")
-    exit=False
-    Label(menu,text="Choose one of the following options, operate them in CMD window:",font=('Ariel',12)).pack()
-    Button(menu,text="Change user data",command=lambda:changeUserData()).pack()
-    Button(menu,text="Change the volume of the system",command=lambda:changeVol()).pack()
-    Button(menu,text="Delete user",command=lambda:deleteUser()).pack()
-    Button(menu,text="Watch users data",command=lambda:watchData()).pack()
-    Button(menu,text="Add new user",command=lambda:add()).pack()
-    Button(menu,text="Add new photo to exist user",command=lambda:addPhoto()).pack()
-    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py")).pack()
-    Button(menu,text="Quit",command=lambda:menu.destroy()).pack()
-    menu.mainloop()
+##########################################################################################################          
