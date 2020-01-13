@@ -9,6 +9,12 @@ from playsound import playsound
 from Functions import *
 from MainPageWindow import WelcomeWindow
 
+'''
+====================================================================================================
+            ManageAppFrames class - make a main window for all the other GUI classes -
+                                    to open at the same window
+====================================================================================================
+'''
 class ManageAppFrames(tk.Tk):
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
@@ -34,11 +40,11 @@ class ManageAppFrames(tk.Tk):
             frame.grid(row = 0,column = 0,sticky = "nsew")
         self.show_frame(StartPage)
 
-
+    # show_frame - make the asked window to open
     def show_frame(self,controller):
         from Functions import color_changer
         if(str(controller)=="<class 'Functions.User_login'>"):
-            changecolor_User_login(self.frames[controller])
+            changecolor(self.frames[controller])
             Change_font_size(self.frames[controller])
         if(color_changer!=0):
             self.frames[controller]["bg"]=color1[color_changer-1]
@@ -46,12 +52,14 @@ class ManageAppFrames(tk.Tk):
             self.frames[controller]["bg"]=color1[9]
         frame = self.frames[controller]
         frame.tkraise() #make front
-
-
+####################################################################################################
+# OpenMenu - make an ManageAppFrames object and play it
 def OpenMenu():
     app=ManageAppFrames()
     app.mainloop()
-
+####################################################################################################
+# play all the system (main)
 WelcomeWindow()
 faces()
 OpenMenu()
+####################################################################################################
