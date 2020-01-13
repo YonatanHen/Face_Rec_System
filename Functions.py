@@ -59,17 +59,6 @@ def faces():
     stroke = 2 #font thickness
     playsound('Take_Down.mp3',False)
     while(True):
-        '''
-        if cv2.waitKey(20) & 0xFF == ord('v'):
-            if beepflag == 0:
-                beepflag = 1
-            if beepflag == 1:
-                beepflag = 0
-        if beepflag == 1:
-            beepuls += 1
-            if beepuls % 25 == 0:
-                playsound('beep.mp3',False)
-                '''
         # Capture frame-by-frame
         ret, frame = cap.read()
         frame = cv2.flip(frame,1)
@@ -180,7 +169,8 @@ def faces():
             stroke = 2
             end_cord_x = x + w
             end_cord_y = y + h
-            cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
+            if trysCounter<=100:
+                cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
             # sound
             if x < 350:
                 if lrcounter % 10 == 0:
@@ -204,10 +194,12 @@ def faces():
             #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
         # Display the resulting frame
         cv2.imshow('frame',frame)
+
         if trysCounter>100:
             color = (0, 0, 255)
             playsound("Five_failed_attempts.mp3")
             cv2.putText(frame, "Failed attempts !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
+            cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
             for _ in range(100):
                 cv2.imshow('frame',frame)
                 
@@ -220,6 +212,7 @@ def faces():
             os.system("main.py")
             break
         if cv2.waitKey(20) & 0xFF == ord('q'):
+            pygame.mixer.music.pause()
             cap.release()
             cv2.destroyAllWindows()
             break

@@ -77,7 +77,7 @@ def add():
         fName=input("Enter first name: ")
         lName=input("Enter last name: ")
         password=input("Enter password: ")
-        role=input("Enter role (admin or worker): ")
+        role=input("Enter role (admin / worker / blind worker): ")
         total=entrance=0
         isInside='no'
         #add the entred data to the database
