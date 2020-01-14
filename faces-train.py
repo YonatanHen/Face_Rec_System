@@ -33,7 +33,7 @@ for root, dirs, files in os.walk(image_dir):
 			final_image = pil_image.resize(size, Image.ANTIALIAS)
 			image_array = np.array(final_image, "uint8")
 			#print(image_array)
-			faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5)
+			faces = face_cascade.detectMultiScale(image_array)
 
 			for (x,y,w,h) in faces:
 				roi = image_array[y:y+h, x:x+w]
