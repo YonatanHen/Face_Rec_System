@@ -296,14 +296,14 @@ def faces():
                 if labels[id_] == name or name == "None":
                     isRecCounter=isRecCounter+1
                     counter2 = 0
-                    if isRecCounter == 15:
+                    if isRecCounter == 5:
                         tempname = name
                 if tempname != name:
                     counter2 += 1
                     
                 name = labels[id_]
                 #match sound
-                if isRecCounter > 15:
+                if isRecCounter > 5:
                     match = "Match found: " + tempname
                     color = (0, 255, 0)
                     cv2.putText(frame, match, (x,y), font, 1, color, stroke, cv2.LINE_AA)
@@ -368,7 +368,7 @@ def faces():
                         tempmatch = match
                         pygame.mixer.music.pause()
                     os.system("main.py")
-                elif isRecCounter > 5:
+                elif isRecCounter == 5:
                     color = (0, 255, 0) #green
                     cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                     
@@ -399,7 +399,7 @@ def faces():
                 lrcounter+=1
             if cv2.waitKey(20) & 0xFF == ord('p'):
                 i+=1
-                if isRecCounter>10 and counter2 == 0:
+                if isRecCounter>15 and counter2 == 0:
                     img_item =  "images\\" + tempname + "\\" + tempname + str(i) +".png"
                 else:
                     img_item =  "unknown\\unknown" + str(i) +".png" 
