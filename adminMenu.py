@@ -33,7 +33,7 @@ def AdminMenu():
     Button(menu,text="Add new user",command=lambda:add()).pack()
     Button(menu,text="Add new photo to exist user",command=lambda:addPhoto()).pack()
     change_unknown_button(menu)
-    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py"))
+    Button(menu,text="Run face trainer",command=lambda:os.system("faces-train.py")).pack()
     Button(menu,text="Quit",command=lambda:menu.destroy()).pack()
     menu.mainloop()
 

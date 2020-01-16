@@ -296,14 +296,14 @@ def faces():
                 if labels[id_] == name or name == "None":
                     isRecCounter=isRecCounter+1
                     counter2 = 0
-                    if isRecCounter == 5:
+                    if isRecCounter == 15:
                         tempname = name
                 if tempname != name:
                     counter2 += 1
                     
                 name = labels[id_]
                 #match sound
-                if isRecCounter > 10:
+                if isRecCounter > 15:
                     match = "Match found: " + tempname
                     color = (0, 255, 0)
                     cv2.putText(frame, match, (x,y), font, 1, color, stroke, cv2.LINE_AA)
