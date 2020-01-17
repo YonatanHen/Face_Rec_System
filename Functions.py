@@ -286,7 +286,7 @@ def faces():
         ret, frame = cap.read()
         frame = cv2.flip(frame,1)
         gray  = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=12, minNeighbors=5)
+        faces = face_cascade.detectMultiScale(gray)
         for (x, y, w, h) in faces:
             roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
             roi_color = frame[y:y+h, x:x+w]
@@ -296,14 +296,13 @@ def faces():
                 if labels[id_] == name or name == "None":
                     isRecCounter=isRecCounter+1
                     counter2 = 0
-                    if isRecCounter == 5:
+                    if isRecCounter == 10:
                         tempname = name
                 if tempname != name:
                     counter2 += 1
-                    
                 name = labels[id_]
                 #match sound
-                if isRecCounter > 5:
+                if isRecCounter > 10:
                     match = "Match found: " + tempname
                     color = (0, 255, 0)
                     cv2.putText(frame, match, (x,y), font, 1, color, stroke, cv2.LINE_AA)
@@ -368,7 +367,7 @@ def faces():
                         tempmatch = match
                         pygame.mixer.music.pause()
                     os.system("main.py")
-                elif isRecCounter == 5:
+                elif isRecCounter > 9:
                     color = (0, 255, 0) #green
                     cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
                     
@@ -378,7 +377,7 @@ def faces():
                                 
             else:
                 trysCounter+=1
-                if trysCounter==5:
+                if trysCounter==10:
                     cv2.putText(frame,"Failed attempt !", (x,y), font, 1, color, stroke, cv2.LINE_AA)
                     for _ in range(100):
                         cv2.imshow('frame',frame)
