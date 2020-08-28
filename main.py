@@ -11,8 +11,8 @@ from MainPageWindow import WelcomeWindow
 
 '''
 ====================================================================================================
-            ManageAppFrames class - make a main window for all the other GUI classes -
-                                    to open at the same window
+            ManageAppFrames class - makes a main window for all the other GUI classes -
+                                    and open in the same window
 ====================================================================================================
 '''
 class ManageAppFrames(tk.Tk):
@@ -26,7 +26,7 @@ class ManageAppFrames(tk.Tk):
         container.grid_columnconfigure(0,weight=1)
         #playing sound in background helping with accessability for visually impaired users.
         pygame.mixer.init()
-        pygame.mixer.music.load('background_audio.mp3')
+        pygame.mixer.music.load('general sounds//background_audio.mp3')
         pygame.mixer.music.play(999)
         #set volume of background music
         global music_vol

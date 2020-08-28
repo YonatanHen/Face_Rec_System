@@ -587,7 +587,7 @@ def changecolor(self):
 # font_size -current font size
 font_size=16
 ####################################################################################################
-# Change_font_size - change fonnt size of the classes
+# Change_font_size - change font size of the classes
 def Change_font_size(self):
     global font_size
     if(str(self)!=".!frame.!startpage"):

@@ -60,8 +60,6 @@ class StartPage(tk.Frame):
         vol_but2.pack(fill=X)
         #button3.pack(side=LEFT)
         quit_but4.pack(fill=X)
-        
-        # מוסיף קוביה לכתיבה ומד
         m1 = PanedWindow() 
         m1.pack(fill = BOTH, expand = 1) 
         #left = Entry(m1, bd = 5) // write box 
@@ -139,75 +137,7 @@ class camera_frame(tk.Frame):
                 self = cv2.flip(self,1)
                 gray  = cv2.cvtColor(self, cv2.COLOR_BGR2GRAY)
                 faces = face_cascade.detectMultiScale(gray, scaleFactor=12, minNeighbors=5)
-                ''' 
-                for (x, y, w, h) in faces:
-                    #print(x,y,w,h)
-                    roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
-                    roi_color = frame[y:y+h, x:x+w]
-
-                    # recognize? deep learned model predict keras tensorflow pytorch scikit learn
-                    id_, conf = recognizer.predict(roi_gray)
-                    if conf>=54.5 and conf <= 60:
-                        #print(conf)
-                        #print(5: #id_)
-                        print(labels[id_], name, counter1,counter2)
-
-                        font = cv2.FONT_HERSHEY_SIMPLEX
-                        if labels[id_] == name or name == "None":
-                            counter1+=1
-                            counter2 = 0
-                            if counter1 == 10:
-                                tempname = name
-                        if tempname != name:
-                            counter2 += 1
-                        if counter2 >= 8:
-                            counter1 = 0
-                            
-                        name = labels[id_]
-                        
-                        stroke = 2 #font thickness
-
-                        if counter1 > 10:
-                            color = (0, 255, 0) #green
-                            cv2.putText(frame, tempname, (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                            
-                        else:
-                            color = (0, 0, 255) #red
-                            cv2.putText(frame, "analyzing...", (x,y), font, 1, color, stroke, cv2.LINE_AA)
-                            
-                    else:
-                        counter2+=1
-                    
-                    cv2.imshow('frame',frame)
-
-                    stroke = 2
-                    end_cord_x = x + w
-                    end_cord_y = y + h
-                    cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
-                    # sound
-                    print(x)
-                    if x < 350:
-                        if lrcounter % 10 == 0:
-                            playsound('moveright.mp3',False)
-                        lrcounter+=1
-                    
-                    elif x > 680:
-                        if lrcounter % 10 == 0:
-                            playsound('moveleft.mp3',False)
-                        lrcounter+=1
-
-                    if cv2.waitKey(20) & 0xFF == ord('p'):
-                        i+=1
-                        if counter1>10 and counter2 == 0:
-                            img_item =  "images\\" + tempname + "\\" + tempname + str(i) +".png"
-                        else:
-                            img_item =  "unknown\\unknown" + str(i) +".png" 
-                        cv2.imwrite(img_item, roi_color)
-                        #now = (datetime.datetime.now()).strftime("%Y-%m-%d %H_%M_%S")
-                    #subitems = smile_cascade.detectMultiScale(roi_gray)
-                    #for (ex,ey,ew,eh) in subitems:
-                    #	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-                '''
+        
                 # Display the resulting frame
                 cv2.imshow('frame',self)
 
