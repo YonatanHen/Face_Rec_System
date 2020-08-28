@@ -10,18 +10,18 @@ import camera
 import datetime
 from gtts import gTTS
 import os
-
 import pygame
 import sys
 import faces
 import entrance
+import User_login
 
 LARGE_FONT=("verdana",10)
 
 class SeaofBTCapp(tk.Tk):
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
-        self.title('Hours registration system')
+        self.title('Hours registeration system')
         container = tk.Frame(self)
 
         container.pack(side="top",fill="both",expand=True)
@@ -43,6 +43,7 @@ class SeaofBTCapp(tk.Tk):
 
     
 class StartPage(tk.Frame):
+    ''' Start page class '''
     def __init__(self,parent,controller):
         tk.Frame.__init__(self,parent)
         
@@ -53,44 +54,34 @@ class StartPage(tk.Frame):
         vol_but2 = Button(self,text = "Turn down/up music",bg="white",fg="blue")
         button3 = Button(self,text = "Login",bg="white",fg="green")
         quit_but4 = Button(self,text = "Quit",bg="white",fg="purple",command=quit)
-        
-        theLabel = Label(self,text="Yarin avraham !")
-        theLabel.pack()
         username_but1.pack(fill=X)
         vol_but2.pack(fill=X)
-        #button3.pack(side=LEFT)
         quit_but4.pack(fill=X)
         m1 = PanedWindow() 
         m1.pack(fill = BOTH, expand = 1) 
-        #left = Entry(m1, bd = 5) // write box 
-        #m2 = PanedWindow(m1, orient = VERTICAL) 
-        #m1.add(m2) 
-
-        #top = Scale( m2, orient = HORIZONTAL) #meuzan
-        #m2.add(top) 
-
-        w = Scale(m1, from_=0, to=42) #meunah
+        w = Scale(m1, from_=0, to=42) #Horizontal
         w.pack(side=LEFT) 
 
  
 class User_login(tk.Frame):
+    ''' User login class '''
     def __init__(self,parent,controller):
         tk.Frame.__init__(self,parent)
-        lable_1 = Label(self,text="User Name:")
-        lable_2 = Label(self,text="Password:")
+        label_1 = Label(self,text="User Name:")
+        label_2 = Label(self,text="Password:")
         
         self.username=StringVar()
         self.password=StringVar()
 
-        lable_1.grid(row=0,sticky=E)
-        lable_2.grid(row=1)
+        label_1.grid(row=0,sticky=E)
+        label_2.grid(row=1)
         entry_1=Entry(self,textvariable=self.username).grid(row=0,column=1)
         entry_2=Entry(self,textvariable=self.password).grid(row=1,column=1)
         back_but1 = Button(self,text = "Go back",bg="white",fg="black",command=lambda:controller.show_frame(StartPage))
         enter_but2 = Button(self,text = "Enter",bg="white",fg="black",command=lambda:entrance.entrance(self.username.get(),self.password.get()))
         quit_but3 = Button(self,text = "Quit",bg="white",fg="black",command=quit)
 
-        c=Checkbutton(self,text="Keep me logged in !")
+        c=Checkbutton(self,text="Keep me logging in !")
         back_but1.grid(row=3,columnspan=1)
         enter_but2.grid(row=3,columnspan=2)
         quit_but3.grid(row=4,columnspan=1)
@@ -102,7 +93,7 @@ class camera_frame(tk.Frame):
             tk.Frame.__init__(self,parent)
             if os.path.isfile("match.mp3"):
                 os.remove("match.mp3")
-                print("removed")
+                #print("removed")
             face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml')
             eye_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_eye.xml')
             smile_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_smile.xml')
@@ -115,7 +106,6 @@ class camera_frame(tk.Frame):
                 og_labels = pickle.load(f)
                 labels = {v:k for k,v in og_labels.items()}
 
-            #self.canvas = tkinter.Canvas(self, width = 1500, height = 720)
             self.canvas.pack(side=RIGHT)
             self.cap = cv2.VideoCapture(0)
             self.cap.set(3, 3840)
@@ -129,7 +119,6 @@ class camera_frame(tk.Frame):
             color = (0,0,255)
             beepflag = 1
             tempmatch = 'None'
-            #beepuls = 0
             
             while(True):
                 # Capture frame-by-frame
