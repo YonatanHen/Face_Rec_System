@@ -53,12 +53,12 @@ class ManageAppFrames(tk.Tk):
         frame = self.frames[controller]
         frame.tkraise() #make front
 ####################################################################################################
-# OpenMenu - make an ManageAppFrames object and play it
+# OpenMenu - makes a ManageAppFrames object and play it
 def OpenMenu():
     app=ManageAppFrames()
     app.mainloop()
 ####################################################################################################
-# play all the system (main)
+# play the whole system (main)
 WelcomeWindow()
 faces()
 OpenMenu()
