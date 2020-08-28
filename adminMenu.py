@@ -16,12 +16,9 @@ from tkinter import filedialog
 import shutil
 import pygame
 
-'''
-====================================================================================================
-                            AdminMenu function - open admin menu
-====================================================================================================
-'''
+
 def AdminMenu():
+    ''' Function opens admin menu '''
     menu=Tk()
     menu.title("Admin menu")
     exit=False
@@ -37,8 +34,8 @@ def AdminMenu():
     Button(menu,text="Quit",command=lambda:menu.destroy()).pack()
     menu.mainloop()
 
-########################################## change user data ###################################################
 def changeUserData():
+    '''Change user data inside the database '''
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
     uname=input("Enter the username:")
@@ -53,16 +50,16 @@ def changeUserData():
     else:
         print("Username not found...")
 
-####################################### Change the volume of the system ##################################################
+
 def changeVol():
+    ''' Change the volume of the system '''
     print("Please enter numbers between 0 to 100")
     vol=int(input())
     vol=vol/100
     pygame.mixer.music.set_volume(vol)
 
-############################################ Delete user #################################################################
-
 def deleteUser():
+    ''' Delete user '''
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
     usernameDel=input("Enter the username that you want to delete:")
@@ -75,18 +72,16 @@ def deleteUser():
     else:
         print("Username wasn't found in the database.")
 
-############################################### Watch users Data ############################################
-
 def watchData():
+    ''' Watch users data '''
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
     cursor.execute("select * from users")
     for row in cursor:
         print(row)
 
-########################################### Add new User #####################################################
-
 def add():
+    ''' Add new user '''
     usersDB=sqlite3.connect('users.db')
     cursor=usersDB.cursor()
     uname=input("Enter the username: ")
@@ -130,18 +125,17 @@ def add():
                 break
 
 
-########################################### Add photo to user #####################################################
-
 def addPhoto():
+    ''' Add a photo to user '''
     root = Tk()
     root.withdraw()
     while(True):
-        user_fol=input("Enter username to add a picture to: ")
+        user_fol=input("Enter a username that you want to add his picture: ")
         root.attributes("-topmost", True)
         if os.path.isdir("images\\" + user_fol):
             add_photo=None
             while add_photo!='1' and add_photo!='2' and add_photo!='3':
-                add_photo=input("For choose an exist photo press 1, to take a new photo press 2, to go back to menu press 3: ")
+                add_photo=input("To choose an exist photo press 1, to take a new photo press 2, to go back to menu press 3: ")
             if add_photo=='1':
                 file_path = filedialog.askopenfilename()
                 newPath = shutil.copy(file_path, "images\\" + user_fol + "\\" )
@@ -175,18 +169,17 @@ def addPhoto():
                 try_again=input(("There is no folder to username - {0}, do you want to try again? y/n: ".format(user_fol)))
             if try_again=='n':
                 break
+       
 
-##########################################################################################################          
-# unknown_folder function- open unknown folder
 def unknown_folder():
+    ''' Opens an unknown folder '''
     filedialog.askopenfilename(initialdir='unknown')
+         
 
-##########################################################################################################          
-# change_unknown_button function - pack red unknown button if the folder is not empty
 def change_unknown_button(menu):
+    ''' Change the unknown button color to red when folder isn't empty '''
     if not os.listdir('unknown') :
         Button(menu,text="Open unknown folder",command=lambda:unknown_folder()).pack()
     else:
         Button(menu,text="Open unknown folder",fg="red",command=lambda:unknown_folder()).pack()
-
-##########################################################################################################  
+  
