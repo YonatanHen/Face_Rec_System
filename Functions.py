@@ -149,7 +149,7 @@ def printUserDetails(username):
         Label(root,text="total days:"+ str(days)).grid(row=1,column=0)
         Label(root,text="Enter your hourly wage: ").grid(row=2,column=0)
         salary=DoubleVar()
-        Entry(root,textvariable=salary).grid(row=2,column=1)
+        entry1=Entry(root,textvariable=salary).grid(row=2,column=1)
         Button(root,text="Submit",command=lambda:Label(root,\
         text="Total gross profits are {0}".format(float(entry1.get())*float(row[5]))).grid(row=3) if salary.get()>=0
         else messagebox.showerror("Error","Salary must be postivie number!")).grid(row=2,column=2)
