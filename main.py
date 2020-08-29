@@ -6,16 +6,15 @@ import keyboard
 import sys
 import datetime
 from playsound import playsound
-from Functions import *
 from MainPageWindow import WelcomeWindow
+from User_login import *
+from StartPage import * #some functions and varibales in start page are necessery here
+from User_login import User_login as ul
+from StartPage import StartPage as sp
 
-'''
-====================================================================================================
-            ManageAppFrames class - make a main window for all the other GUI classes -
-                                    to open at the same window
-====================================================================================================
-'''
+
 class ManageAppFrames(tk.Tk):
+    ''' ManageAppFrames class - makes a main window for all the other GUI classes and opens it in the same window '''
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
         self.title('Hours registration system')
@@ -26,24 +25,22 @@ class ManageAppFrames(tk.Tk):
         container.grid_columnconfigure(0,weight=1)
         #playing sound in background helping with accessability for visually impaired users.
         pygame.mixer.init()
-        pygame.mixer.music.load('background_audio.mp3')
+        pygame.mixer.music.load('general audio\\background_audio.mp3')
         pygame.mixer.music.play(999)
         #set volume of background music
         global music_vol
         pygame.mixer.music.set_volume(music_vol)
-
         self.frames={}
-
-        for F in (StartPage,User_login):
+        for F in (sp,ul):
             frame=F(container,self)
             self.frames[F] = frame
             frame.grid(row = 0,column = 0,sticky = "nsew")
-        self.show_frame(StartPage)
+        self.show_frame(sp)
 
-    # show_frame - make the asked window to open
+
     def show_frame(self,controller):
-        from Functions import color_changer
-        if(str(controller)=="<class 'Functions.User_login'>"):
+        ''' Showing user login window '''
+        if(str(controller)=="<class 'User_login.User_login'>"):
             changecolor(self.frames[controller])
             Change_font_size(self.frames[controller])
         if(color_changer!=0):
@@ -52,14 +49,13 @@ class ManageAppFrames(tk.Tk):
             self.frames[controller]["bg"]=color1[9]
         frame = self.frames[controller]
         frame.tkraise() #make front
-####################################################################################################
-# OpenMenu - make an ManageAppFrames object and play it
+
 def OpenMenu():
+    ''' makes a ManageAppFrames object and play it '''
     app=ManageAppFrames()
     app.mainloop()
-####################################################################################################
-# play all the system (main)
+
+# play the whole system (main)
 WelcomeWindow()
 faces()
 OpenMenu()
-####################################################################################################q
