@@ -16,7 +16,7 @@ def WelcomeWindow():
     window.title('Face_Rec_System')
     label_1=Label(window,text="Welcome!\nUse the the face-recognition system \n" +
     "or enter password&username to log in\nFace recognition will open automatically\n" +
-    "Enter 'q' to exit and enter the manual system",fg="#696969",font = ('Arial' , f))
+    "Enter 'q' to exit and enter the manual system",fg="#000000",bg="#d7fc05",font = ('Arial' , f))
     label_1.pack()
     window.after(10000, window.destroy)
     window.mainloop()
