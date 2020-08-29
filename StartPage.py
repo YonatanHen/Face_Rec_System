@@ -14,7 +14,6 @@ import sqlite3
 from time import sleep
 from adminMenu import AdminMenu
 from Functions import Time_Fixer,showDetails
-from User_login import User_login as ul
 
 music_vol=1
 music_flag=0
@@ -37,7 +36,7 @@ class StartPage(tk.Frame):
         self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
         self.username_but1 = Button(self,text = "Log in/out with username and password",bg="white",fg="red",command=lambda:controller.show_frame(ul),font="verdana 15 bold italic")
         self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces(),font="verdana 15 bold italic")
-        self.color_but3 = Button(self, text="Change color",command=lambda:changecolor(self),bg="white",fg="orange",font="verdana 15 bold italic")   #להפעיל שינוי צבעים 
+        self.color_but3 = Button(self, text="Change color",command=lambda:changecolor(self),bg="white",fg="orange",font="verdana 15 bold italic") 
         self.font_size8 = Button(self,text = "Set font size",bg="white",fg="gold",command=lambda:Change_font_size(self),font="verdana 15 bold italic")
         self.vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:self.change_vol_up(),font="verdana 15 bold italic")
         self.vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:self.change_vol_down(),font="verdana 15 bold italic")
