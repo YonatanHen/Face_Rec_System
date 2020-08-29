@@ -23,7 +23,7 @@ class ManageAppFrames(tk.Tk):
         container.pack(side="top",fill="both",expand=True)
         container.grid_rowconfigure(0,weight=1)
         container.grid_columnconfigure(0,weight=1)
-        #playing sound in background helping with accessability for visually impaired users.
+        #Background sound helps with accessability for visually impaired users.
         pygame.mixer.init()
         pygame.mixer.music.load('general audio\\background_audio.mp3')
         pygame.mixer.music.play(999)
@@ -48,7 +48,8 @@ class ManageAppFrames(tk.Tk):
         else:
             self.frames[controller]["bg"]=color1[9]
         frame = self.frames[controller]
-        frame.tkraise() #make front
+        #Advance the window to the front
+        frame.tkraise() 
 
 def OpenMenu():
     ''' makes a ManageAppFrames object and play it '''
