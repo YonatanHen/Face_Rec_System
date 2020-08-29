@@ -121,7 +121,6 @@ def add():
                 cv2.destroyAllWindows()
                 break
 
-
 def addPhoto():
     ''' Add a photo to specific user '''
     root = Tk()
