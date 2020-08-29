@@ -24,7 +24,7 @@ def AdminMenu():
     exit=False
     Label(menu,text="Choose one of the following options, operate them in CMD window:",font=('Ariel',12)).pack()
     Button(menu,text="Change user data",command=lambda:changeUserData()).pack()
-    Button(menu,text="Change the volume of the system",command=lambda:changeVol()).pack()
+    Button(menu,text="Modify music volume",command=lambda:changeVol()).pack()
     Button(menu,text="Delete user",command=lambda:deleteUser()).pack()
     Button(menu,text="Watch users data",command=lambda:watchData()).pack()
     Button(menu,text="Add new user",command=lambda:add()).pack()
@@ -55,8 +55,7 @@ def changeVol():
     ''' Change the volume of the system '''
     print("Please enter numbers between 0 to 100")
     vol=int(input())
-    vol=vol/100
-    pygame.mixer.music.set_volume(vol)
+    pygame.mixer.music.set_volume(vol/100)
 
 def deleteUser():
     ''' Delete user '''
@@ -68,7 +67,7 @@ def deleteUser():
         cursor.execute("DELETE from users WHERE username=?",[(usernameDel)])
         usersDB.commit()
         shutil.rmtree("images//"+str(usernameDel), ignore_errors=True)
-        print("User deleted successfully!\n")
+        print("User has been removed successfully!\n")
     else:
         print("Username wasn't found in the database.")
 
@@ -96,16 +95,14 @@ def add():
         role=input("Enter role (admin / worker / blind worker): ")
         total=entrance=0
         isInside='no'
-        #add the entred data to the database
+        #Adding the entred data to the database
         cursor.execute("""INSERT INTO users (first_name, last_name, username, password, entrance, total, role, isInside)
             VALUES (?,?,?,?,?,?,?,?)""",[(fName),(lName),(uname),(password),(entrance),(total),(role),(isInside)])
         usersDB.commit() 
         print("Data added succesfully")
-        print("Now, take few pictures of the new worker... press p -take a picture/q -stop Capturing")
-        
+        print("Now, take few pictures of the new worker... press p -take a picture / q -stop Capturing")
         key = cv2. waitKey(1)
         webcam = cv2.VideoCapture(0)
-        
         sleep(2)
         path="images//"+str(uname)
         os.mkdir(path)
@@ -126,7 +123,7 @@ def add():
 
 
 def addPhoto():
-    ''' Add a photo to user '''
+    ''' Add a photo to specific user '''
     root = Tk()
     root.withdraw()
     while(True):
@@ -166,13 +163,13 @@ def addPhoto():
         else:                    
             try_again=None
             while try_again!='y' and try_again!='n':
-                try_again=input(("There is no folder to username - {0}, do you want to try again? y/n: ".format(user_fol)))
+                try_again=input(("There is no folder of username - {0}, do you want to try again? y/n: ".format(user_fol)))
             if try_again=='n':
                 break
        
 
 def unknown_folder():
-    ''' Opens an unknown folder '''
+    ''' Opens unknown folder '''
     filedialog.askopenfilename(initialdir='unknown')
          
 

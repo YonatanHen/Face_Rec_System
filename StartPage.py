@@ -273,7 +273,7 @@ def faces():
                                     welcome.title("Welcome "+i[0]+" "+i[1])
                                     time_label=Label(welcome,text="Date & Time:{0}".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
                                     time_label.pack()
-                                    playsound("welcome.mp3",False)
+                                    playsound("general audio\\welcome.mp3",False)
                                     watchDataVar=IntVar()
                                     watchDataVar.set(0)
                                     Checkbutton(welcome,text="Mark the box to watch your data", variable=watchDataVar).pack()
