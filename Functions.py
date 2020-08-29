@@ -18,7 +18,7 @@ import pygame
 from gtts import gTTS
 from tkinter import messagebox
 from adminMenu import AdminMenu
-import User_login
+
 
 def entrance(username,password):
     '''  Username and password recognition function '''

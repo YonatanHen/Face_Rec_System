@@ -15,7 +15,7 @@ from StartPage import StartPage as sp
 
 class ManageAppFrames(tk.Tk):
     ''' ManageAppFrames class - makes a main window for all the other GUI classes and opens it in the same window '''
-    def __init__(self,*args,**kwargs):
+    def __init__(self,*args,**kwargs):q
         tk.Tk.__init__(self,*args,**kwargs)
         self.title('Hours registration system')
         self.geometry("1000x850")
