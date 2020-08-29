@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import *
 from playsound import playsound
-import User_login
 import pygame
 from gtts import gTTS
 import time
@@ -14,6 +13,7 @@ import sqlite3
 from time import sleep
 from adminMenu import AdminMenu
 from Functions import Time_Fixer,showDetails
+
 
 music_vol=1
 music_flag=0
@@ -29,6 +29,7 @@ color2=["#545454","#4B4B4B","#4A4A4A","#434343","#3C3C3C","#323232","#2C2C2C","#
 class StartPage(tk.Frame):
     ''' StartPage class - GUI menu page '''
     def __init__(self,parent,controller):
+        from User_login import User_login as ul
         tk.Frame.__init__(self,parent)
         bottomFrame = tk.Frame(self)
         bottomFrame.pack(side=BOTTOM)

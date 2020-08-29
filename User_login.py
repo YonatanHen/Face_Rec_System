@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-import StartPage
+import StartPage as sp
 import os
 from playsound import playsound
 from Functions import entrance,recognize,text_window
@@ -27,7 +27,7 @@ class User_login(tk.Frame):
         
         self.entry_1=Entry(self,textvariable=self.username)
         self.entry_2=Entry(self,show="*",textvariable=self.password)
-        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(StartPage),font="verdana 15 bold italic")
+        self.back_but1 = Button(self,text = "Go back",bg=color1[9],fg=color2[9],command=lambda:controller.show_frame(sp),font="verdana 15 bold italic")
         self.enter_but2 = Button(self,text = "Enter",bg=color1[9],fg=color2[9],command=lambda:self.enterCommand(controller),font="verdana 15 bold italic")
         self.quit_but3 = Button(self,text = "Quit",bg=color1[9],fg=color2[9],command=lambda:self.quitCommand(controller),font="verdana 15 bold italic")
 
@@ -88,12 +88,12 @@ class User_login(tk.Frame):
             self.ER_label["text"]=""
             self.entry_1.delete(0, 'end')
             self.entry_2.delete(0, 'end')
-            controller.show_frame(StartPage) 
+            controller.show_frame(sp) 
 
-    font_size=16
+    
     def pack_unrec_us(self):
         ''' show a message when username and password are'nt recognized'''
-        global font_size
+        font_size=16
         self.ER_label["text"]="user-name and password not recognized,please enter again"
         self.ER_label["font"]="verdana "+ str(font_size-1) +" bold italic"
         playsound('not_rec.mp3',False)
