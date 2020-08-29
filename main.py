@@ -7,12 +7,14 @@ import sys
 import datetime
 from playsound import playsound
 from MainPageWindow import WelcomeWindow
-import User_login
-import StartPage
+from User_login import *
 from StartPage import * #some functions and varibales in start page are necessery here
+from User_login import User_login as ul
+from StartPage import StartPage as sp
+
 
 class ManageAppFrames(tk.Tk):
-    ''' ManageAppFrames class - makes a main window for all the other GUI classes - and open it in the same window '''
+    ''' ManageAppFrames class - makes a main window for all the other GUI classes and opens it in the same window '''
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
         self.title('Hours registration system')
@@ -23,17 +25,17 @@ class ManageAppFrames(tk.Tk):
         container.grid_columnconfigure(0,weight=1)
         #playing sound in background helping with accessability for visually impaired users.
         pygame.mixer.init()
-        pygame.mixer.music.load('general sounds\\background_audio.mp3')
+        pygame.mixer.music.load('general audio\\background_audio.mp3')
         pygame.mixer.music.play(999)
         #set volume of background music
         global music_vol
         pygame.mixer.music.set_volume(music_vol)
         self.frames={}
-        for F in (StartPage,User_login):
+        for F in (sp,ul):
             frame=F(container,self)
             self.frames[F] = frame
             frame.grid(row = 0,column = 0,sticky = "nsew")
-        self.show_frame(StartPage)
+        self.show_frame(sp)
 
 
     def show_frame(self,controller):

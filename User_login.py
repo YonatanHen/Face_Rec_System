@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import *
 import StartPage
+import os
 from playsound import playsound
-from Functions import entrance,recognize
+from Functions import entrance,recognize,text_window
 
 
 #["bg"] color blinders - beckground colors array
@@ -13,8 +14,6 @@ color2=["#545454","#4B4B4B","#4A4A4A","#434343","#3C3C3C","#323232","#2C2C2C","#
 countTries=0 #counter entrance tries
 class User_login(tk.Frame):
     ''' GUI user and password log in/out class '''
-
-    
     def __init__(self,parent,controller):
         tk.Frame.__init__(self,parent)
         self.label_1 = Label(self,text="User Name:",font="verdana 15 bold italic")
@@ -52,23 +51,23 @@ class User_login(tk.Frame):
 
     # enter_sound function - when the mouse pass over Enter button say - "Enter"
     def enter_sound(self, event):
-        playsound('event sounds\\Enter.mp3',False)
+        playsound('event audio\\Enter.mp3',False)
     
     # quit_sound function - when the mouse pass over Quit button say - "Quit"
     def quit_sound(self, event):
-        playsound('event sounds\\Quit.mp3',False)
+        playsound('event audio\\Quit.mp3',False)
     
     # Go_back_sound function - when the mouse pass over Go back button say - "Go back"
     def Go_back_sound(self, event):
-        playsound('event sounds\\Go back.mp3',False)
+        playsound('event audio\\Go back.mp3',False)
 
     # User_Name_sound function - when the mouse pass over User Name box say - "User Name box"
     def User_Name_sound(self, event):
-        playsound('event sounds\\User Name.mp3',False)
+        playsound('event audio\\User Name.mp3',False)
 
     # Password_sound function - when the mouse pass over Password box say - "Password box"
     def Password_sound(self, event):
-        playsound('event sounds\\Password.mp3',False)
+        playsound('event audio\\Password.mp3',False)
 
     # enterCommand function - check if the username and password that ansered is in the system and doing proper action
     def enterCommand(self,controller):
@@ -91,15 +90,15 @@ class User_login(tk.Frame):
             self.entry_2.delete(0, 'end')
             controller.show_frame(StartPage) 
 
-    # pack_unrec_us function - pack "user-name and password not recognized,please enter again" lable to a to the window
-    # and read it (enterCommand function - helper)
+    font_size=16
     def pack_unrec_us(self):
+        ''' show a message when username and password are'nt recognized'''
         global font_size
         self.ER_label["text"]="user-name and password not recognized,please enter again"
         self.ER_label["font"]="verdana "+ str(font_size-1) +" bold italic"
         playsound('not_rec.mp3',False)
 
-    # quitCommand function - quit GUI window and reopen the system
     def quitCommand(self,controller):
+        ''' quit GUI window and reopen the system '''
         controller.destroy()
         os.system("main.py")

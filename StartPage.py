@@ -14,6 +14,7 @@ import sqlite3
 from time import sleep
 from adminMenu import AdminMenu
 from Functions import Time_Fixer,showDetails
+from User_login import User_login as ul
 
 music_vol=1
 music_flag=0
@@ -34,14 +35,14 @@ class StartPage(tk.Frame):
         bottomFrame.pack(side=BOTTOM)
 
         self.theLabel = Label(self,text="Welcome !",font="verdana 15 bold italic")
-        self.username_but1 = Button(self,text = "Log in/out with username",bg="white",fg="red",command=lambda:controller.show_frame(User_login),font="verdana 15 bold italic")
+        self.username_but1 = Button(self,text = "Log in/out with username and password",bg="white",fg="red",command=lambda:controller.show_frame(ul),font="verdana 15 bold italic")
         self.face_but2 = Button(self,text = "Log in/out with face recognition",bg="white",fg="green",command=lambda:faces(),font="verdana 15 bold italic")
         self.color_but3 = Button(self, text="Change color",command=lambda:changecolor(self),bg="white",fg="orange",font="verdana 15 bold italic")   #להפעיל שינוי צבעים 
         self.font_size8 = Button(self,text = "Set font size",bg="white",fg="gold",command=lambda:Change_font_size(self),font="verdana 15 bold italic")
         self.vol_up_but4 = Button(self,text = " Set volume up ",bg="white",fg="blue",command=lambda:self.change_vol_up(),font="verdana 15 bold italic")
         self.vol_down_but5 = Button(self,text = "Set volume down",bg="white",fg="blue",command=lambda:self.change_vol_down(),font="verdana 15 bold italic")
         self.mute_but6 = Button(self,text = "Mute",bg="white",fg="blue",command=lambda:self.turn_DU_music(),font="verdana 15 bold italic")
-        self.quit_but7 = Button(self,text = "Turn of system",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
+        self.quit_but7 = Button(self,text = "Turn off system",bg="white",fg="purple",command=quit,font="verdana 15 bold italic")
         
         self.theLabel.pack(fill=X)
         self.username_but1.pack(fill=X)
@@ -77,23 +78,23 @@ class StartPage(tk.Frame):
     
     def log_sound(self, event):
         ''' When clicked "Log in/out with username" button, it will be said - "Log in/out with username" '''
-        playsound('event sounds\\log.mp3',False)
+        playsound('event audio\\log.mp3',False)
 
     def face_sound(self, event):
         ''' when clicked "Log in/out with face recognition" , it will be said - "Log in/out with face recognition" '''
-        playsound('event sounds\\face.mp3',False)
+        playsound('event audio\\face.mp3',False)
 
     def Change_color_sound(self, event):
         ''' when clicked "Change color" , it will be said - "Change color" '''
-        playsound('event sounds\\Change color.mp3',False)
+        playsound('event audio\\Change color.mp3',False)
 
     def Font_size_sound(self, event):
         ''' when clicked "Set font size" , it will be said - "Set font size" '''
-        playsound('event sounds\\Font_size.mp3',False)
+        playsound('event audio\\Font_size.mp3',False)
 
     def vol_up_sound(self, event):
         ''' when clicked "Set volume up" , it will be said - "Set volume up" '''
-        playsound('event sounds\\vol_up.mp3',False)
+        playsound('event audio\\vol_up.mp3',False)
 
     def change_vol_up(self):
         ''' when clicked "Set volume up" , increase the volume '''
@@ -105,7 +106,7 @@ class StartPage(tk.Frame):
 
     def vol_down_sound(self, event):
         ''' when clicked to enter "Change color" , it will be said - "Set volume down" '''
-        playsound('event sounds\\vol_down.mp3',False)
+        playsound('event audio\\vol_down.mp3',False)
 
     def change_vol_down(self):
         ''' when "Set sound volume down" clicked , decrease the volume'''
@@ -118,7 +119,7 @@ class StartPage(tk.Frame):
 
     def Mute_sound(self, event):
         '''  When "Mute" clicked , it will be said - "Mute" '''
-        playsound('event sounds\\Mute.mp3',False)
+        playsound('event audio\\Mute.mp3',False)
 
     def turn_DU_music(self):
         ''' When "mute" clicked, it will be said "Mute sound " '''
@@ -136,25 +137,8 @@ class StartPage(tk.Frame):
 
     def Turn_of_sound(self, event):
         ''' When "Turn off system" clicked- it will be said "Turn off system" '''
-        playsound('event sounds\\Turn_off.mp3',True)
+        playsound('event audio\\Turn_off.mp3',True)
 
-def text_window(str):
-    ''' Gets string and open a window with the sane string. later,read it (enterCommand function helper) '''
-    global font_size
-    tts = gTTS(text=str, lang = 'en')
-    tts.save("text_window.mp3")
-    text_window = Tk()
-    text_window.title('text_window')
-    Label(text_window, text=str,font="verdana 15 bold italic").pack(side=TOP)
-    t_end = time.time() + 3*1
-    while time.time() < t_end:
-        t_end=t_end
-    playsound('text_window.mp3',True)
-
-    if os.path.isfile("text_window.mp3"):
-        os.remove("text_window.mp3")
-
-    text_window.after(5000, text_window.destroy)
 
 def changecolor(self):
     global color_changer,color1,color2
@@ -212,7 +196,7 @@ def faces():
     ''' Face recognition function operates the face recogintion process  '''
     # playing sound in background helping with accessability for visually impaired users.
     pygame.mixer.init()
-    pygame.mixer.music.load('general sounds\\background_audio.mp3')
+    pygame.mixer.music.load('general audio\\background_audio.mp3')
     pygame.mixer.music.play(999)
     # set volume of background music
     pygame.mixer.music.set_volume(0.4)
@@ -309,12 +293,12 @@ def faces():
                                     total = Time_Fixer(total)
                                     cursor.execute("UPDATE users SET total=?,isInside='no',entrance=0 WHERE username=?",[(total),(tempname)])
                                     usersDB.commit()
-                                    playsound("godbye.mp3",False)
+                                    playsound("general audio\\goodbye.mp3",False)
                                 break
                             else:
                                 if(i[7] =='no'):
                                     print("Welcome "+i[0]+" "+i[1])
-                                    playsound("welcome.mp3",False)
+                                    playsound("general audio\\welcome.mp3",False)
                                     enter_time=float(datetime.datetime.now().hour)+(datetime.datetime.now().minute*0.01)
                                     cursor.execute("UPDATE users SET entrance=?,isInside='yes' WHERE username=?",[(enter_time),(tempname)])
                                     usersDB.commit()
