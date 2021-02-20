@@ -81,7 +81,6 @@ def Time_Fixer(time_string):
     # minutes check
     if(int(minutes)>=60):
         temp_time=str("%.2f" % (float(minutes)/60))
-        print(temp_time)
         temp_h=''
         i=0
         while(temp_time[i]!='.'):
